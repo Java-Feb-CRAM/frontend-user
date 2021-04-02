@@ -1,0 +1,40 @@
+<ul class="list-group list-group-flush">
+  <div
+    *ngFor="let flight of flights"
+    class="list-group-item d-flex w-100 justify-content-between"
+  >
+    <div>
+      <p class="mb-1">
+        {{ flight.route.originAirport.iataId }} &rarr;
+        {{ flight.route.destinationAirport.iataId }}
+      </p>
+      <small class="text-muted"
+        >{{ flight.seatPrice | currency: "USD" }} / seat &times;
+        {{ passengers }} passengers</small
+      >
+    </div>
+
+    <h6>{{ flight.seatPrice * passengers | currency: "USD" }}</h6>
+  </div>
+  <div class="list-group-item d-flex w-100 justify-content-between">
+    <div>
+      <p class="mb-1">Subtotal</p>
+    </div>
+    <h6>{{ subTotal | currency: "USD" }}</h6>
+  </div>
+  <div class="list-group-item d-flex w-100 justify-content-between">
+    <div>
+      <p class="mb-1">Taxes & Fees</p>
+      <small class="text-muted">
+        {{ taxRate | percent: "1.2-2" }}
+      </small>
+    </div>
+    <h6>{{ tax | currency: "USD" }}</h6>
+  </div>
+  <div class="list-group-item d-flex w-100 justify-content-between">
+    <div>
+      <p class="mb-1">Grand Total</p>
+    </div>
+    <h5>{{ grandTotal | currency: "USD" }}</h5>
+  </div>
+</ul>

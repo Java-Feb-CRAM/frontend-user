@@ -1,0 +1,62 @@
+<!--<form [formGroup]="bookingForm" (ngSubmit)="onSubmit()">-->
+
+<div class="card mt-3">
+  <div class="card-header">Your Info</div>
+  <div class="card-body">
+    <form [formGroup]="guestBookingForm" (ngSubmit)="onSubmit()">
+      <div class="form-row">
+        <div class="form-group col-md-12">
+          <label for="guestEmail">Email*</label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="bi-envelope"></i> </span>
+            </div>
+            <input
+              type="email"
+              class="form-control"
+              id="guestEmail"
+              placeholder="example@example.com"
+              formControlName="guestEmail"
+              [ngClass]="validationClass('guestEmail')"
+            />
+            <div class="invalid-feedback" *ngIf="hasErrors('guestEmail')">
+              <div *ngFor="let error of allErrors('guestEmail')">
+                {{ getError("guestEmail", error) }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-md-12">
+          <label for="guestPhone">Phone*</label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">
+                <i class="bi-telephone"></i>
+              </span>
+            </div>
+            <input
+              type="tel"
+              class="form-control"
+              id="guestPhone"
+              placeholder="123-456-7890"
+              formControlName="guestPhone"
+              [ngClass]="validationClass('guestPhone')"
+            />
+            <div class="invalid-feedback" *ngIf="hasErrors('guestPhone')">
+              <div *ngFor="let error of allErrors('guestPhone')">
+                {{ getError("guestPhone", error) }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="!guestBookingForm.valid"
+      >
+        Continue
+      </button>
+    </form>
+  </div>
+</div>
