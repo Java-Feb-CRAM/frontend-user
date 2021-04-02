@@ -1,0 +1,87 @@
+<app-itemized-bill></app-itemized-bill>
+<div class="card mt-3">
+  <div class="card-header">Payment</div>
+  <div class="card-body">
+    <div
+      ngxStripeCardGroup
+      [formGroup]="stripeTest"
+      [elementsOptions]="elementsOptions"
+    >
+      <div class="form-row">
+        <div class="form-group col-md-12">
+          <label for="name">Name*</label>
+          <input
+            type="text"
+            id="name"
+            class="form-control"
+            placeholder="John Smith"
+            formControlName="name"
+            [ngClass]="validationClass('name')"
+          />
+          <div class="invalid-feedback" *ngIf="isFieldInvalid('name')">
+            <div *ngIf="stripeTest.controls.name.errors!.required">
+              Name is required
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-md-12">
+          <label for="cardNumber">Card Number*</label>
+          <ngx-stripe-card-number
+            id="cardNumber"
+            class="form-control"
+            [options]="cardOptions"
+            (change)="validateCardNumber($event)"
+            [ngClass]="{
+              'is-valid': cardValid.number,
+              'is-invalid': cardErrors.number !== null
+            }"
+          ></ngx-stripe-card-number>
+          <div class="invalid-feedback" *ngIf="cardErrors.number !== null">
+            {{ cardErrors.number }}
+          </div>
+        </div>
+        <div class="form-group col-md-6">
+          <label for="cardExpiry">Card Expiration*</label>
+          <ngx-stripe-card-expiry
+            id="cardExpiry"
+            class="form-control"
+            [options]="cardOptions"
+            (change)="validateCardExpiry($event)"
+            [ngClass]="{
+              'is-valid': cardValid.expiry,
+              'is-invalid': cardErrors.expiry !== null
+            }"
+          ></ngx-stripe-card-expiry>
+          <div class="invalid-feedback" *ngIf="cardErrors.expiry !== null">
+            {{ cardErrors.expiry }}
+          </div>
+        </div>
+        <div class="form-group col-md-6">
+          <label for="cardCvc">Card CVC*</label>
+          <ngx-stripe-card-cvc
+            id="cardCvc"
+            class="form-control"
+            [options]="cardOptions"
+            (change)="validateCardCvc($event)"
+            [ngClass]="{
+              'is-valid': cardValid.cvc,
+              'is-invalid': cardErrors.cvc !== null
+            }"
+          ></ngx-stripe-card-cvc>
+          <div class="invalid-feedback" *ngIf="cardErrors.cvc !== null">
+            {{ cardErrors.cvc }}
+          </div>
+        </div>
+      </div>
+
+      <button
+        type="submit"
+        class="btn btn-success"
+        (click)="pay()"
+        [disabled]="!isFormValid()"
+      >
+        Pay & Book
+      </button>
+    </div>
+  </div>
+</div>

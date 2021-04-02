@@ -14,6 +14,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { BookFlightPageComponent } from './pages/book-flight-page/book-flight-page.component';
 import { CartPageComponent } from './pages/cart-page/cart-page.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { StripePaymentComponent } from './components/stripe-payment/stripe-payment.component';
+import { NgxStripeModule } from 'ngx-stripe';
+import { GuestBookingFormComponent } from './components/book-flight/guest-booking-form/guest-booking-form.component';
+import { AgentBookingFormComponent } from './components/book-flight/agent-booking-form/agent-booking-form.component';
+import { UserBookingFormComponent } from './components/book-flight/user-booking-form/user-booking-form.component';
+import { PassengersFormComponent } from './components/book-flight/passengers-form/passengers-form.component';
+import { PaymentFormComponent } from './components/book-flight/payment-form/payment-form.component';
+import { ItemizedBillComponent } from './components/book-flight/itemized-bill/itemized-bill.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +34,13 @@ import { ReactiveFormsModule } from '@angular/forms';
     BookingsPageComponent,
     BookFlightPageComponent,
     CartPageComponent,
+    StripePaymentComponent,
+    GuestBookingFormComponent,
+    AgentBookingFormComponent,
+    UserBookingFormComponent,
+    PassengersFormComponent,
+    PaymentFormComponent,
+    ItemizedBillComponent,
   ],
   imports: [
     BrowserModule,
@@ -33,6 +48,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     NgbModule,
     HttpClientModule,
     ReactiveFormsModule,
+    NgxStripeModule.forRoot(
+      'pk_test_51IbSmqKMAXXjSzaxL3WIYu5kSzambFamCzc2LhMp5AtyOOhwjoh5PJKq2He2N566ECIPpvHYZU7yq5PAt9sMJG4H00MTCuphgp'
+    ),
   ],
   providers: [],
   bootstrap: [AppComponent],
