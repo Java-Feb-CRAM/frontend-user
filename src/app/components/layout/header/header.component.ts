@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CartService } from '../../../services/cart.service';
+import { UserService } from '../../../services/user.service';
 
 @Component({
   selector: 'app-header',
@@ -7,7 +8,12 @@ import { CartService } from '../../../services/cart.service';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
-  constructor(public cartService: CartService) {}
+  name = "";
+  isLoggedIn = false;
+  constructor(public userService: UserService, public cartService: CartService) {
+    this.name = this.userService.user.name
+    this.isLoggedIn = this.userService.isLoggedIn
+  }
 
   links = [
     {
@@ -19,4 +25,8 @@ export class HeaderComponent {
       name: 'Bookings',
     },
   ];
+
+  logout(): void {
+    this.userService.logout()
+  }
 }

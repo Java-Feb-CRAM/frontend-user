@@ -6,6 +6,8 @@ import { FlightsPageComponent } from './pages/flights-page/flights-page.componen
 import { BookingsPageComponent } from './pages/bookings-page/bookings-page.component';
 import { BookFlightPageComponent } from './pages/book-flight-page/book-flight-page.component';
 import { CartPageComponent } from './pages/cart-page/cart-page.component';
+import { RegistrationPageComponent } from './pages/registration-page/registration-page.component';
+import { LoginPageComponent } from './pages/login-page/login-page.component';
 
 const routes: Routes = [
   {
@@ -27,6 +29,14 @@ const routes: Routes = [
   {
     path: 'bookings',
     component: BookingsPageComponent,
+  },
+  {
+    path: 'register',
+    component: RegistrationPageComponent,
+  },
+  {
+    path: 'login',
+    component: LoginPageComponent,
   },
   {
     path: '**',

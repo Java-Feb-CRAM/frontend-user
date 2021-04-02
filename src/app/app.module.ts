@@ -22,6 +22,10 @@ import { UserBookingFormComponent } from './components/book-flight/user-booking-
 import { PassengersFormComponent } from './components/book-flight/passengers-form/passengers-form.component';
 import { PaymentFormComponent } from './components/book-flight/payment-form/payment-form.component';
 import { ItemizedBillComponent } from './components/book-flight/itemized-bill/itemized-bill.component';
+import { RegistrationFormComponent } from './components/authentication/registration-form/registration-form.component';
+import { RegistrationPageComponent } from './pages/registration-page/registration-page.component';
+import { LoginFormComponent } from './components/authentication/login-form/login-form.component';
+import { LoginPageComponent } from './pages/login-page/login-page.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +45,10 @@ import { ItemizedBillComponent } from './components/book-flight/itemized-bill/it
     PassengersFormComponent,
     PaymentFormComponent,
     ItemizedBillComponent,
+    RegistrationFormComponent,
+    RegistrationPageComponent,
+    LoginFormComponent,
+    LoginPageComponent,
   ],
   imports: [
     BrowserModule,
