@@ -1,4 +1,4 @@
-<div class="card mt-3">
+<div class="card mt-3 mb-3">
   <div class="card-header">Booking Lookup</div>
   <div class="card-body">
     <form [formGroup]="bookingSearchForm" (ngSubmit)="onSubmit()">
@@ -48,8 +48,13 @@
     </form>
   </div>
 </div>
-
-<div class="card mt-3" *ngIf="booking">
+<div class="jumbotron jumbotron-fluid mb-0" *ngIf="checkedOut">
+  <div class="container">
+    <h1 class="display-4">Booking completed</h1>
+    <p class="lead">Thank you for booking with Utopia!</p>
+  </div>
+</div>
+<div class="card" *ngIf="booking">
   <div class="card-header">
     Booking
     <span
@@ -62,8 +67,8 @@
     >
   </div>
   <div class="card-body">
-    <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
-      <ngb-panel title="Info">
+    <ngb-accordion #acc="ngbAccordion" activeIds="1">
+      <ngb-panel title="Info" [id]="'1'">
         <ng-template ngbPanelContent>
           <p class="text-muted">
             Booked as

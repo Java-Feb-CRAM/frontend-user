@@ -75,7 +75,12 @@ export class BookFlightPageComponent {
         .subscribe((booking) => {
           console.log(booking);
           this.cartService.emptyCart();
-          this.router.navigate(['/']);
+          this.router.navigate(['/bookings'], {
+            queryParams: {
+              confirmationCode: booking.confirmationCode,
+              checkedOut: true,
+            },
+          });
         });
     }
   }

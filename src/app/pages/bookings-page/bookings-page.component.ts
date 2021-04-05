@@ -4,21 +4,24 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Booking } from '../../models/Booking';
 import { PaymentInfo } from '../../models/PaymentInfo';
 import { PaymentService } from '../../services/payment.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-bookings-page',
   templateUrl: './bookings-page.component.html',
   styleUrls: ['./bookings-page.component.scss'],
 })
-export class BookingsPageComponent {
+export class BookingsPageComponent implements OnInit {
   booking: Booking | null = null;
   bookingPayment: PaymentInfo | null = null;
   bookingPaymentDate = new Date();
   bookingSearchForm: FormGroup;
+  checkedOut = false;
   constructor(
     private bookingService: BookingService,
     private fb: FormBuilder,
-    private paymentService: PaymentService
+    private paymentService: PaymentService,
+    private route: ActivatedRoute
   ) {
     this.bookingSearchForm = this.fb.group({
       confirmationCode: [
@@ -30,6 +33,20 @@ export class BookingsPageComponent {
           ),
         ],
       ],
+    });
+  }
+
+  ngOnInit(): void {
+    this.route.queryParams.subscribe((params) => {
+      if (params.confirmationCode) {
+        this.bookingSearchForm.setValue({
+          confirmationCode: params.confirmationCode,
+        });
+        this.onSubmit();
+      }
+      if (params.checkedOut) {
+        this.checkedOut = true;
+      }
     });
   }
 
