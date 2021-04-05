@@ -9,10 +9,12 @@ import { UserService } from '../../../services/user.service';
 })
 export class HeaderComponent {
   name = "";
-  isLoggedIn = false;
   constructor(public userService: UserService, public cartService: CartService) {
     this.name = this.userService.user.name
-    this.isLoggedIn = this.userService.isLoggedIn
+  }
+
+  get isLoggedIn(): boolean {
+    return this.userService.isLoggedIn;
   }
 
   links = [
