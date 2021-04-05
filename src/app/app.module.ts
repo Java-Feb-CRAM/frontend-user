@@ -3,7 +3,11 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbDateAdapter,
+  NgbDateNativeAdapter,
+  NgbModule,
+} from '@ng-bootstrap/ng-bootstrap';
 import { HeaderComponent } from './components/layout/header/header.component';
 import { FooterComponent } from './components/layout/footer/footer.component';
 import { IndexPageComponent } from './pages/index-page/index-page.component';
@@ -52,7 +56,12 @@ import { ItemizedBillComponent } from './components/book-flight/itemized-bill/it
       'pk_test_51IbSmqKMAXXjSzaxL3WIYu5kSzambFamCzc2LhMp5AtyOOhwjoh5PJKq2He2N566ECIPpvHYZU7yq5PAt9sMJG4H00MTCuphgp'
     ),
   ],
-  providers: [],
+  providers: [
+    {
+      provide: NgbDateAdapter,
+      useClass: NgbDateNativeAdapter,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

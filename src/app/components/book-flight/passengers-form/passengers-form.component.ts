@@ -7,6 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { PaymentFormData } from '../payment-form/payment-form.component';
+import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 
 export interface PassengerData {
   givenName: string;
@@ -35,12 +36,19 @@ export class PassengersFormComponent {
     gender: { required: 'Gender is required', pattern: 'Select your gender' },
     address: { required: 'Address is required' },
   };
+  today: any;
 
   constructor(private fb: FormBuilder) {
     this.passengersForm = this.fb.group({
       passengers: this.fb.array([]),
     });
     this.addPassenger();
+    const date = new Date();
+    this.today = {
+      year: date.getFullYear(),
+      month: date.getMonth() + 1,
+      day: date.getDate(),
+    };
   }
 
   get passengers(): FormArray {
@@ -101,8 +109,12 @@ export class PassengersFormComponent {
   }
 
   onSubmit(): void {
+    const passengers = this.passengersForm.controls.passengers.value;
+    passengers.forEach((passenger: any) => {
+      passenger.dob = passenger.dob.toISOString().split('T')[0];
+    });
     this.passengersFormSubmitEvent.emit({
-      passengers: this.passengersForm.controls.passengers.value,
+      passengers,
     });
   }
 }

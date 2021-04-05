@@ -50,6 +50,7 @@ export class BookFlightPageComponent {
   }
 
   handlePassengersForm(data: PassengersFormData): void {
+    console.log(data);
     this.passengersData = data;
     this.stepTwoCompleted = true;
     this.activePage = 3;
