@@ -10,7 +10,7 @@ import { IndexPageComponent } from './pages/index-page/index-page.component';
 import { NotFoundPageComponent } from './pages/not-found-page/not-found-page.component';
 import { FlightsPageComponent } from './pages/flights-page/flights-page.component';
 import { BookingsPageComponent } from './pages/bookings-page/bookings-page.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BookFlightPageComponent } from './pages/book-flight-page/book-flight-page.component';
 import { CartPageComponent } from './pages/cart-page/cart-page.component';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -26,6 +26,7 @@ import { RegistrationFormComponent } from './components/authentication/registrat
 import { RegistrationPageComponent } from './pages/registration-page/registration-page.component';
 import { LoginFormComponent } from './components/authentication/login-form/login-form.component';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
+import { AuthInterceptor } from './auth/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,13 @@ import { LoginPageComponent } from './pages/login-page/login-page.component';
       'pk_test_51IbSmqKMAXXjSzaxL3WIYu5kSzambFamCzc2LhMp5AtyOOhwjoh5PJKq2He2N566ECIPpvHYZU7yq5PAt9sMJG4H00MTCuphgp'
     ),
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

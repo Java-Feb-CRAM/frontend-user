@@ -17,8 +17,6 @@ export class HeaderComponent {
   }
 
   get firstName(): string|undefined {
-    console.log(localStorage.getItem("JWT"))
-    console.log(this.userService.user.givenName)
     return this.userService.user.givenName;
   }
 
