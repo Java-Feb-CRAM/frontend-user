@@ -8,13 +8,18 @@ import { UserService } from '../../../services/user.service';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
-  name = "";
-  constructor(public userService: UserService, public cartService: CartService) {
-    this.name = this.userService.user.name
-  }
+  constructor(
+    public userService: UserService, 
+    public cartService: CartService) {}
 
   get isLoggedIn(): boolean {
     return this.userService.isLoggedIn;
+  }
+
+  get firstName(): string|undefined {
+    console.log(localStorage.getItem("JWT"))
+    console.log(this.userService.user.givenName)
+    return this.userService.user.givenName;
   }
 
   links = [

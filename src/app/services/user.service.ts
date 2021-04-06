@@ -1,9 +1,20 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Subject } from 'rxjs';
-import { Router, ActivatedRoute } from '@angular/router';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, of, Subject } from 'rxjs';
+import { Router, ActivatedRoute, UrlTree } from '@angular/router';
+import { catchError, map, timeout } from 'rxjs/operators';
 
 export const JWT_KEY = 'JWT';
+
+export interface UserInfo {
+  id?: number
+  role?: string
+  email?: string
+  username?: string
+  givenName?: string
+  familyName?: string
+  phoneNumber?: string
+}
 export interface LoginResponse {
   authenticatedJwt: string;
 }
@@ -17,9 +28,11 @@ export interface RegistrationResponse {
 export class UserService {
   isLoggedIn = false;
   loginLogoutChange: Subject<boolean> = new Subject<boolean>();
-  user: any = {};
+  user: UserInfo = {};
 
-  constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient) {
+  constructor(
+    private router: Router, 
+    private http: HttpClient) {
     this.loginLogoutChange.subscribe((value) => {
       this.isLoggedIn = value;
       if (this.isLoggedIn) {
@@ -69,10 +82,32 @@ export class UserService {
     }
   }
 
+  public isUserFetchSuccess(role: string): Observable<boolean | UrlTree> {
+    return this.http.get('http://localhost:8080/users/current')
+    .pipe( 
+        timeout(10000),
+        map(response => {
+          if ((response as UserInfo).role === role) {
+            this.user = response as UserInfo
+            return true
+          } else {
+            this.logout()        
+            return this.router.parseUrl('/login')
+          }
+        }),
+        catchError(() => {
+          return of(false);
+        }) 
+      ) 
+  }
+
   private fetchUserDetails(): void {
-    this.http.get('http://localhost:8080/users/current').subscribe((user) => {
-      this.user = user;
-    });
+    if (this.isJWTSet())
+    {
+      this.http.get('http://localhost:8080/users/current').subscribe((user) => {
+        this.user = user as UserInfo;
+      });
+    }
   }
 
   private isJWTSet(): boolean {

@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from 'src/app/services/user.service';
+import { CredentialsDto } from 'src/app/models/CredentialsDto';
 
 export interface LoginFormData {
   username?: String;
@@ -93,9 +94,8 @@ export class LoginFormComponent {
   }
 
   onSubmit(): void {
-    this.userService.login({
-      "username": this.loginForm.controls.username.value, 
-      "password": this.loginForm.controls.password.value
-    });
+    this.userService.login(new CredentialsDto(
+      this.loginForm.controls.username.value, 
+      this.loginForm.controls.password.value));
   }
 }

@@ -26,7 +26,7 @@
       </ul>
     </div>
     <div>    
-    <button type="button" class="btn btn-primary" *ngIf="isLoggedIn" (click)="logout()")>{{name}} Log Out </button>  
+    <button (click)="logout()" type="button" class="btn btn-primary" *ngIf="isLoggedIn">{{firstName}} Log Out</button>  
     <button type="button" class="btn btn-primary" *ngIf="!isLoggedIn" routerLinkActive="active" routerLink="/register">Sign Up</button> 
     <button type="button" class="btn btn-primary" routerLink="/cart">
       <i class="bi-cart-fill"></i> {{ cartService.cartLength }}
