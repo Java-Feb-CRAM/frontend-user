@@ -22,3 +22,6 @@ body > app-root > .container {
 code {
   font-size: 80%;
 }
+
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';

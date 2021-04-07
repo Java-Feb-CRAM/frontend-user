@@ -14,7 +14,7 @@ import { IndexPageComponent } from './pages/index-page/index-page.component';
 import { NotFoundPageComponent } from './pages/not-found-page/not-found-page.component';
 import { FlightsPageComponent } from './pages/flights-page/flights-page.component';
 import { BookingsPageComponent } from './pages/bookings-page/bookings-page.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BookFlightPageComponent } from './pages/book-flight-page/book-flight-page.component';
 import { CartPageComponent } from './pages/cart-page/cart-page.component';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -26,6 +26,12 @@ import { UserBookingFormComponent } from './components/book-flight/user-booking-
 import { PassengersFormComponent } from './components/book-flight/passengers-form/passengers-form.component';
 import { PaymentFormComponent } from './components/book-flight/payment-form/payment-form.component';
 import { ItemizedBillComponent } from './components/book-flight/itemized-bill/itemized-bill.component';
+import { RegistrationFormComponent } from './components/authentication/registration-form/registration-form.component';
+import { RegistrationPageComponent } from './pages/registration-page/registration-page.component';
+import { LoginFormComponent } from './components/authentication/login-form/login-form.component';
+import { LoginPageComponent } from './pages/login-page/login-page.component';
+import { AuthInterceptor } from './auth/auth.interceptor';
+import { SearchFlightsComponent } from './components/book-flight/search-flights/search-flights.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +51,11 @@ import { ItemizedBillComponent } from './components/book-flight/itemized-bill/it
     PassengersFormComponent,
     PaymentFormComponent,
     ItemizedBillComponent,
+    RegistrationFormComponent,
+    RegistrationPageComponent,
+    LoginFormComponent,
+    LoginPageComponent,
+    SearchFlightsComponent,
   ],
   imports: [
     BrowserModule,
@@ -58,6 +69,11 @@ import { ItemizedBillComponent } from './components/book-flight/itemized-bill/it
   ],
   providers: [
     {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
+    {      
       provide: NgbDateAdapter,
       useClass: NgbDateNativeAdapter,
     },
