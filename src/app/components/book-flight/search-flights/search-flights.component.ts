@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Airport } from 'src/app/models/Airport';
+import { AirportService } from 'src/app/services/airport.service';
 import { Flight } from '../../../models/Flight';
 import { FlightService } from '../../../services/flight.service';
 
@@ -8,16 +10,21 @@ import { FlightService } from '../../../services/flight.service';
   styleUrls: ['./search-flights.component.scss']
 })
 export class SearchFlightsComponent implements OnInit {
-  flights: Flight[] = [];
+  airports: Airport[] = [];
 
-  constructor(private flightService: FlightService) { }
+  constructor(
+    private flightService: FlightService,
+    private airportService: AirportService) { }
 
   ngOnInit(): void { 
-    this.flightService.getAllFlights().subscribe((flights) => {
-      this.flights = flights;
+    this.airportService.getAllAirports().subscribe((airports) => {
+      this.airports = airports;
     })
   }
-
-  
-
+/*
+  getAllFlightsWithDepartureAirportInRoute(iataId: string): Flight[]
+  {
+    return
+  }
+*/
 }
