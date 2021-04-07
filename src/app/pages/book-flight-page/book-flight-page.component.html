@@ -290,24 +290,32 @@
   #nav="ngbNav"
   [destroyOnHide]="false"
   class="nav-tabs"
-  [activeId]="3"
+  [activeId]="activePage"
+  (activeIdChange)="pageChanged($event)"
 >
   <li [ngbNavItem]="1">
     <a ngbNavLink>Personal Information</a>
     <ng-template ngbNavContent>
-      <app-guest-booking-form></app-guest-booking-form>
+      <app-guest-booking-form
+        (guestBookingFormSubmitEvent)="handleGuestBookingForm($event)"
+      ></app-guest-booking-form>
     </ng-template>
   </li>
-  <li [ngbNavItem]="2">
+  <li [ngbNavItem]="2" [disabled]="!stepOneCompleted">
     <a ngbNavLink>Passenger Information</a>
     <ng-template ngbNavContent>
-      <app-passengers-form></app-passengers-form>
+      <app-passengers-form
+        (passengersFormSubmitEvent)="handlePassengersForm($event)"
+      ></app-passengers-form>
     </ng-template>
   </li>
-  <li [ngbNavItem]="3">
+  <li [ngbNavItem]="3" [disabled]="!stepTwoCompleted">
     <a ngbNavLink>Payment</a>
     <ng-template ngbNavContent>
-      <app-payment-form></app-payment-form>
+      <app-payment-form
+        (paymentFormSubmitEvent)="handlePaymentForm($event)"
+        [passengerCount]="passengerCount"
+      ></app-payment-form>
     </ng-template>
   </li>
 </ul>

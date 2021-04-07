@@ -3,7 +3,11 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbDateAdapter,
+  NgbDateNativeAdapter,
+  NgbModule,
+} from '@ng-bootstrap/ng-bootstrap';
 import { HeaderComponent } from './components/layout/header/header.component';
 import { FooterComponent } from './components/layout/footer/footer.component';
 import { IndexPageComponent } from './pages/index-page/index-page.component';
@@ -68,6 +72,10 @@ import { SearchFlightsComponent } from './components/book-flight/search-flights/
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true,
+    },
+    {      
+      provide: NgbDateAdapter,
+      useClass: NgbDateNativeAdapter,
     },
   ],
   bootstrap: [AppComponent],

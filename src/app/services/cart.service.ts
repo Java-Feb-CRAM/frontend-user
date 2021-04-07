@@ -42,6 +42,11 @@ export class CartService {
     }
   }
 
+  emptyCart(): void {
+    this.cartItems = [];
+    this.saveCart();
+  }
+
   get cartLength(): number {
     return this.cartItems.length;
   }
