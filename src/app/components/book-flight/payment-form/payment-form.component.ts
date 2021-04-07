@@ -4,6 +4,7 @@ import {
   Output,
   ViewChild,
   EventEmitter,
+  Input,
 } from '@angular/core';
 import { StripeCardNumberComponent, StripeService } from 'ngx-stripe';
 import {
@@ -27,6 +28,7 @@ export interface PaymentFormData {
   styleUrls: ['./payment-form.component.scss'],
 })
 export class PaymentFormComponent implements OnInit {
+  @Input() passengerCount = 0;
   @Output() paymentFormSubmitEvent = new EventEmitter<PaymentFormData>();
 
   // @ts-ignore

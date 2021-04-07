@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CartService } from '../../../services/cart.service';
 import { FlightService } from '../../../services/flight.service';
 import { Flight } from '../../../models/Flight';
@@ -11,7 +11,7 @@ const TAX_RATE = 0.0825;
   styleUrls: ['./itemized-bill.component.scss'],
 })
 export class ItemizedBillComponent implements OnInit {
-  passengers = 3;
+  @Input() passengers = 0;
   flights: Flight[] = [];
   taxRate = TAX_RATE;
 
