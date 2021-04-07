@@ -32,8 +32,8 @@ export class RegistrationFormComponent {
       required: 'Password is required',
       minLength: 'Password must be a minimum of 8 characters',
       maxLength: 'Password must be a maximum of 32 characters',
-      pattern: 'Password must contain:\n 1 uppercase letter\n'+
-      '1 lowercase letter\n 1 number\n 1 of these symbols: @!#$%^&*_+=~',
+      pattern: 'Password must contain: 1 uppercase letter'+
+      '1 lowercase letter 1 number 1 of these symbols: @!#$%^&*_+=~',
     },
     email: {
       required: 'Email is required',

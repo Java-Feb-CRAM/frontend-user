@@ -27,6 +27,7 @@ import { RegistrationPageComponent } from './pages/registration-page/registratio
 import { LoginFormComponent } from './components/authentication/login-form/login-form.component';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { AuthInterceptor } from './auth/auth.interceptor';
+import { SearchFlightsComponent } from './components/book-flight/search-flights/search-flights.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { AuthInterceptor } from './auth/auth.interceptor';
     RegistrationPageComponent,
     LoginFormComponent,
     LoginPageComponent,
+    SearchFlightsComponent,
   ],
   imports: [
     BrowserModule,
