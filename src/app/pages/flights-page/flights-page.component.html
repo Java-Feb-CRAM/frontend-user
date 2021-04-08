@@ -1,0 +1,33 @@
+<h1 class="mt-5">Flights</h1>
+<ul>
+  <li *ngFor="let flight of flights">
+    {{ flight.route.originAirport.iataId }}
+    &rarr;
+    {{ flight.route.destinationAirport.iataId }}
+    |
+    {{ flight.departureTime | date: "short" }}
+    |
+    {{ flight.availableSeats }} seats left |
+    {{ flight.seatPrice | currency: "USD" }}
+    <br />
+    <button
+      type="button"
+      class="btn btn-primary"
+      [disabled]="cartService.cartContains({ id: flight.id })"
+      (click)="cartService.addToCart({ id: flight.id })"
+    >
+      {{
+        cartService.cartContains({ id: flight.id }) ? "In Cart" : "Add to Cart"
+      }}
+    </button>
+    &nbsp;
+    <button
+      *ngIf="cartService.cartContains({ id: flight.id })"
+      type="button"
+      class="btn btn-danger"
+      (click)="cartService.removeFromCart({ id: flight.id })"
+    >
+      X
+    </button>
+  </li>
+</ul>

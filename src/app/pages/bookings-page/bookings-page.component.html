@@ -1,0 +1,135 @@
+<div class="card mt-3 mb-3">
+  <div class="card-header">Booking Lookup</div>
+  <div class="card-body">
+    <form [formGroup]="bookingSearchForm" (ngSubmit)="onSubmit()">
+      <div class="form-row">
+        <div class="form-group col-md-12">
+          <label for="confirmationCode">Confirmation Code*</label>
+          <input
+            type="text"
+            class="form-control"
+            id="confirmationCode"
+            placeholder="082d7046-ca66-46d1-ae90-4af1aa613dd8"
+            formControlName="confirmationCode"
+            [ngClass]="{
+              'is-valid': bookingSearchForm.controls.confirmationCode.valid,
+              'is-invalid':
+                bookingSearchForm.controls.confirmationCode.invalid &&
+                (bookingSearchForm.controls.confirmationCode.dirty ||
+                  bookingSearchForm.controls.confirmationCode.touched)
+            }"
+          />
+          <div
+            class="invalid-feedback"
+            *ngIf="bookingSearchForm.controls.confirmationCode.errors"
+          >
+            <div
+              *ngIf="
+                bookingSearchForm.controls.confirmationCode.errors.required
+              "
+            >
+              A confirmation code is required
+            </div>
+            <div
+              *ngIf="bookingSearchForm.controls.confirmationCode.errors.pattern"
+            >
+              The confirmation code must be a valid UUID
+            </div>
+          </div>
+        </div>
+      </div>
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="!bookingSearchForm.valid"
+      >
+        Lookup
+      </button>
+    </form>
+  </div>
+</div>
+<div class="jumbotron jumbotron-fluid mb-0" *ngIf="checkedOut">
+  <div class="container">
+    <h1 class="display-4">Booking completed</h1>
+    <p class="lead">Thank you for booking with Utopia!</p>
+  </div>
+</div>
+<div class="card" *ngIf="booking">
+  <div class="card-header">
+    Booking
+    <span
+      class="badge"
+      [ngClass]="{
+        'badge-success': booking.isActive,
+        'badge-danger': !booking.isActive
+      }"
+      >{{ booking.isActive ? "Active" : "Canceled" }}</span
+    >
+  </div>
+  <div class="card-body">
+    <ngb-accordion #acc="ngbAccordion" activeIds="1">
+      <ngb-panel title="Info" [id]="'1'">
+        <ng-template ngbPanelContent>
+          <p class="text-muted">
+            Booked as
+            {{
+              booking.bookingUser
+                ? "User"
+                : booking.bookingAgent
+                ? "Agent"
+                : "Guest"
+            }}
+          </p>
+          <p>
+            Confirmation Code: <code>{{ booking.confirmationCode }}</code>
+          </p>
+          <p>Guest Email: {{ booking.bookingGuest.contactEmail }}</p>
+          <p>Guest Phone: {{ booking.bookingGuest.contactPhone }}</p>
+        </ng-template>
+      </ngb-panel>
+      <ngb-panel title="Flights">
+        <ng-template ngbPanelContent>
+          <ul class="list-group list-group-flush">
+            <li *ngFor="let flight of booking.flights" class="list-group-item">
+              <h6>
+                {{ flight.route.originAirport.iataId }} &rarr;
+                {{ flight.route.destinationAirport.iataId }}
+              </h6>
+              <p>{{ flight.departureTime | date: "short" }}</p>
+            </li>
+          </ul>
+        </ng-template>
+      </ngb-panel>
+      <ngb-panel title="Passengers">
+        <ng-template ngbPanelContent>
+          <ul class="list-group list-group-flush">
+            <li
+              class="list-group-item"
+              *ngFor="let passenger of booking.passengers"
+            >
+              <p>Name: {{ passenger.givenName }} {{ passenger.familyName }}</p>
+              <p>Birthday: {{ passenger.dob }}</p>
+              <p>Gender: {{ passenger.gender }}</p>
+              <p>Address: {{ passenger.address }}</p>
+            </li>
+          </ul>
+        </ng-template>
+      </ngb-panel>
+      <ngb-panel title="Payment Info" *ngIf="bookingPayment">
+        <ng-template ngbPanelContent>
+          <p>
+            <strong>{{
+              bookingPayment.amount / 100
+                | currency: bookingPayment.currency.toUpperCase()
+            }}</strong>
+            paid with {{ bookingPayment.cardBrand }} ending in
+            <i>{{ bookingPayment.lastFour }}</i>
+          </p>
+          <span class="text-muted">
+            {{ bookingPaymentDate | date: "short" }}
+          </span>
+        </ng-template>
+      </ngb-panel>
+    </ngb-accordion>
+  </div>
+</div>

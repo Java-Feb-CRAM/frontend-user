@@ -1,0 +1,184 @@
+<div class="card mt-3">
+  <div class="card-header">Register New User</div>
+  <div class="card-body">
+    <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">      
+      <div class="form-row">
+        <div class="form-group col-md-12">
+          <label for="username">Username*</label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="bi-person-circle"></i> </span>
+            </div>
+            <input
+              type="text"
+              class="form-control"
+              id="username"
+              placeholder="Username_Example"
+              formControlName="username"
+              [ngClass]="validationClass('username')"
+            />
+            <div class="invalid-feedback" *ngIf="hasErrors('username')">
+              <div *ngFor="let error of allErrors('username')">
+                {{ getError("username", error) }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-12">
+          <label for="password">Password*</label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">
+                <i class="bi-card-text"></i> 
+              </span>
+            </div>
+            <input
+              type="password"
+              class="form-control"
+              id="password"
+              placeholder="password"
+              formControlName="password"
+              [ngClass]="validationClass('password')"
+            />
+            <div class="invalid-feedback" *ngIf="hasErrors('password')">
+              <div *ngFor="let error of allErrors('password')">
+                {{ getError("password", error) }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-md-12">          
+          <label for="matchingPassword">Confirm Password*</label>          
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">
+                <i class="bi-card-text"></i>
+              </span>
+            </div>
+            <input
+              type="password"
+              class="form-control"
+              id="matchingPassword"
+              placeholder="matchingPassword"
+              formControlName="matchingPassword"
+              [ngClass]="validationClass('matchingPassword')"
+            />
+            <div class="invalid-feedback" *ngIf="hasErrors('matchingPassword')">
+              <div *ngFor="let error of allErrors('matchingPassword')">
+                {{ getError("matchingPassword", error) }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-12">
+          <label for="email">Email*</label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="bi-envelope"></i> </span>
+            </div>
+            <input
+              type="email"
+              class="form-control"
+              id="email"
+              placeholder="example@example.com"
+              formControlName="email"
+              [ngClass]="validationClass('email')"
+            />
+            <div class="invalid-feedback" *ngIf="hasErrors('email')">
+              <div *ngFor="let error of allErrors('email')">
+                {{ getError("email", error) }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-md-12">          
+          <label for="phone">Phone*</label>          
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">
+                <i class="bi-telephone"></i>
+              </span>
+            </div>
+            <input
+              type="tel"
+              class="form-control"
+              id="phone"
+              placeholder="000-000-0000"
+              formControlName="phone"
+              [ngClass]="validationClass('phone')"
+            />
+            <div class="invalid-feedback" *ngIf="hasErrors('phone')">
+              <div *ngFor="let error of allErrors('phone')">
+                {{ getError("phone", error) }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-12">
+          <label for="givenName">First Name*</label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">
+                <i class="bi-card-text"></i> 
+              </span>
+            </div>
+            <input
+              type="text"
+              class="form-control"
+              id="givenName"
+              placeholder="GivenName"
+              formControlName="givenName"
+              [ngClass]="validationClass('givenName')"
+            />
+            <div class="invalid-feedback" *ngIf="hasErrors('givenName')">
+              <div *ngFor="let error of allErrors('givenName')">
+                {{ getError("givenName", error) }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group col-md-12">          
+          <label for="familyName">Last Name*</label>          
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">
+                <i class="bi-card-text"></i>
+              </span>
+            </div>
+            <input
+              type="text"
+              class="form-control"
+              id="familyName"
+              placeholder="FamilyName"
+              formControlName="familyName"
+              [ngClass]="validationClass('familyName')"
+            />
+            <div class="invalid-feedback" *ngIf="hasErrors('familyName')">
+              <div *ngFor="let error of allErrors('familyName')">
+                {{ getError("familyName", error) }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="!registrationForm.valid"
+        >
+          Register
+        </button>
+      </div>
+    </form>
+    <div>
+      Already registered? <a routerLinkActive="active" routerLink="/login">Login Here</a>
+    </div>
+  </div>
+</div>
