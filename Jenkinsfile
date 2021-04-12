@@ -30,13 +30,16 @@ pipeline {
     }
     stage('Analysis') {
       steps {
-        container('SonarQubeScanner') {
-          withSonarQubeEnv('sonarQube') {
-            sh "/usr/local/sonar-scanner"
-          }
-          timeout(time: 1, unit: 'HOURS') {
-            waitForQualityGate abortPipeline: true
-          }
+        echo 'Analyzing..'
+        withSonarQubeEnv('sonarQube') {
+          sh "/usr/local/sonar-scanner"
+        }
+      }
+    }
+    stage("Quality Gate") {
+      steps {
+        timeout(time: 1, unit: 'HOURS') {
+          waitForQualityGate abortPipeline: true
         }
       }
     }
