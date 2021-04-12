@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BookingsPageComponent } from './bookings-page.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ReactiveFormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('BookingsPageComponent', () => {
   let component: BookingsPageComponent;
@@ -8,6 +11,11 @@ describe('BookingsPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [
+        HttpClientTestingModule,
+        ReactiveFormsModule,
+        RouterTestingModule,
+      ],
       declarations: [BookingsPageComponent],
     }).compileComponents();
   });

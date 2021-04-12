@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ItemizedBillComponent } from './itemized-bill.component';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('ItemizedBillComponent', () => {
   let component: ItemizedBillComponent;
@@ -8,6 +9,7 @@ describe('ItemizedBillComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [HttpClientModule],
       declarations: [ItemizedBillComponent],
     }).compileComponents();
   });
