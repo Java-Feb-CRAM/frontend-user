@@ -1,6 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RegistrationPageComponent } from './registration-page.component';
+import { RegistrationFormComponent } from '../../components/authentication/registration-form/registration-form.component';
+import { RouterTestingModule } from '@angular/router/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ReactiveFormsModule } from '@angular/forms';
 
 describe('RegistrationPageComponent', () => {
   let component: RegistrationPageComponent;
@@ -8,7 +12,12 @@ describe('RegistrationPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [RegistrationPageComponent],
+      imports: [
+        RouterTestingModule,
+        HttpClientTestingModule,
+        ReactiveFormsModule,
+      ],
+      declarations: [RegistrationPageComponent, RegistrationFormComponent],
     }).compileComponents();
   });
 
