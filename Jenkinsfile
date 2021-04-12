@@ -19,7 +19,7 @@ pipeline {
         setBuildStatus("Build pending", "PENDING")
         echo 'Testing..'
         sh "npm install"
-        sh "ng test --no-watch --code-coverage"
+        sh "npm run test-headless"
       }
     }
     stage('Build') {
