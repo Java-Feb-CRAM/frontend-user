@@ -5,14 +5,17 @@ import { Observable, throwError } from 'rxjs';
 import { Booking } from '../models/Booking';
 import { catchError, map } from 'rxjs/operators';
 import { PaymentInfo } from '../models/PaymentInfo';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PaymentService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    this.paymentsUrl = `${environment.apiBase}/payments`;
+  }
 
-  paymentsUrl = 'http://localhost:8083/payments';
+  paymentsUrl: string;
 
   getPayment(stripeId: string): Observable<PaymentInfo> {
     return this.http.get<PaymentInfo>(`${this.paymentsUrl}/${stripeId}`);
