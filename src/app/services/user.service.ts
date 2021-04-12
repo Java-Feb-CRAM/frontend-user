@@ -33,7 +33,7 @@ export class UserService {
 
   constructor(private router: Router, private http: HttpClient) {
     this.loginUrl = `${environment.apiBase}/users/credentials/authenticate`;
-    this.registrationUri = `${environment.apiBase}/http://localhost:8080/users/new`;
+    this.registrationUri = `${environment.apiBase}/users/new`;
     this.loginLogoutChange.subscribe((value) => {
       this.isLoggedIn = value;
       if (this.isLoggedIn) {
