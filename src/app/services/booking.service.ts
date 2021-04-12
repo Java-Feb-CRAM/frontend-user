@@ -4,14 +4,17 @@ import { Observable, throwError } from 'rxjs';
 import { CreateGuestBookingDto } from '../dto/CreateGuestBookingDto';
 import { Booking } from '../models/Booking';
 import { catchError, map } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BookingService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    this.bookingsUrl = `${environment.apiBase}/bookings`;
+  }
 
-  bookingsUrl = 'http://localhost:8083/bookings';
+  bookingsUrl: string;
 
   createGuestBooking(
     createGuestBookingDto: CreateGuestBookingDto
