@@ -10,7 +10,7 @@ import { FlightService } from '../../../services/flight.service';
 export class SearchFlightsComponent implements OnInit {
   flights: Flight[] = [];
 
-  constructor(private flightService: FlightService) {}
+  constructor(private readonly flightService: FlightService) {}
 
   ngOnInit(): void {
     this.flightService.getAllFlights().subscribe({

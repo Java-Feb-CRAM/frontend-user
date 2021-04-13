@@ -40,8 +40,19 @@ export class PaymentFormComponent implements OnInit {
         iconColor: '#666EE8',
         color: '#495057',
         fontWeight: 'normal',
-        fontFamily:
-          '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',
+        fontFamily: `-apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          "Helvetica Neue",
+          Arial,
+          "Noto Sans",
+          "Liberation Sans",
+          sans-serif,
+          "Apple Color Emoji",
+          "Segoe UI Emoji",
+          "Segoe UI Symbol",
+          "Noto Color Emoji"`,
         fontSize: '16px',
         '::placeholder': {
           color: '#6C757D',
@@ -69,7 +80,10 @@ export class PaymentFormComponent implements OnInit {
     cvc: false,
   };
 
-  constructor(private fb: FormBuilder, private stripeService: StripeService) {}
+  constructor(
+    private readonly fb: FormBuilder,
+    private readonly stripeService: StripeService
+  ) {}
   ngOnInit(): void {
     this.stripeTest = this.fb.group({
       name: ['', [Validators.required]],

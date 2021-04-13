@@ -35,7 +35,10 @@ export class LoginFormComponent {
     },
   };
 
-  constructor(private userService: UserService, private fb: FormBuilder) {
+  constructor(
+    private readonly userService: UserService,
+    private readonly fb: FormBuilder
+  ) {
     this.userService.checkRedirect();
     this.loginForm = this.fb.group({
       username: [
@@ -83,8 +86,13 @@ export class LoginFormComponent {
   }
 
   allErrors(controlName: string): string[] {
-    // tslint:disable-next-line:no-non-null-assertion
-    return Object.keys(this.loginForm.get(controlName)!.errors!);
+    if (this.loginForm.get(controlName)) {
+      const control = this.loginForm.get(controlName);
+      if (control?.errors) {
+        return Object.keys(control.errors);
+      }
+    }
+    return [];
   }
 
   getError(controlName: string, error: string): string {

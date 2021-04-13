@@ -16,8 +16,8 @@ export class ItemizedBillComponent implements OnInit {
   taxRate = TAX_RATE;
 
   constructor(
-    private cartService: CartService,
-    private flightService: FlightService
+    private readonly cartService: CartService,
+    private readonly flightService: FlightService
   ) {}
 
   ngOnInit(): void {

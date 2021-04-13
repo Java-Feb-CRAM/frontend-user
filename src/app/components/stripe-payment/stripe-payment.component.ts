@@ -37,7 +37,10 @@ export class StripePaymentComponent implements OnInit {
   // @ts-ignore
   stripeTest: FormGroup;
 
-  constructor(private fb: FormBuilder, private stripeService: StripeService) {}
+  constructor(
+    private readonly fb: FormBuilder,
+    private readonly stripeService: StripeService
+  ) {}
 
   ngOnInit(): void {
     this.stripeTest = this.fb.group({
