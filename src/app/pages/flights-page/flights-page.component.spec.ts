@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FlightsPageComponent } from './flights-page.component';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('FlightsPageComponent', () => {
   let component: FlightsPageComponent;
@@ -9,7 +10,7 @@ describe('FlightsPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HttpClientModule],
+      imports: [HttpClientTestingModule],
       declarations: [FlightsPageComponent],
     }).compileComponents();
   });
