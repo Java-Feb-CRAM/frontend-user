@@ -31,7 +31,10 @@ export class UserService {
   loginLogoutChange: Subject<boolean> = new Subject<boolean>();
   user: UserInfo = {};
 
-  constructor(private router: Router, private http: HttpClient) {
+  constructor(
+    private readonly router: Router,
+    private readonly http: HttpClient
+  ) {
     this.loginUrl = `${environment.apiBase}/users/credentials/authenticate`;
     this.registrationUri = `${environment.apiBase}/users/new`;
     this.loginLogoutChange.subscribe({

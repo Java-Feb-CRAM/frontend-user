@@ -23,9 +23,9 @@ export class BookFlightPageComponent {
   paymentData: PaymentFormData | null = null;
 
   constructor(
-    private cartService: CartService,
-    private bookingService: BookingService,
-    private router: Router
+    private readonly cartService: CartService,
+    private readonly bookingService: BookingService,
+    private readonly router: Router
   ) {}
 
   pageChanged(id: number): void {

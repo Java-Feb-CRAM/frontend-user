@@ -36,7 +36,7 @@ export class PassengersFormComponent {
   };
   today: any;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private readonly fb: FormBuilder) {
     this.passengersForm = this.fb.group({
       passengers: this.fb.array([]),
     });
@@ -97,8 +97,13 @@ export class PassengersFormComponent {
   }
 
   allErrors(control: AbstractControl, controlName: string): string[] {
-    // tslint:disable-next-line:no-non-null-assertion
-    return Object.keys(control.get(controlName)!.errors!);
+    if (control.get(controlName)) {
+      const ctrl = control.get(controlName);
+      if (ctrl?.errors) {
+        return Object.keys(ctrl.errors);
+      }
+    }
+    return [];
   }
 
   getError(controlName: string, error: string): string {
