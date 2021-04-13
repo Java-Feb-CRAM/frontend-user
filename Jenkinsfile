@@ -19,7 +19,9 @@ pipeline {
         setBuildStatus("Build pending", "PENDING")
         echo 'Testing..'
         sh "npm install"
-        sh "npm run test-headless"
+        catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+          sh "npm run test-headless"
+        }
       }
     }
     stage('Build') {
