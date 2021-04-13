@@ -13,9 +13,6 @@ void setBuildStatus(String message, String state) {
 
 pipeline {
   agent any
-  tools {
-    maven 'Maven 3.8.1'
-  }
   stages {
     stage('Test') {
       steps {
@@ -35,7 +32,7 @@ pipeline {
       steps {
         echo 'Analyzing..'
         withSonarQubeEnv('sonarQube') {
-          sh "mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.7.0.1746:sonar"
+          sh "/var/lib/jenkins/sonar-scanner-4.6.0.2311-linux/bin/sonar-scanner"
         }
       }
     }
