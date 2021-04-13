@@ -26,7 +26,7 @@ export class GuestBookingFormComponent {
     },
   };
 
-  constructor(private fb: FormBuilder) {
+  constructor(private readonly fb: FormBuilder) {
     this.guestBookingForm = this.fb.group({
       guestEmail: ['', [Validators.required, Validators.email]],
       guestPhone: [
@@ -61,7 +61,13 @@ export class GuestBookingFormComponent {
 
   allErrors(controlName: string): string[] {
     // tslint:disable-next-line:no-non-null-assertion
-    return Object.keys(this.guestBookingForm.get(controlName)!.errors!);
+    if (this.guestBookingForm.get(controlName)) {
+      const control = this.guestBookingForm.get(controlName);
+      if (control?.errors) {
+        return Object.keys(control.errors);
+      }
+    }
+    return [];
   }
 
   getError(controlName: string, error: string): string {

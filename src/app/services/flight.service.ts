@@ -9,7 +9,7 @@ import { environment } from '../../environments/environment';
   providedIn: 'root',
 })
 export class FlightService {
-  constructor(private http: HttpClient) {
+  constructor(private readonly http: HttpClient) {
     this.flightsUrl = `${environment.apiBase}/flights`;
   }
 

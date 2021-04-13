@@ -18,10 +18,10 @@ export class BookingsPageComponent implements OnInit {
   bookingSearchForm: FormGroup;
   checkedOut = false;
   constructor(
-    private bookingService: BookingService,
-    private fb: FormBuilder,
-    private paymentService: PaymentService,
-    private route: ActivatedRoute
+    private readonly bookingService: BookingService,
+    private readonly fb: FormBuilder,
+    private readonly paymentService: PaymentService,
+    private readonly route: ActivatedRoute
   ) {
     this.bookingSearchForm = this.fb.group({
       confirmationCode: [
