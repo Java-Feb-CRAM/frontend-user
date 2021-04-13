@@ -25,12 +25,29 @@
         </li>
       </ul>
     </div>
-    <div class="colapse navbar-right">    
-    <span class="text-white" *ngIf="isLoggedIn">{{firstName}}</span> <button (click)="logout()" type="button" class="btn btn-primary" *ngIf="isLoggedIn">Log Out</button>  
-    <button type="button" class="btn btn-primary" *ngIf="!isLoggedIn" routerLinkActive="active" routerLink="/register">Sign Up</button> 
-    <button type="button" class="btn btn-primary" routerLink="/cart">
-      <i class="bi-cart-fill"></i> {{ cartService.cartLength }}
-    </button>  
+    <div class="colapse navbar-right">
+      <span class="text-white" *ngIf="isLoggedIn">{{ firstName }}</span>
+      <button
+        (click)="logout()"
+        type="button"
+        class="btn btn-primary"
+        *ngIf="isLoggedIn"
+      >
+        Log Out
+      </button>
+      <button
+        type="button"
+        class="btn btn-primary"
+        *ngIf="!isLoggedIn"
+        routerLinkActive="active"
+        routerLink="/register"
+      >
+        Sign Up
+      </button>
+      <button type="button" class="btn btn-primary" routerLink="/cart">
+        <i class="bi-cart-fill" aria-hidden="true"></i>
+        {{ cartService.cartLength }}
+      </button>
     </div>
   </nav>
 </header>

@@ -2,14 +2,14 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from 'src/app/services/user.service';
 
-export interface RegistrationFormData {  
-  username?: String;
-  password?: String;
-  matchingPassword?: String;
-  phone?: String;
-  email?: String;
-  familyName?: String;
-  givenName?: String;
+export interface RegistrationFormData {
+  username?: string;
+  password?: string;
+  matchingPassword?: string;
+  phone?: string;
+  email?: string;
+  familyName?: string;
+  givenName?: string;
 }
 
 @Component({
@@ -26,14 +26,16 @@ export class RegistrationFormComponent {
       required: 'Username is required',
       minLength: 'Username must be a minimum of 8 characters',
       maxLength: 'Username must be a maximum of 32 characters',
-      pattern: 'Username can only have lowercase/uppercase letters, numbers and underscores',
+      pattern:
+        'Username can only have lowercase/uppercase letters, numbers and underscores',
     },
     password: {
       required: 'Password is required',
       minLength: 'Password must be a minimum of 8 characters',
       maxLength: 'Password must be a maximum of 32 characters',
-      pattern: 'Password must contain: 1 uppercase letter'+
-      '1 lowercase letter 1 number 1 of these symbols: @!#$%^&*_+=~',
+      pattern:
+        'Password must contain: 1 uppercase letter' +
+        '1 lowercase letter 1 number 1 of these symbols: @!#$%^&*_+=~',
     },
     email: {
       required: 'Email is required',
@@ -42,86 +44,82 @@ export class RegistrationFormComponent {
     phone: {
       required: 'Phone number is required',
       pattern: 'Phone number must follow pattern 000-111-2222',
-    }, 
+    },
     givenName: {
       required: 'First name is required',
       minLength: 'First name must be a minimum of 1 characters',
       maxLength: 'First name must be a maximum of 32 characters',
-    },  
+    },
     familyName: {
       required: 'Last name is required',
       minLength: 'Last name must be a minimum of 1 characters',
       maxLength: 'Last name must be a maximum of 32 characters',
-    }, 
+    },
   };
 
-  constructor(
-    private userService: UserService,
-    private fb: FormBuilder,
-  ) {
-    this.registrationForm = this.fb.group({    
+  constructor(private userService: UserService, private fb: FormBuilder) {
+    this.registrationForm = this.fb.group({
       username: [
         '',
         [
           Validators.required,
           Validators.minLength(8),
           Validators.maxLength(32),
-          Validators.pattern("^[a-zA-Z]+[a-zA-Z\\d_]+$"),
+          Validators.pattern('^[a-zA-Z]+[a-zA-Z\\d_]+$'),
         ],
       ],
       password: [
-        '', 
+        '',
         [
-          Validators.required, 
+          Validators.required,
           Validators.minLength(8),
           Validators.maxLength(32),
-          Validators.pattern("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@!#$%^&*_+=~])[A-Za-z\\d@!#$%^&*_+=~]{8,32}$"),
+          Validators.pattern(
+            '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@!#$%^&*_+=~])[A-Za-z\\d@!#$%^&*_+=~]{8,32}$'
+          ),
         ],
       ],
-      matchingPassword: [
-        '', 
-        [],
-      ],
+      matchingPassword: ['', []],
       phone: [
-        '', 
+        '',
         [
-          Validators.required, 
+          Validators.required,
           Validators.minLength(10),
           Validators.maxLength(16),
         ],
       ],
-      email: [
-        '', 
+      email: ['', [Validators.required, Validators.email]],
+      familyName: [
+        '',
         [
           Validators.required,
-          Validators.email
-        ],
-      ],
-      familyName: [
-        '', 
-        [
-          Validators.required, 
           Validators.minLength(1),
           Validators.maxLength(32),
         ],
       ],
       givenName: [
-        '', 
+        '',
         [
-          Validators.required, 
+          Validators.required,
           Validators.minLength(1),
           Validators.maxLength(32),
         ],
       ],
-    })
+    });
 
-    this.registrationForm.get("password")?.valueChanges.subscribe((passwordValue: string) => {
-      this.registrationForm.get("matchingPassword")?.setValidators([
-        Validators.required, 
-        Validators.minLength(8),
-        Validators.maxLength(32),
-        Validators.pattern("^"+passwordValue+"$")])})
-    this.userService.checkRedirect()
+    this.registrationForm.get('password')?.valueChanges.subscribe({
+      next: (passwordValue: string) => {
+        this.registrationForm
+          .get('matchingPassword')
+          ?.setValidators([
+            Validators.required,
+            Validators.minLength(8),
+            Validators.maxLength(32),
+            Validators.pattern('^' + passwordValue + '$'),
+          ]);
+      },
+    });
+    this.userService.checkRedirect();
   }
 
   isFieldInvalid(controlName: string): boolean {
@@ -159,13 +157,13 @@ export class RegistrationFormComponent {
 
   onSubmit(): void {
     this.userService.register({
-      "username": this.registrationForm.controls.username.value, 
-      "password": this.registrationForm.controls.password.value,
-      "matchingPassword": this.registrationForm.controls.matchingPassword.value,
-      "phone": this.registrationForm.controls.phone.value,
-      "email": this.registrationForm.controls.email.value,
-      "familyName": this.registrationForm.controls.familyName.value,
-      "givenName": this.registrationForm.controls.givenName.value,
+      username: this.registrationForm.controls.username.value,
+      password: this.registrationForm.controls.password.value,
+      matchingPassword: this.registrationForm.controls.matchingPassword.value,
+      phone: this.registrationForm.controls.phone.value,
+      email: this.registrationForm.controls.email.value,
+      familyName: this.registrationForm.controls.familyName.value,
+      givenName: this.registrationForm.controls.givenName.value,
     });
   }
 }

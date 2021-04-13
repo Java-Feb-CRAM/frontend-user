@@ -73,7 +73,7 @@ import { SearchFlightsComponent } from './components/book-flight/search-flights/
       useClass: AuthInterceptor,
       multi: true,
     },
-    {      
+    {
       provide: NgbDateAdapter,
       useClass: NgbDateNativeAdapter,
     },

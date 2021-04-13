@@ -1,12 +1,4 @@
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { StripeCardComponent, StripeService } from 'ngx-stripe';
 import {
   StripeCardElementOptions,
@@ -56,14 +48,14 @@ export class StripePaymentComponent implements OnInit {
   createToken(): void {
     // @ts-ignore
     const name = this.stripeTest.get('name').value;
-    this.stripeService
-      .createToken(this.card.element, { name })
-      .subscribe((result) => {
+    this.stripeService.createToken(this.card.element, { name }).subscribe({
+      next: (result) => {
         if (result.token) {
           console.log(result.token.id);
         } else if (result.error) {
           console.log(result.error.message);
         }
-      });
+      },
+    });
   }
 }

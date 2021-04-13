@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CartService } from '../../services/cart.service';
 
 @Component({
@@ -6,8 +6,6 @@ import { CartService } from '../../services/cart.service';
   templateUrl: './cart-page.component.html',
   styleUrls: ['./cart-page.component.scss'],
 })
-export class CartPageComponent implements OnInit {
+export class CartPageComponent {
   constructor(public cartService: CartService) {}
-
-  ngOnInit(): void {}
 }
