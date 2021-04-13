@@ -28,7 +28,10 @@ module.exports = function (config) {
     coverageReporter: {
       dir: require("path").join(__dirname, "./coverage/frontend-user"),
       subdir: ".",
-      reporters: [{ type: "html" }, { type: "text-summary" }],
+      reporters: [
+        { type: "lcovonly", dir: "coverage/", file: "lcov.info" },
+        { type: "text-summary" },
+      ],
     },
     reporters: ["progress", "kjhtml", "spec"],
     port: 9876,
