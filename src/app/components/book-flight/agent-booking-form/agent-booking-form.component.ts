@@ -5,8 +5,4 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './agent-booking-form.component.html',
   styleUrls: ['./agent-booking-form.component.scss'],
 })
-export class AgentBookingFormComponent implements OnInit {
-  constructor() {}
-
-  ngOnInit(): void {}
-}
+export class AgentBookingFormComponent {}

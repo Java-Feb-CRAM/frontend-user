@@ -1,14 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Flight } from '../../models/Flight';
+import { Component } from '@angular/core';
 import { CartService } from '../../services/cart.service';
-import { FlightService } from '../../services/flight.service';
 import { PassengersFormData } from '../../components/book-flight/passengers-form/passengers-form.component';
 import { PaymentFormData } from '../../components/book-flight/payment-form/payment-form.component';
 import { GuestBookingFormData } from '../../components/book-flight/guest-booking-form/guest-booking-form.component';
 import { BookingService } from '../../services/booking.service';
 import { CreateGuestBookingDto } from '../../dto/CreateGuestBookingDto';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-book-flight-page',
@@ -70,9 +67,8 @@ export class BookFlightPageComponent {
         flightIds,
         passengers: this.passengersData.passengers,
       };
-      this.bookingService
-        .createGuestBooking(createGuestBookingDto)
-        .subscribe((booking) => {
+      this.bookingService.createGuestBooking(createGuestBookingDto).subscribe({
+        next: (booking) => {
           console.log(booking);
           this.cartService.emptyCart();
           this.router.navigate(['/bookings'], {
@@ -81,7 +77,8 @@ export class BookFlightPageComponent {
               checkedOut: true,
             },
           });
-        });
+        },
+      });
     }
   }
 

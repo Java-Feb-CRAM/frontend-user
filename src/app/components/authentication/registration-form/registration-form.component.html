@@ -1,13 +1,15 @@
 <div class="card mt-3">
   <div class="card-header">Register New User</div>
   <div class="card-body">
-    <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">      
+    <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
       <div class="form-row">
         <div class="form-group col-md-12">
           <label for="username">Username*</label>
           <div class="input-group">
             <div class="input-group-prepend">
-              <span class="input-group-text"><i class="bi-person-circle"></i> </span>
+              <span class="input-group-text"
+                ><i class="bi-person-circle" aria-hidden="true"></i>
+              </span>
             </div>
             <input
               type="text"
@@ -31,7 +33,7 @@
           <div class="input-group">
             <div class="input-group-prepend">
               <span class="input-group-text">
-                <i class="bi-card-text"></i> 
+                <i class="bi-card-text" aria-hidden="true"></i>
               </span>
             </div>
             <input
@@ -49,12 +51,12 @@
             </div>
           </div>
         </div>
-        <div class="form-group col-md-12">          
-          <label for="matchingPassword">Confirm Password*</label>          
+        <div class="form-group col-md-12">
+          <label for="matchingPassword">Confirm Password*</label>
           <div class="input-group">
             <div class="input-group-prepend">
               <span class="input-group-text">
-                <i class="bi-card-text"></i>
+                <i class="bi-card-text" aria-hidden="true"></i>
               </span>
             </div>
             <input
@@ -78,7 +80,9 @@
           <label for="email">Email*</label>
           <div class="input-group">
             <div class="input-group-prepend">
-              <span class="input-group-text"><i class="bi-envelope"></i> </span>
+              <span class="input-group-text"
+                ><i class="bi-envelope" aria-hidden="true"></i>
+              </span>
             </div>
             <input
               type="email"
@@ -95,12 +99,12 @@
             </div>
           </div>
         </div>
-        <div class="form-group col-md-12">          
-          <label for="phone">Phone*</label>          
+        <div class="form-group col-md-12">
+          <label for="phone">Phone*</label>
           <div class="input-group">
             <div class="input-group-prepend">
               <span class="input-group-text">
-                <i class="bi-telephone"></i>
+                <i class="bi-telephone" aria-hidden="true"></i>
               </span>
             </div>
             <input
@@ -125,7 +129,7 @@
           <div class="input-group">
             <div class="input-group-prepend">
               <span class="input-group-text">
-                <i class="bi-card-text"></i> 
+                <i class="bi-card-text" aria-hidden="true"></i>
               </span>
             </div>
             <input
@@ -143,12 +147,12 @@
             </div>
           </div>
         </div>
-        <div class="form-group col-md-12">          
-          <label for="familyName">Last Name*</label>          
+        <div class="form-group col-md-12">
+          <label for="familyName">Last Name*</label>
           <div class="input-group">
             <div class="input-group-prepend">
               <span class="input-group-text">
-                <i class="bi-card-text"></i>
+                <i class="bi-card-text" aria-hidden="true"></i>
               </span>
             </div>
             <input
@@ -178,7 +182,8 @@
       </div>
     </form>
     <div>
-      Already registered? <a routerLinkActive="active" routerLink="/login">Login Here</a>
+      Already registered?
+      <a routerLinkActive="active" routerLink="/login">Login Here</a>
     </div>
   </div>
 </div>

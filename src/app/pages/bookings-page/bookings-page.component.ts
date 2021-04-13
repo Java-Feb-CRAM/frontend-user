@@ -37,16 +37,18 @@ export class BookingsPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((params) => {
-      if (params.confirmationCode) {
-        this.bookingSearchForm.setValue({
-          confirmationCode: params.confirmationCode,
-        });
-        this.onSubmit();
-      }
-      if (params.checkedOut) {
-        this.checkedOut = true;
-      }
+    this.route.queryParams.subscribe({
+      next: (params) => {
+        if (params.confirmationCode) {
+          this.bookingSearchForm.setValue({
+            confirmationCode: params.confirmationCode,
+          });
+          this.onSubmit();
+        }
+        if (params.checkedOut) {
+          this.checkedOut = true;
+        }
+      },
     });
   }
 
@@ -55,14 +57,18 @@ export class BookingsPageComponent implements OnInit {
       .value;
     this.bookingService
       .getBookingByConfirmationCode(confirmationCode)
-      .subscribe((booking) => {
-        this.booking = booking;
-        this.paymentService
-          .getPayment(this.booking.bookingPayment.stripeId)
-          .subscribe((paymentInfo) => {
-            this.bookingPayment = paymentInfo;
-            this.bookingPaymentDate = new Date(paymentInfo.created * 1000);
-          });
+      .subscribe({
+        next: (booking) => {
+          this.booking = booking;
+          this.paymentService
+            .getPayment(this.booking.bookingPayment.stripeId)
+            .subscribe({
+              next: (paymentInfo) => {
+                this.bookingPayment = paymentInfo;
+                this.bookingPaymentDate = new Date(paymentInfo.created * 1000);
+              },
+            });
+        },
       });
   }
 }

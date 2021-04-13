@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { CreateGuestBookingDto } from '../dto/CreateGuestBookingDto';
-import { Observable, throwError } from 'rxjs';
-import { Booking } from '../models/Booking';
-import { catchError, map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { PaymentInfo } from '../models/PaymentInfo';
 import { environment } from '../../environments/environment';
 

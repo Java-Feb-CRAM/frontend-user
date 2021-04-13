@@ -9,7 +9,6 @@ import {
 import { StripeCardNumberComponent, StripeService } from 'ngx-stripe';
 import {
   StripeCardCvcElementChangeEvent,
-  StripeCardElementChangeEvent,
   StripeCardElementOptions,
   StripeCardExpiryElementChangeEvent,
   StripeCardNumberElementChangeEvent,
@@ -79,9 +78,8 @@ export class PaymentFormComponent implements OnInit {
 
   pay(): void {
     const name = this.stripeTest.get('name')?.value;
-    this.stripeService
-      .createToken(this.card.element, { name })
-      .subscribe((result) => {
+    this.stripeService.createToken(this.card.element, { name }).subscribe({
+      next: (result) => {
         if (result.token) {
           this.paymentFormSubmitEvent.emit({
             stripeToken: result.token.id,
@@ -90,7 +88,8 @@ export class PaymentFormComponent implements OnInit {
         } else if (result.error) {
           console.log(result.error.message);
         }
-      });
+      },
+    });
   }
 
   validateCardNumber(event: StripeCardNumberElementChangeEvent): void {

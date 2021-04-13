@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable, of, Subject } from 'rxjs';
-import { Router, ActivatedRoute, UrlTree } from '@angular/router';
+import { Router, UrlTree } from '@angular/router';
 import { catchError, map, timeout } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 
@@ -34,11 +34,13 @@ export class UserService {
   constructor(private router: Router, private http: HttpClient) {
     this.loginUrl = `${environment.apiBase}/users/credentials/authenticate`;
     this.registrationUri = `${environment.apiBase}/users/new`;
-    this.loginLogoutChange.subscribe((value) => {
-      this.isLoggedIn = value;
-      if (this.isLoggedIn) {
-        this.fetchUserDetails();
-      }
+    this.loginLogoutChange.subscribe({
+      next: (value) => {
+        this.isLoggedIn = value;
+        if (this.isLoggedIn) {
+          this.fetchUserDetails();
+        }
+      },
     });
     this.loginLogoutChange.next(this.isJWTSet());
   }
@@ -46,7 +48,7 @@ export class UserService {
   loginUrl: string;
   registrationUri: string;
 
-  register(userDetails: Object): void {
+  register(userDetails: object): void {
     this.http
       .post<RegistrationResponse>(this.registrationUri, userDetails)
       .subscribe({
@@ -59,7 +61,7 @@ export class UserService {
       });
   }
 
-  login(credentials: Object): void {
+  login(credentials: object): void {
     this.http.post<LoginResponse>(this.loginUrl, credentials).subscribe({
       next: (response) => {
         this.setJwt(response.authenticatedJwt);
@@ -104,8 +106,10 @@ export class UserService {
 
   private fetchUserDetails(): void {
     if (this.isJWTSet()) {
-      this.http.get('http://localhost:8080/users/current').subscribe((user) => {
-        this.user = user as UserInfo;
+      this.http.get('http://localhost:8080/users/current').subscribe({
+        next: (user) => {
+          this.user = user as UserInfo;
+        },
       });
     }
   }

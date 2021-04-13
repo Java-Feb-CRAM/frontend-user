@@ -9,14 +9,15 @@ import { UserService } from '../../../services/user.service';
 })
 export class HeaderComponent {
   constructor(
-    public userService: UserService, 
-    public cartService: CartService) {}
+    public userService: UserService,
+    public cartService: CartService
+  ) {}
 
   get isLoggedIn(): boolean {
     return this.userService.isLoggedIn;
   }
 
-  get firstName(): string|undefined {
+  get firstName(): string | undefined {
     return this.userService.user.givenName;
   }
 
@@ -32,6 +33,6 @@ export class HeaderComponent {
   ];
 
   logout(): void {
-    this.userService.logout()
+    this.userService.logout();
   }
 }

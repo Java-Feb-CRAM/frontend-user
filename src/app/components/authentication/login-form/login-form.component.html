@@ -1,13 +1,15 @@
 <div class="card mt-3">
   <div class="card-header">Login</div>
   <div class="card-body">
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">      
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       <div class="form-row">
         <div class="form-group col-md-12">
           <label for="username">Username*</label>
           <div class="input-group">
             <div class="input-group-prepend">
-              <span class="input-group-text"><i class="bi-person-circle"></i> </span>
+              <span class="input-group-text"
+                ><i class="bi-person-circle" aria-hidden="true"></i>
+              </span>
             </div>
             <input
               type="text"
@@ -29,7 +31,7 @@
           <div class="input-group">
             <div class="input-group-prepend">
               <span class="input-group-text">
-                <i class="bi-card-text"></i> 
+                <i class="bi-card-text" aria-hidden="true"></i>
               </span>
             </div>
             <input
@@ -46,7 +48,7 @@
               </div>
             </div>
           </div>
-        </div>        
+        </div>
       </div>
       <div>
         <button
@@ -59,9 +61,8 @@
       </div>
     </form>
     <div>
-      Not registered? <a routerLinkActive="active" routerLink="/register">Register Here</a>
+      Not registered?
+      <a routerLinkActive="active" routerLink="/register">Register Here</a>
     </div>
   </div>
 </div>
-
-

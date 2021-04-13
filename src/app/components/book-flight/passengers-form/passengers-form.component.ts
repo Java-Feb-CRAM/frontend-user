@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import {
   AbstractControl,
   FormArray,
@@ -6,8 +6,6 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { PaymentFormData } from '../payment-form/payment-form.component';
-import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 
 export interface PassengerData {
   givenName: string;
