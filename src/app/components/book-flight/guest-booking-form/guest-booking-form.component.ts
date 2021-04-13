@@ -1,6 +1,5 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { PassengersFormData } from '../passengers-form/passengers-form.component';
 
 export interface GuestBookingFormData {
   guestEmail: string;

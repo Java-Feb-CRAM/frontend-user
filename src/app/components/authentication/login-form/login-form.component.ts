@@ -4,8 +4,8 @@ import { UserService } from 'src/app/services/user.service';
 import { CredentialsDto } from 'src/app/models/CredentialsDto';
 
 export interface LoginFormData {
-  username?: String;
-  password?: String;
+  username?: string;
+  password?: string;
 }
 
 @Component({
@@ -22,22 +22,21 @@ export class LoginFormComponent {
       required: 'Username is required',
       minLength: 'Username must be a minimum of 8 characters',
       maxLength: 'Username must be a maximum of 32 characters',
-      pattern: 'Username can only have lowercase/uppercase letters, numbers and underscores',
+      pattern:
+        'Username can only have lowercase/uppercase letters, numbers and underscores',
     },
     password: {
       required: 'Password is required',
       minLength: 'Password must be a minimum of 8 characters',
       maxLength: 'Password must be a maximum of 32 characters',
-      pattern: 'Password must contain:\n 1 uppercase letter\n'+
-      '1 lowercase letter\n 1 number\n 1 of these symbols: @!#$%^&*_+=~',
+      pattern:
+        'Password must contain:\n 1 uppercase letter\n' +
+        '1 lowercase letter\n 1 number\n 1 of these symbols: @!#$%^&*_+=~',
     },
   };
 
-  constructor(
-    private userService: UserService,
-    private fb: FormBuilder,
-  ) {
-    this.userService.checkRedirect()
+  constructor(private userService: UserService, private fb: FormBuilder) {
+    this.userService.checkRedirect();
     this.loginForm = this.fb.group({
       username: [
         '',
@@ -45,19 +44,19 @@ export class LoginFormComponent {
           Validators.required,
           Validators.minLength(8),
           Validators.maxLength(32),
-          Validators.pattern("^[a-zA-Z]+[a-zA-Z\\d_]+$"),
+          Validators.pattern('^[a-zA-Z]+[a-zA-Z\\d_]+$'),
         ],
       ],
       password: [
-        '', 
+        '',
         [
-          Validators.required, 
+          Validators.required,
           Validators.minLength(8),
           Validators.maxLength(32),
-          Validators.pattern("[A-Za-z\\d@!#$%^&*_+=~]+$"),
+          Validators.pattern('[A-Za-z\\d@!#$%^&*_+=~]+$'),
         ],
       ],
-    })
+    });
   }
 
   isFieldInvalid(controlName: string): boolean {
@@ -94,8 +93,11 @@ export class LoginFormComponent {
   }
 
   onSubmit(): void {
-    this.userService.login(new CredentialsDto(
-      this.loginForm.controls.username.value, 
-      this.loginForm.controls.password.value));
+    this.userService.login(
+      new CredentialsDto(
+        this.loginForm.controls.username.value,
+        this.loginForm.controls.password.value
+      )
+    );
   }
 }

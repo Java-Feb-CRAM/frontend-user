@@ -34,10 +34,6 @@ export class Booking {
   }
 
   get noDelete(): boolean {
-    // return (
-    //   (this.arrivals && this.arrivals.length > 0) ||
-    //   (this.departures && this.departures.length > 0)
-    // );
     return false;
   }
 }

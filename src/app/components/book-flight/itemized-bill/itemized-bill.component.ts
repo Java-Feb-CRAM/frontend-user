@@ -23,8 +23,10 @@ export class ItemizedBillComponent implements OnInit {
   ngOnInit(): void {
     this.cartService.cartItems.forEach((cartItem) => {
       const flightId = cartItem.id;
-      this.flightService.getFlight(flightId).subscribe((flight) => {
-        this.flights.push(flight);
+      this.flightService.getFlight(flightId).subscribe({
+        next: (flight) => {
+          this.flights.push(flight);
+        },
       });
     });
   }
