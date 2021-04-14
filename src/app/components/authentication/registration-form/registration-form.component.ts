@@ -1,16 +1,6 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from 'src/app/services/user.service';
-
-export interface RegistrationFormData {  
-  username?: String;
-  password?: String;
-  matchingPassword?: String;
-  phone?: String;
-  email?: String;
-  familyName?: String;
-  givenName?: String;
-}
 
 @Component({
   selector: 'app-registration-form',
@@ -19,21 +9,24 @@ export interface RegistrationFormData {
 })
 export class RegistrationFormComponent {
   @Output()
-  registrationFormSubmitEvent = new EventEmitter<RegistrationFormData>();
   registrationForm: FormGroup;
   validationErrors = {
     username: {
       required: 'Username is required',
-      minLength: 'Username must be a minimum of 8 characters',
-      maxLength: 'Username must be a maximum of 32 characters',
-      pattern: 'Username can only have lowercase/uppercase letters, numbers and underscores',
+      minlength: 'Username must be a minimum of 8 characters',
+      maxlength: 'Username must be a maximum of 32 characters',
+      pattern: 'Username must start with a letter and can only have lowercase/uppercase letters, numbers and underscores',
     },
     password: {
       required: 'Password is required',
-      minLength: 'Password must be a minimum of 8 characters',
-      maxLength: 'Password must be a maximum of 32 characters',
+      minlength: 'Password must be a minimum of 8 characters',
+      maxlength: 'Password must be a maximum of 32 characters',
       pattern: 'Password must contain: 1 uppercase letter'+
       '1 lowercase letter 1 number 1 of these symbols: @!#$%^&*_+=~',
+    },
+    matchingPassword: {
+      required: 'Confirmation password is required',
+      pattern: 'Confirmation password must match the password given',
     },
     email: {
       required: 'Email is required',
@@ -45,13 +38,13 @@ export class RegistrationFormComponent {
     }, 
     givenName: {
       required: 'First name is required',
-      minLength: 'First name must be a minimum of 1 characters',
-      maxLength: 'First name must be a maximum of 32 characters',
+      minlength: 'First name must be a minimum of 1 characters',
+      maxlength: 'First name must be a maximum of 32 characters',
     },  
     familyName: {
       required: 'Last name is required',
-      minLength: 'Last name must be a minimum of 1 characters',
-      maxLength: 'Last name must be a maximum of 32 characters',
+      minlength: 'Last name must be a minimum of 1 characters',
+      maxlength: 'Last name must be a maximum of 32 characters',
     }, 
   };
 
@@ -80,7 +73,7 @@ export class RegistrationFormComponent {
       ],
       matchingPassword: [
         '', 
-        [],
+        [Validators.required,],
       ],
       phone: [
         '', 
@@ -118,8 +111,6 @@ export class RegistrationFormComponent {
     this.registrationForm.get("password")?.valueChanges.subscribe((passwordValue: string) => {
       this.registrationForm.get("matchingPassword")?.setValidators([
         Validators.required, 
-        Validators.minLength(8),
-        Validators.maxLength(32),
         Validators.pattern("^"+passwordValue+"$")])})
     this.userService.checkRedirect()
   }

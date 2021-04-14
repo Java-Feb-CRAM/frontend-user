@@ -23,7 +23,7 @@ export class GuestBookingFormComponent {
     },
     guestPhone: {
       required: 'Phone number is required',
-      pattern: 'Phone number must follow pattern 000-111-2222',
+      pattern: 'Phone number must follow this pattern: 000-111-2222',
     },
   };
 
@@ -32,7 +32,7 @@ export class GuestBookingFormComponent {
       guestEmail: ['', [Validators.required, Validators.email]],
       guestPhone: [
         '',
-        [Validators.required, Validators.pattern(/^[2-9]\d{2}-\d{3}-\d{4}$/)],
+        [Validators.required, Validators.pattern("^\\d{3}-\\d{3}-\\d{4}$")],
       ],
     });
   }

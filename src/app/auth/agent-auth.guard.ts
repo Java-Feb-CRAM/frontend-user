@@ -6,7 +6,7 @@ import { UserService } from '../services/user.service';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard implements CanActivate {
+export class AgentAuthGuard implements CanActivate {
   constructor(private userService: UserService) {}
 
   canActivate(
@@ -14,7 +14,7 @@ export class AuthGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean | UrlTree>
   {
     const url: string = state.url;
-    return this.userService.isUserFetchSuccess("ROLE_USER")
+    return this.userService.isUserFetchSuccess("ROLE_AGENT")
   }
 
   canActivateChild(

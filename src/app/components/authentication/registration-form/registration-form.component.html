@@ -1,4 +1,4 @@
-<div class="card mt-3">
+<div class="card mt-3 mb-5">
   <div class="card-header">Register New User</div>
   <div class="card-body">
     <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">      
@@ -13,7 +13,7 @@
               type="text"
               class="form-control"
               id="username"
-              placeholder="Username_Example"
+              placeholder="jane_doe123"
               formControlName="username"
               [ngClass]="validationClass('username')"
             />
@@ -61,7 +61,7 @@
               type="password"
               class="form-control"
               id="matchingPassword"
-              placeholder="matchingPassword"
+              placeholder="password"
               formControlName="matchingPassword"
               [ngClass]="validationClass('matchingPassword')"
             />
@@ -107,7 +107,7 @@
               type="tel"
               class="form-control"
               id="phone"
-              placeholder="000-000-0000"
+              placeholder="123-456-7890"
               formControlName="phone"
               [ngClass]="validationClass('phone')"
             />
@@ -132,7 +132,7 @@
               type="text"
               class="form-control"
               id="givenName"
-              placeholder="GivenName"
+              placeholder="Jane"
               formControlName="givenName"
               [ngClass]="validationClass('givenName')"
             />
@@ -155,7 +155,7 @@
               type="text"
               class="form-control"
               id="familyName"
-              placeholder="FamilyName"
+              placeholder="Doe"
               formControlName="familyName"
               [ngClass]="validationClass('familyName')"
             />
@@ -176,9 +176,9 @@
           Register
         </button>
       </div>
+      <div>
+        Already registered? <a routerLinkActive="active" routerLink="/login">Login Here</a>
+      </div>
     </form>
-    <div>
-      Already registered? <a routerLinkActive="active" routerLink="/login">Login Here</a>
-    </div>
   </div>
 </div>
