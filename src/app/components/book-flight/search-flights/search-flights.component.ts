@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { Airport } from 'src/app/models/Airport';
 import { Flight } from '../../../models/Flight';
 import { AirportService } from 'src/app/services/airport.service';
-import { RouteService } from 'src/app/services/route.service';
 import { FlightService } from '../../../services/flight.service';
 import { Observable, OperatorFunction } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
@@ -56,7 +55,7 @@ export class SearchFlightsComponent {
       filteredAirports = this.airports.filter(v =>
         v.city.toLowerCase() === value.toLowerCase() ||
         v.iataId.toLowerCase() === value.toLowerCase());
-      this.isOriginAirportValid = filteredAirports.length == 1;
+      this.isOriginAirportValid = filteredAirports.length === 1;
     }
     if (this.isOriginAirportValid)
     {
@@ -75,7 +74,7 @@ export class SearchFlightsComponent {
     if (values.length > 1) {
       filteredAirports = this.airports.filter(v =>
         v.iataId.toLowerCase() === values[1].toLowerCase());
-      this.isDestinationAirportValid = filteredAirports.length == 1;
+      this.isDestinationAirportValid = filteredAirports.length === 1;
     } else {
       filteredAirports = this.airports.filter(v =>
         v.city.toLowerCase() === value.toLowerCase() ||
