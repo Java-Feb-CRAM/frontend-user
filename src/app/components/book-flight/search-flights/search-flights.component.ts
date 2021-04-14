@@ -19,44 +19,43 @@ export const FOUR_HOURS_MAX = (4*60*60*1000);
 })
 export class SearchFlightsComponent {
   public airports: Airport[] = [];
-  public chosenFlightPathTo: Flight[] = new Array<Flight>()
-  public chosenFlightPathFrom: Flight[] = new Array<Flight>()
+  public chosenFlightPathTo: Flight[] = [];
+  public chosenFlightPathFrom: Flight[] = [];
   public flightPathsTo: Set<Flight[]> = new Set<Flight[]>();
   public flightPathsFrom: Set<Flight[]> = new Set<Flight[]>();
-  public isRoundTrip: boolean = false;
-  public originAirportIataId: string = "";
-  public destinationAirportIataId: string = "";
-  public isOriginAirportValid: boolean = false;
-  public isDestinationAirportValid: boolean = false;
+  public isRoundTrip = false;
+  public originAirportIataId = "";
+  public destinationAirportIataId = "";
+  public isOriginAirportValid = false;
+  public isDestinationAirportValid = false;
   public departureDateTo: Date = new Date();
   public departureDateFrom: Date = new Date();
-  public stopsTo: number = 0;
-  public stopsFrom: number = 0;
+  public stopsTo = 0;
+  public stopsFrom = 0;
 
-  public departureTo: number = 0;
-  public departureFrom: number = 0;
+  public departureTo = 0;
+  public departureFrom = 0;
 
   constructor(
-    private flightService: FlightService,
-    private airportService: AirportService,
-    private routeService: RouteService) { 
-      this.airportService.getAllAirports().subscribe((airports) => this.airports = airports as Airport[])
+    private readonly flightService: FlightService,
+    private readonly airportService: AirportService) {
+      this.airportService.getAllAirports().subscribe((airports) => this.airports = airports)
     }
 
   validateOriginAirport(value: string): void {
-    let values: string[] = value.split(", ");
+    const values: string[] = value.split(", ");
     let filteredAirports: Airport[];
     if (values.length > 1)
     {
-      filteredAirports = this.airports.filter(v => 
-        v.iataId.toLowerCase() == values[1].toLowerCase());
-      this.isOriginAirportValid = filteredAirports.length == 1;
+      filteredAirports = this.airports.filter(v =>
+        v.iataId.toLowerCase() === values[1].toLowerCase());
+      this.isOriginAirportValid = filteredAirports.length === 1;
     }
     else
     {
-      filteredAirports = this.airports.filter(v => 
-        v.city.toLowerCase() == value.toLowerCase() || 
-        v.iataId.toLowerCase() == value.toLowerCase());
+      filteredAirports = this.airports.filter(v =>
+        v.city.toLowerCase() === value.toLowerCase() ||
+        v.iataId.toLowerCase() === value.toLowerCase());
       this.isOriginAirportValid = filteredAirports.length == 1;
     }
     if (this.isOriginAirportValid)
@@ -71,21 +70,21 @@ export class SearchFlightsComponent {
   }
 
   validateDestinationAirport(value: string): void {
-    let values: string[] = value.split(", ");
+    const values: string[] = value.split(", ");
     let filteredAirports: Airport[];
     if (values.length > 1) {
-      filteredAirports = this.airports.filter(v => 
-        v.iataId.toLowerCase() == values[1].toLowerCase());
+      filteredAirports = this.airports.filter(v =>
+        v.iataId.toLowerCase() === values[1].toLowerCase());
       this.isDestinationAirportValid = filteredAirports.length == 1;
     } else {
-      filteredAirports = this.airports.filter(v => 
-        v.city.toLowerCase() == value.toLowerCase() || 
-        v.iataId.toLowerCase() == value.toLowerCase());
-      this.isDestinationAirportValid = filteredAirports.length == 1;
+      filteredAirports = this.airports.filter(v =>
+        v.city.toLowerCase() === value.toLowerCase() ||
+        v.iataId.toLowerCase() === value.toLowerCase());
+      this.isDestinationAirportValid = filteredAirports.length === 1;
     }
     if (this.isDestinationAirportValid) {
         this.destinationAirportIataId = filteredAirports[0].iataId;
-    }    
+    }
     this.subscribeFlightsTo();
     if (this.isRoundTrip)
     {
@@ -97,7 +96,7 @@ export class SearchFlightsComponent {
     if (this.isOriginAirportValid && this.isDestinationAirportValid)
     {
       this.flightService.searchFlights(
-        this.originAirportIataId, this.destinationAirportIataId, 
+        this.originAirportIataId, this.destinationAirportIataId,
         this.departureDateTo.getTime()/1000, this.stopsTo).subscribe((value) => this.flightPathsTo = new Set(Array.from(value).sort()));
     }
   }
@@ -106,17 +105,17 @@ export class SearchFlightsComponent {
     if (this.isOriginAirportValid && this.isDestinationAirportValid)
     {
       this.flightService.searchFlights(
-        this.destinationAirportIataId,this.originAirportIataId, 
+        this.destinationAirportIataId,this.originAirportIataId,
         this.departureDateFrom.getTime()/1000, this.stopsFrom).subscribe((value) => this.flightPathsFrom = value);
     }
   }
 
   removeFlightPathTo(): void {
-    this.chosenFlightPathTo = new Array<Flight>();
+    this.chosenFlightPathTo = [];
   }
 
   removeFlightPathFrom(): void {
-    this.chosenFlightPathFrom = new Array<Flight>();
+    this.chosenFlightPathFrom = [];
   }
 
   addFlightPathTo(flights: Flight[]): void {
@@ -147,16 +146,16 @@ export class SearchFlightsComponent {
       distinctUntilChanged(),
       map(term => {
         if (term.length < 2) {
-          return []; 
+          return [];
         }
         else
         {
-          let airportMatches: string[] = [];
-          this.airports.filter(v => 
-            v.city.toLowerCase().indexOf(term.toLowerCase()) > -1 || 
+          const airportMatches: string[] = [];
+          this.airports.filter(v =>
+            v.city.toLowerCase().indexOf(term.toLowerCase()) > -1 ||
             v.iataId.toLowerCase().indexOf(term.toLowerCase()) > -1)
             .slice(0, 10).forEach( airport =>
-              airportMatches.push(airport.city+", "+airport.iataId)
+              airportMatches.push(`${airport.city}, ${airport.iataId}`)
             )
           return airportMatches
         }
