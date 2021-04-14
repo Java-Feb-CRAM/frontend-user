@@ -32,8 +32,10 @@ import { LoginFormComponent } from './components/authentication/login-form/login
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { SearchFlightsComponent } from './components/book-flight/search-flights/search-flights.component';
+import { PhonePipe } from './phone.pipe';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { PopoverModule } from 'ngx-bootstrap/popover';
+
 
 @NgModule({
   declarations: [
@@ -58,6 +60,7 @@ import { PopoverModule } from 'ngx-bootstrap/popover';
     LoginFormComponent,
     LoginPageComponent,
     SearchFlightsComponent,
+    PhonePipe,
   ],
   imports: [
     BrowserModule,

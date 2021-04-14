@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { StripePaymentComponent } from './stripe-payment.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgxStripeModule } from 'ngx-stripe';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('StripePaymentComponent', () => {
   let component: StripePaymentComponent;
@@ -15,6 +16,7 @@ describe('StripePaymentComponent', () => {
         NgxStripeModule.forRoot(
           'pk_test_51IbSmqKMAXXjSzaxL3WIYu5kSzambFamCzc2LhMp5AtyOOhwjoh5PJKq2He2N566ECIPpvHYZU7yq5PAt9sMJG4H00MTCuphgp'
         ),
+        HttpClientTestingModule,
       ],
       declarations: [StripePaymentComponent],
     }).compileComponents();
