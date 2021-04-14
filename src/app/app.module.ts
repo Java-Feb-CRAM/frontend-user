@@ -32,6 +32,7 @@ import { LoginFormComponent } from './components/authentication/login-form/login
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { SearchFlightsComponent } from './components/book-flight/search-flights/search-flights.component';
+import { PhonePipe } from './phone.pipe';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import { SearchFlightsComponent } from './components/book-flight/search-flights/
     LoginFormComponent,
     LoginPageComponent,
     SearchFlightsComponent,
+    PhonePipe,
   ],
   imports: [
     BrowserModule,

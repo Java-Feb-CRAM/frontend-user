@@ -40,8 +40,10 @@
               id="guestPhone"
               placeholder="123-456-7890"
               formControlName="guestPhone"
+              [value]="guestBookingForm.get('guestPhone')?.value || '' | phone"
               [ngClass]="validationClass('guestPhone')"
             />
+
             <div class="invalid-feedback" *ngIf="hasErrors('guestPhone')">
               <div *ngFor="let error of allErrors('guestPhone')">
                 {{ getError("guestPhone", error) }}
