@@ -5,7 +5,7 @@
   #nav="ngbNav"
   [destroyOnHide]="false"
   class="nav-tabs"
-  [activeId]="activePage"
+  [(activeId)]="activePage"
   (activeIdChange)="pageChanged($event)"
 >
   <li [ngbNavItem]="1">

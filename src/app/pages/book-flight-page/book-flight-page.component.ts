@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CartService } from '../../services/cart.service';
 import { PassengersFormData } from '../../components/book-flight/passengers-form/passengers-form.component';
 import { PaymentFormData } from '../../components/book-flight/payment-form/payment-form.component';
@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
   templateUrl: './book-flight-page.component.html',
   styleUrls: ['./book-flight-page.component.scss'],
 })
-export class BookFlightPageComponent {
+export class BookFlightPageComponent implements OnInit {
   activePage = 1;
   stepOneCompleted = false;
   stepTwoCompleted = false;
@@ -27,6 +27,12 @@ export class BookFlightPageComponent {
     private readonly bookingService: BookingService,
     private readonly router: Router
   ) {}
+
+  ngOnInit(): void {
+    if (this.cartService.cartLength === 0) {
+      this.router.navigate(['/cart']);
+    }
+  }
 
   pageChanged(id: number): void {
     if (id === 1) {
@@ -44,13 +50,14 @@ export class BookFlightPageComponent {
     this.guestBookingData = data;
     this.stepOneCompleted = true;
     this.activePage = 2;
+    this.pageChanged(this.activePage);
   }
 
   handlePassengersForm(data: PassengersFormData): void {
-    console.log(data);
     this.passengersData = data;
     this.stepTwoCompleted = true;
     this.activePage = 3;
+    this.pageChanged(this.activePage);
   }
 
   handlePaymentForm(data: PaymentFormData): void {
@@ -69,7 +76,6 @@ export class BookFlightPageComponent {
       };
       this.bookingService.createGuestBooking(createGuestBookingDto).subscribe({
         next: (booking) => {
-          console.log(booking);
           this.cartService.emptyCart();
           this.router.navigate(['/bookings'], {
             queryParams: {
