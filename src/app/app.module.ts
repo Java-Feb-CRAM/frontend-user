@@ -36,7 +36,6 @@ import { PhonePipe } from './phone.pipe';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { PopoverModule } from 'ngx-bootstrap/popover';
 
-
 @NgModule({
   declarations: [
     AppComponent,
