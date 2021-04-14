@@ -128,14 +128,14 @@ export class SearchFlightsComponent {
   }
 
   addToCart(): void {
-    this.chosenFlightPathTo.forEach(flight => 
+    this.chosenFlightPathTo.forEach(flight =>
       this.cartService.addToCart({ id: flight.id }));
   }
 
   addToCartRoundTrip(): void {
-    this.chosenFlightPathTo.forEach(flight => 
+    this.chosenFlightPathTo.forEach(flight =>
       this.cartService.addToCart({ id: flight.id }));
-    this.chosenFlightPathFrom.forEach(flight => 
+    this.chosenFlightPathFrom.forEach(flight =>
       this.cartService.addToCart({ id: flight.id }));
   }
 
