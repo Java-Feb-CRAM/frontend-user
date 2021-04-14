@@ -15,14 +15,14 @@
             <div class="input-group-prepend">
                 <label class="input-group-text" for="departureDateIdTo">Departure</label>
                 <button type="button" class="btn btn-default input-group-text" aria-label="Calendar" id="departureDateIdTo" (click)="d.toggle()">
-                    <span aria-hidden="true"><i class="bi bi-calendar"></i></span>
+                    <span aria-hidden="true"><em class="bi bi-calendar"></em></span>
                 </button>                                
                 <ng-template #popTemplate>
                     <timepicker [(ngModel)]="departureDateTo" [showMeridian]="true"></timepicker>
                 </ng-template> 
                 <button type="button" class="btn btn-default input-group-text" aria-label="Time" [popover]="popTemplate" 
                     [outsideClick]="true" placement="bottom">
-                    <span aria-hidden="true"><i class="bi bi-clock"></i></span>
+                    <span aria-hidden="true"><em class="bi bi-clock"></em></span>
                 </button>
                 <input type="text" [(ngModel)]="departureDateTo" class="hideInput"
                     placement="right" name="dp" ngbDatepicker #d="ngbDatepicker"/>
@@ -45,7 +45,7 @@
                     <button type="button" class="btn btn-danger" (click)="removeFlightPathTo()">Remove Flightpath</button>
                 </div>
                 <div class="card-body">
-                    <table class="table">
+                    <table class="table" aria-label="chosen flight path">
                         <thead>
                             <tr>
                                 <th scope="col">Origin</th>
@@ -73,7 +73,7 @@
                         <button type="button" class="btn btn-primary" (click)="addFlightPathTo(flights)">Add Flightpath</button>
                     </div>
                     <div class="card-body">
-                        <table class="table">
+                        <table class="table" aria-label="flight search results">
                             <thead>
                                 <tr>
                                     <th scope="col">Origin</th>
@@ -112,14 +112,14 @@
             <div *ngIf="isRoundTrip" class="input-group-prepend">
                 <label class="input-group-text" for="departureDateIdFrom">Departure</label>
                 <button type="button" class="btn btn-default input-group-text" aria-label="Calendar" id="departureDateIdFrom" (click)="df.toggle()">
-                    <span aria-hidden="true"><i class="bi bi-calendar"></i></span>
+                    <span aria-hidden="true"><em class="bi bi-calendar"></em></span>
                 </button>                           
                 <ng-template #popTemplate>
                     <timepicker [(ngModel)]="departureDateFrom" [showMeridian]="true"></timepicker>
                 </ng-template> 
                 <button type="button" class="btn btn-default input-group-text" aria-label="Time" [popover]="popTemplate" 
                     [outsideClick]="true" placement="bottom">
-                    <span aria-hidden="true"><i class="bi bi-clock"></i></span>
+                    <span aria-hidden="true"><em class="bi bi-clock"></em></span>
                 </button>
                 <input type="text" [(ngModel)]="departureDateFrom" class="hideInput" 
                     placement="right" name="dpf" ngbDatepicker #df="ngbDatepicker"/>     
@@ -142,7 +142,7 @@
                     <button type="button" class="btn btn-danger" (click)="removeFlightPathFrom()">Remove Flightpath</button>
                 </div>
                 <div class="card-body">
-                    <table class="table">
+                    <table class="table" aria-label="chosen return flight path">
                         <thead>
                             <tr>
                                 <th scope="col">Origin</th>
@@ -170,7 +170,7 @@
                         <button type="button" class="btn btn-primary" (click)="addFlightPathFrom(flights)">Add Flightpath</button>
                     </div>
                     <div class="card-body">
-                        <table class="table">
+                        <table class="table" aria-label="return flight search results">
                             <thead>
                                 <tr>
                                     <th scope="col">Origin</th>
