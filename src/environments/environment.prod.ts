@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiBase: 'https://d11haczoufohlx.cloudfront.net',
+  apiBase: 'http://54.243.106.97',
 };
