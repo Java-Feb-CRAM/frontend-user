@@ -18,7 +18,7 @@
                     <span aria-hidden="true"><em class="bi bi-calendar"></em></span>
                 </button>                                
                 <ng-template #popTemplate>
-                    <timepicker [(ngModel)]="departureDateTo" [showMeridian]="true"></timepicker>
+                    <timepicker [(ngModel)]="departureDateTo" [showMeridian]="true" (change)="subscribeFlightsTo()"></timepicker>
                 </ng-template> 
                 <button type="button" class="btn btn-default input-group-text" aria-label="Time" [popover]="popTemplate" 
                     [outsideClick]="true" placement="bottom">
@@ -27,7 +27,7 @@
                 <input type="text" [(ngModel)]="departureDateTo" class="hideInput"
                     placement="right" name="dp" ngbDatepicker #d="ngbDatepicker"/>
             </div>
-            <input class="form-control" [(ngModel)]="departureDateTo"/>    
+            <input class="form-control" [(ngModel)]="departureDateTo" disabled="disabled"/>    
             <div class="input-group-prepend">
                 <label class="input-group-text" for="stops">Stops</label>
                 <select class="custom-select" id="stops" (change)="updateStopsTo(stopsTo.value)" #stopsTo>
@@ -115,7 +115,7 @@
                     <span aria-hidden="true"><em class="bi bi-calendar"></em></span>
                 </button>                           
                 <ng-template #popTemplate>
-                    <timepicker [(ngModel)]="departureDateFrom" [showMeridian]="true"></timepicker>
+                    <timepicker [(ngModel)]="departureDateFrom" [showMeridian]="true" (change)="subscribeFlightsFrom()"></timepicker>
                 </ng-template> 
                 <button type="button" class="btn btn-default input-group-text" aria-label="Time" [popover]="popTemplate" 
                     [outsideClick]="true" placement="bottom">
@@ -124,7 +124,7 @@
                 <input type="text" [(ngModel)]="departureDateFrom" class="hideInput" 
                     placement="right" name="dpf" ngbDatepicker #df="ngbDatepicker"/>     
             </div>
-            <input *ngIf="isRoundTrip" class="form-control" [(ngModel)]="departureDateFrom"/>            
+            <input *ngIf="isRoundTrip" class="form-control" [(ngModel)]="departureDateFrom" disabled="disabled"/>            
             <div *ngIf="isRoundTrip" class="input-group-prepend" >
                 <label class="input-group-text" for="stops">Stops</label>
                 <select class="custom-select " id="stops" (change)="updateStopsFrom(stopsFrom.value)" #stopsFrom> 
@@ -198,6 +198,14 @@
                     <button type="button" class="btn btn-primary">No Flight Paths Found</button>
                 </div>
             </div>
-        </div>    
+        </div>   
+        <div *ngIf="chosenFlightPathTo.length > 0" class="input-group mb-3">
+            <button class="btn btn-primary" *ngIf="chosenFlightPathFrom.length > 0 && isRoundTrip" (click)="addToCartRoundTrip()">
+                Add to Cart
+            </button>
+            <button class="btn btn-primary" *ngIf="!isRoundTrip" (click)="addToCart()">
+                Add to Cart
+            </button>
+        </div> 
     </div>
 </div>

@@ -5,6 +5,7 @@ import { AirportService } from 'src/app/services/airport.service';
 import { FlightService } from '../../../services/flight.service';
 import { Observable, OperatorFunction } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { CartService } from 'src/app/services/cart.service';
 
 export interface MultiHopFlightPaths {
   orderedMultiHopFlights: Set<Flight[]>
@@ -37,7 +38,8 @@ export class SearchFlightsComponent {
 
   constructor(
     private readonly flightService: FlightService,
-    private readonly airportService: AirportService) {
+    private readonly airportService: AirportService,
+    private readonly cartService: CartService) {
       this.airportService.getAllAirports().subscribe((airports) => this.airports = airports)
     }
 
@@ -123,6 +125,18 @@ export class SearchFlightsComponent {
 
   addFlightPathFrom(flights: Flight[]): void {
     this.chosenFlightPathFrom = flights;
+  }
+
+  addToCart(): void {
+    this.chosenFlightPathTo.forEach(flight => 
+      this.cartService.addToCart({ id: flight.id }));
+  }
+
+  addToCartRoundTrip(): void {
+    this.chosenFlightPathTo.forEach(flight => 
+      this.cartService.addToCart({ id: flight.id }));
+    this.chosenFlightPathFrom.forEach(flight => 
+      this.cartService.addToCart({ id: flight.id }));
   }
 
   updateStopsTo(stops: string): void {
