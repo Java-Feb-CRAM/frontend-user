@@ -9,7 +9,7 @@ import { Route } from '../models/Route';
   providedIn: 'root'
 })
 export class RouteService {
-  constructor(private http: HttpClient) {
+  constructor(private readonly http: HttpClient) {
     this.routesUrl = `${environment.apiBase}/airports`;}
 
   routesUrl: string;
