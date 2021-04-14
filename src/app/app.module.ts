@@ -17,7 +17,7 @@ import { BookingsPageComponent } from './pages/bookings-page/bookings-page.compo
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BookFlightPageComponent } from './pages/book-flight-page/book-flight-page.component';
 import { CartPageComponent } from './pages/cart-page/cart-page.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StripePaymentComponent } from './components/stripe-payment/stripe-payment.component';
 import { NgxStripeModule } from 'ngx-stripe';
 import { GuestBookingFormComponent } from './components/book-flight/guest-booking-form/guest-booking-form.component';
@@ -32,6 +32,8 @@ import { LoginFormComponent } from './components/authentication/login-form/login
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { SearchFlightsComponent } from './components/book-flight/search-flights/search-flights.component';
+import { TimepickerModule } from 'ngx-bootstrap/timepicker';
+import { PopoverModule } from 'ngx-bootstrap/popover';
 
 @NgModule({
   declarations: [
@@ -63,9 +65,12 @@ import { SearchFlightsComponent } from './components/book-flight/search-flights/
     NgbModule,
     HttpClientModule,
     ReactiveFormsModule,
+    FormsModule,
     NgxStripeModule.forRoot(
       'pk_test_51IbSmqKMAXXjSzaxL3WIYu5kSzambFamCzc2LhMp5AtyOOhwjoh5PJKq2He2N566ECIPpvHYZU7yq5PAt9sMJG4H00MTCuphgp'
     ),
+    TimepickerModule.forRoot(),
+    PopoverModule.forRoot(),
   ],
   providers: [
     {

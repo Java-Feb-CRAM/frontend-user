@@ -15,6 +15,35 @@ export class FlightService {
 
   flightsUrl: string;
 
+  searchFlights(originIataId: string, 
+    destinationIataId: string, 
+    departureTime: number,
+    stops: number): Observable<Set<Flight[]>> 
+  {
+    return this.http.get<Set<Flight[]>>(this.flightsUrl
+      +"/origin/"+originIataId
+      +"/destination/"+destinationIataId
+      +"/departure/"+departureTime
+      +"/search/"+stops).pipe(
+        map((flightPaths: Set<Flight[]>) => 
+        new Set(Array.from(flightPaths).map((flights: Flight[]) => 
+            flights.map((flight) =>
+              new Flight(
+                flight.id,
+                flight.route,
+                flight.airplane,
+                flight.departureTime,
+                flight.reservedSeats,
+                flight.seatPrice,
+                [],
+                flight.airplane.airplaneType.maxCapacity - flight.reservedSeats
+              )
+            ))
+          )
+        )
+      )
+  }
+
   getAllFlights(): Observable<Flight[]> {
     return this.http.get<Flight[]>(this.flightsUrl).pipe(
       map(
