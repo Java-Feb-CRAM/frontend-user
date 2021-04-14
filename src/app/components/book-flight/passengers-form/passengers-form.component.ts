@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import {
   AbstractControl,
   FormArray,
@@ -6,6 +6,9 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { CartService } from '../../../services/cart.service';
+import { Flight } from '../../../models/Flight';
+import { FlightService } from '../../../services/flight.service';
 
 export interface PassengerData {
   givenName: string;
@@ -24,7 +27,7 @@ export interface PassengersFormData {
   templateUrl: './passengers-form.component.html',
   styleUrls: ['./passengers-form.component.scss'],
 })
-export class PassengersFormComponent {
+export class PassengersFormComponent implements OnInit {
   @Output() passengersFormSubmitEvent = new EventEmitter<PassengersFormData>();
   passengersForm: FormGroup;
   validationErrors = {
@@ -35,8 +38,13 @@ export class PassengersFormComponent {
     address: { required: 'Address is required' },
   };
   today: any;
+  maxPassengers = Number.MAX_SAFE_INTEGER;
 
-  constructor(private readonly fb: FormBuilder) {
+  constructor(
+    private readonly fb: FormBuilder,
+    private readonly cartService: CartService,
+    private readonly flightService: FlightService
+  ) {
     this.passengersForm = this.fb.group({
       passengers: this.fb.array([]),
     });
@@ -47,6 +55,18 @@ export class PassengersFormComponent {
       month: date.getMonth() + 1,
       day: date.getDate(),
     };
+  }
+
+  ngOnInit(): void {
+    const flightIds = this.cartService.cartItems.map((cartItem) => cartItem.id);
+    flightIds.forEach((flightId) => {
+      this.flightService.getFlight(flightId).subscribe((flight) => {
+        const availableSeats = flight.availableSeats;
+        if (availableSeats < this.maxPassengers) {
+          this.maxPassengers = availableSeats;
+        }
+      });
+    });
   }
 
   get passengers(): FormArray {
@@ -67,7 +87,9 @@ export class PassengersFormComponent {
   }
 
   addPassenger(): void {
-    this.passengers.push(this.newPassenger());
+    if (this.passengers.length + 1 <= this.maxPassengers) {
+      this.passengers.push(this.newPassenger());
+    }
   }
 
   removePassenger(i: number): void {
