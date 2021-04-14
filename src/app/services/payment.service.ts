@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { PaymentInfo } from '../models/PaymentInfo';
 import { environment } from '../../environments/environment';
+import { catchError, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -15,6 +16,11 @@ export class PaymentService {
   paymentsUrl: string;
 
   getPayment(stripeId: string): Observable<PaymentInfo> {
-    return this.http.get<PaymentInfo>(`${this.paymentsUrl}/${stripeId}`);
+    console.log(stripeId);
+    return this.http.get<PaymentInfo>(`${this.paymentsUrl}/${stripeId}`).pipe(
+      catchError((error) => {
+        return throwError(error.error.message);
+      })
+    );
   }
 }

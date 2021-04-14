@@ -17,6 +17,8 @@ export class BookingsPageComponent implements OnInit {
   bookingPaymentDate = new Date();
   bookingSearchForm: FormGroup;
   checkedOut = false;
+  bookingError: string | null = null;
+  paymentError: string | null = null;
   constructor(
     private readonly bookingService: BookingService,
     private readonly fb: FormBuilder,
@@ -55,6 +57,8 @@ export class BookingsPageComponent implements OnInit {
   onSubmit(): void {
     const confirmationCode = this.bookingSearchForm.controls.confirmationCode
       .value;
+    this.bookingError = null;
+    this.paymentError = null;
     this.bookingService
       .getBookingByConfirmationCode(confirmationCode)
       .subscribe({
@@ -67,8 +71,10 @@ export class BookingsPageComponent implements OnInit {
                 this.bookingPayment = paymentInfo;
                 this.bookingPaymentDate = new Date(paymentInfo.created * 1000);
               },
+              error: (err) => (this.paymentError = err),
             });
         },
+        error: (err) => (this.bookingError = err),
       });
   }
 }

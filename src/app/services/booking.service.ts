@@ -43,7 +43,7 @@ export class BookingService {
           );
         }),
         catchError((error) => {
-          return throwError('Something went wrong!');
+          return throwError(error.error.message);
         })
       );
   }
