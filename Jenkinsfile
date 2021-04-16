@@ -29,6 +29,11 @@ pipeline {
         echo 'Building..'
         sh "ng build --prod"
       }
+      post {
+        always {
+          jiraSendBuildInfo site: 'java-feb-cram.atlassian.net'
+        }
+      }
     }
     stage('Analysis') {
       steps {
@@ -50,6 +55,11 @@ pipeline {
         echo 'Deploying..'
         sh "aws s3 cp $WORKSPACE/dist/frontend-user s3://ut-frontend-user --recursive --include '*'"
 
+      }
+      post {
+        always {
+          jiraSendDeploymentInfo site: 'java-feb-cram.atlassian.net', environmentId: 'us-prod-1', environmentName: 'us-prod-1', environmentType: 'production'
+        }
       }
     }
   }
