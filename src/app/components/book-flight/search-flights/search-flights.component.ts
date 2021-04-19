@@ -8,14 +8,14 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { CartService } from 'src/app/services/cart.service';
 
 export interface MultiHopFlightPaths {
-  orderedMultiHopFlights: Set<Flight[]>
+  orderedMultiHopFlights: Set<Flight[]>;
 }
-export const FOUR_HOURS_MAX = (4*60*60*1000);
+export const FOUR_HOURS_MAX = 4 * 60 * 60 * 1000;
 
 @Component({
   selector: 'app-search-flights',
   templateUrl: './search-flights.component.html',
-  styleUrls: ['./search-flights.component.scss']
+  styleUrls: ['./search-flights.component.scss'],
 })
 export class SearchFlightsComponent {
   public airports: Airport[] = [];
@@ -24,8 +24,8 @@ export class SearchFlightsComponent {
   public flightPathsTo: Set<Flight[]> = new Set<Flight[]>();
   public flightPathsFrom: Set<Flight[]> = new Set<Flight[]>();
   public isRoundTrip = false;
-  public originAirportIataId = "";
-  public destinationAirportIataId = "";
+  public originAirportIataId = '';
+  public destinationAirportIataId = '';
   public isOriginAirportValid = false;
   public isDestinationAirportValid = false;
   public departureDateTo: Date = new Date();
@@ -39,75 +39,88 @@ export class SearchFlightsComponent {
   constructor(
     private readonly flightService: FlightService,
     private readonly airportService: AirportService,
-    private readonly cartService: CartService) {
-      this.airportService.getAllAirports().subscribe((airports) => this.airports = airports)
-    }
+    private readonly cartService: CartService
+  ) {
+    this.airportService
+      .getAllAirports()
+      .subscribe((airports) => (this.airports = airports));
+  }
 
   validateOriginAirport(value: string): void {
-    const values: string[] = value.split(", ");
+    const values: string[] = value.split(', ');
     let filteredAirports: Airport[];
-    if (values.length > 1)
-    {
-      filteredAirports = this.airports.filter(v =>
-        v.iataId.toLowerCase() === values[1].toLowerCase());
+    if (values.length > 1) {
+      filteredAirports = this.airports.filter(
+        (v) => v.iataId.toLowerCase() === values[1].toLowerCase()
+      );
+      this.isOriginAirportValid = filteredAirports.length === 1;
+    } else {
+      filteredAirports = this.airports.filter(
+        (v) =>
+          v.city.toLowerCase() === value.toLowerCase() ||
+          v.iataId.toLowerCase() === value.toLowerCase()
+      );
       this.isOriginAirportValid = filteredAirports.length === 1;
     }
-    else
-    {
-      filteredAirports = this.airports.filter(v =>
-        v.city.toLowerCase() === value.toLowerCase() ||
-        v.iataId.toLowerCase() === value.toLowerCase());
-      this.isOriginAirportValid = filteredAirports.length === 1;
-    }
-    if (this.isOriginAirportValid)
-    {
-        this.originAirportIataId = filteredAirports[0].iataId;
+    if (this.isOriginAirportValid) {
+      this.originAirportIataId = filteredAirports[0].iataId;
     }
     this.subscribeFlightsTo();
-    if (this.isRoundTrip)
-    {
+    if (this.isRoundTrip) {
       this.subscribeFlightsFrom();
     }
   }
 
   validateDestinationAirport(value: string): void {
-    const values: string[] = value.split(", ");
+    const values: string[] = value.split(', ');
     let filteredAirports: Airport[];
     if (values.length > 1) {
-      filteredAirports = this.airports.filter(v =>
-        v.iataId.toLowerCase() === values[1].toLowerCase());
+      filteredAirports = this.airports.filter(
+        (v) => v.iataId.toLowerCase() === values[1].toLowerCase()
+      );
       this.isDestinationAirportValid = filteredAirports.length === 1;
     } else {
-      filteredAirports = this.airports.filter(v =>
-        v.city.toLowerCase() === value.toLowerCase() ||
-        v.iataId.toLowerCase() === value.toLowerCase());
+      filteredAirports = this.airports.filter(
+        (v) =>
+          v.city.toLowerCase() === value.toLowerCase() ||
+          v.iataId.toLowerCase() === value.toLowerCase()
+      );
       this.isDestinationAirportValid = filteredAirports.length === 1;
     }
     if (this.isDestinationAirportValid) {
-        this.destinationAirportIataId = filteredAirports[0].iataId;
+      this.destinationAirportIataId = filteredAirports[0].iataId;
     }
     this.subscribeFlightsTo();
-    if (this.isRoundTrip)
-    {
+    if (this.isRoundTrip) {
       this.subscribeFlightsFrom();
     }
   }
 
   subscribeFlightsTo(): void {
-    if (this.isOriginAirportValid && this.isDestinationAirportValid)
-    {
-      this.flightService.searchFlights(
-        this.originAirportIataId, this.destinationAirportIataId,
-        this.departureDateTo.getTime()/1000, this.stopsTo).subscribe((value) => this.flightPathsTo = new Set(Array.from(value).sort()));
+    if (this.isOriginAirportValid && this.isDestinationAirportValid) {
+      this.flightService
+        .searchFlights(
+          this.originAirportIataId,
+          this.destinationAirportIataId,
+          this.departureDateTo.getTime() / 1000,
+          this.stopsTo
+        )
+        .subscribe(
+          (value) => (this.flightPathsTo = new Set(Array.from(value).sort()))
+        );
     }
   }
 
   subscribeFlightsFrom(): void {
-    if (this.isOriginAirportValid && this.isDestinationAirportValid)
-    {
-      this.flightService.searchFlights(
-        this.destinationAirportIataId,this.originAirportIataId,
-        this.departureDateFrom.getTime()/1000, this.stopsFrom).subscribe((value) => this.flightPathsFrom = value);
+    if (this.isOriginAirportValid && this.isDestinationAirportValid) {
+      this.flightService
+        .searchFlights(
+          this.destinationAirportIataId,
+          this.originAirportIataId,
+          this.departureDateFrom.getTime() / 1000,
+          this.stopsFrom
+        )
+        .subscribe((value) => (this.flightPathsFrom = value));
     }
   }
 
@@ -128,15 +141,18 @@ export class SearchFlightsComponent {
   }
 
   addToCart(): void {
-    this.chosenFlightPathTo.forEach(flight =>
-      this.cartService.addToCart({ id: flight.id }));
+    this.chosenFlightPathTo.forEach((flight) =>
+      this.cartService.addToCart({ id: flight.id })
+    );
   }
 
   addToCartRoundTrip(): void {
-    this.chosenFlightPathTo.forEach(flight =>
-      this.cartService.addToCart({ id: flight.id }));
-    this.chosenFlightPathFrom.forEach(flight =>
-      this.cartService.addToCart({ id: flight.id }));
+    this.chosenFlightPathTo.forEach((flight) =>
+      this.cartService.addToCart({ id: flight.id })
+    );
+    this.chosenFlightPathFrom.forEach((flight) =>
+      this.cartService.addToCart({ id: flight.id })
+    );
   }
 
   updateStopsTo(stops: string): void {
@@ -153,26 +169,29 @@ export class SearchFlightsComponent {
     this.isRoundTrip = !this.isRoundTrip;
   }
 
-  search: OperatorFunction<string, readonly string[]> = (text$: Observable<string>) =>
+  search: OperatorFunction<string, readonly string[]> = (
+    text$: Observable<string>
+  ) =>
     text$.pipe(
       debounceTime(200),
       distinctUntilChanged(),
-      map(term => {
+      map((term) => {
         if (term.length < 2) {
           return [];
-        }
-        else
-        {
+        } else {
           const airportMatches: string[] = [];
-          this.airports.filter(v =>
-            v.city.toLowerCase().indexOf(term.toLowerCase()) > -1 ||
-            v.iataId.toLowerCase().indexOf(term.toLowerCase()) > -1)
-            .slice(0, 10).forEach( airport =>
-              airportMatches.push(`${airport.city}, ${airport.iataId}`)
+          this.airports
+            .filter(
+              (v) =>
+                v.city.toLowerCase().indexOf(term.toLowerCase()) > -1 ||
+                v.iataId.toLowerCase().indexOf(term.toLowerCase()) > -1
             )
-          return airportMatches
+            .slice(0, 10)
+            .forEach((airport) =>
+              airportMatches.push(`${airport.city}, ${airport.iataId}`)
+            );
+          return airportMatches;
         }
       })
-    )
-
+    );
 }

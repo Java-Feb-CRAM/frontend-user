@@ -1,4 +1,4 @@
-<div class="card mt-3 mb-3">
+<div class="card mt-3 pb-10">
   <div class="card-header">Booking Lookup</div>
   <div class="card-body">
     <form [formGroup]="bookingSearchForm" (ngSubmit)="onSubmit()">
@@ -83,8 +83,12 @@
           <p>
             Confirmation Code: <code>{{ booking.confirmationCode }}</code>
           </p>
-          <p>Guest Email: {{ booking.bookingGuest.contactEmail }}</p>
-          <p>Guest Phone: {{ booking.bookingGuest.contactPhone }}</p>
+          <p *ngIf="booking.bookingGuest">
+            Guest Email: {{ booking.bookingGuest.contactEmail }}
+          </p>
+          <p *ngIf="booking.bookingGuest">
+            Guest Phone: {{ booking.bookingGuest.contactPhone }}
+          </p>
         </ng-template>
       </ngb-panel>
       <ngb-panel title="Flights">

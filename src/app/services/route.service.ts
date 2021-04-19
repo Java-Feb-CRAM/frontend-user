@@ -6,11 +6,12 @@ import { environment } from 'src/environments/environment';
 import { Route } from '../models/Route';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class RouteService {
   constructor(private readonly http: HttpClient) {
-    this.routesUrl = `${environment.apiBase}/airports`;}
+    this.routesUrl = `${environment.apiBase}/airports`;
+  }
 
   routesUrl: string;
 
