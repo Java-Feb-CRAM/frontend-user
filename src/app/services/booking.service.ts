@@ -67,4 +67,27 @@ export class BookingService {
         })
       );
   }
+
+  getBookingsByUser(userId: number): Observable<Booking[]> {
+    return this.http.get<Booking[]>(`${this.bookingsUrl}/user/${userId}`).pipe(
+      map((data) => {
+        return data.map((booking) => {
+          return new Booking(
+            booking.id,
+            booking.isActive,
+            booking.confirmationCode,
+            booking.flights,
+            booking.passengers,
+            booking.bookingPayment,
+            booking.bookingGuest,
+            booking.bookingAgent,
+            booking.bookingUser
+          );
+        });
+      }),
+      catchError((error) => {
+        return throwError('Something went wrong!');
+      })
+    );
+  }
 }

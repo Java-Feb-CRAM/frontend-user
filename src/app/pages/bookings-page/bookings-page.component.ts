@@ -5,6 +5,7 @@ import { Booking } from '../../models/Booking';
 import { PaymentInfo } from '../../models/PaymentInfo';
 import { PaymentService } from '../../services/payment.service';
 import { ActivatedRoute } from '@angular/router';
+import { UserInfo, UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-bookings-page',
@@ -17,11 +18,14 @@ export class BookingsPageComponent implements OnInit {
   bookingPaymentDate = new Date();
   bookingSearchForm: FormGroup;
   checkedOut = false;
+  user: UserInfo | undefined;
+  bookings: Booking[] = [];
   constructor(
     private readonly bookingService: BookingService,
     private readonly fb: FormBuilder,
     private readonly paymentService: PaymentService,
-    private readonly route: ActivatedRoute
+    private readonly route: ActivatedRoute,
+    private readonly userService: UserService
   ) {
     this.bookingSearchForm = this.fb.group({
       confirmationCode: [
@@ -34,6 +38,13 @@ export class BookingsPageComponent implements OnInit {
         ],
       ],
     });
+  }
+
+  lookupBooking(code: string): void {
+    this.bookingSearchForm.setValue({
+      confirmationCode: code,
+    });
+    this.onSubmit();
   }
 
   ngOnInit(): void {
@@ -49,6 +60,14 @@ export class BookingsPageComponent implements OnInit {
           this.checkedOut = true;
         }
       },
+    });
+    this.userService.fetchUser().subscribe((user) => {
+      this.user = user;
+      if (user && user.id) {
+        this.bookingService.getBookingsByUser(user.id).subscribe((bookings) => {
+          this.bookings = bookings;
+        });
+      }
     });
   }
 

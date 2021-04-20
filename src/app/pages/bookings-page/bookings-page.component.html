@@ -1,4 +1,4 @@
-<div class="card mt-3 pb-10">
+<div class="card mt-3 mb-3">
   <div class="card-header">Booking Lookup</div>
   <div class="card-body">
     <form [formGroup]="bookingSearchForm" (ngSubmit)="onSubmit()">
@@ -48,13 +48,34 @@
     </form>
   </div>
 </div>
+<div class="card mb-3" *ngIf="user">
+  <div class="card-header">My Bookings</div>
+  <div class="card-body">
+    <ul class="list-group">
+      <li *ngFor="let userBooking of bookings" class="list-group-item">
+        Booking <code>{{ userBooking.confirmationCode }}</code>
+        <button
+          type="button"
+          class="ml-2 btn btn-secondary btn-sm"
+          [disabled]="
+            userBooking.confirmationCode ===
+            this.bookingSearchForm.get('confirmationCode')!.value
+          "
+          (click)="lookupBooking(userBooking.confirmationCode)"
+        >
+          Details
+        </button>
+      </li>
+    </ul>
+  </div>
+</div>
 <div class="jumbotron jumbotron-fluid mb-0" *ngIf="checkedOut">
   <div class="container">
     <h1 class="display-4">Booking completed</h1>
     <p class="lead">Thank you for booking with Utopia!</p>
   </div>
 </div>
-<div class="card" *ngIf="booking">
+<div class="card mb-5" *ngIf="booking">
   <div class="card-header">
     Booking
     <span
