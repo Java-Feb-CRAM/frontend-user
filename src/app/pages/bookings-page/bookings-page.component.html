@@ -77,15 +77,29 @@
 </div>
 <div class="card mb-5" *ngIf="booking">
   <div class="card-header">
-    Booking
-    <span
-      class="badge"
-      [ngClass]="{
-        'badge-success': booking.isActive,
-        'badge-danger': !booking.isActive
-      }"
-      >{{ booking.isActive ? "Active" : "Canceled" }}</span
-    >
+    <div class="d-flex justify-content-between">
+      <div class="align-self-center">
+        Booking
+        <span
+          class="badge"
+          [ngClass]="{
+            'badge-success': booking.isActive,
+            'badge-danger': !booking.isActive
+          }"
+          >{{ booking.isActive ? "Active" : "Canceled" }}</span
+        >
+      </div>
+      <div>
+        <button
+          type="button"
+          class="btn btn-danger btn-sm"
+          *ngIf="booking.isActive"
+          (click)="cancelBooking(booking.id)"
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
   </div>
   <div class="card-body">
     <ngb-accordion #acc="ngbAccordion" activeIds="1">
@@ -147,10 +161,11 @@
               bookingPayment.amount / 100
                 | currency: bookingPayment.currency.toUpperCase()
             }}</strong>
-            paid with {{ bookingPayment.cardBrand }} ending in
+            {{ booking.bookingPayment.refunded ? "refunded to" : "paid with" }}
+            {{ bookingPayment.cardBrand }} ending in
             <em>{{ bookingPayment.lastFour }}</em>
           </p>
-          <span class="text-muted">
+          <span class="text-muted" *ngIf="!booking.bookingPayment.refunded">
             {{ bookingPaymentDate | date: "short" }}
           </span>
         </ng-template>

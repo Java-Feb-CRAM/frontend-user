@@ -90,4 +90,8 @@ export class BookingService {
       })
     );
   }
+
+  cancelBooking(bookingId: number): Observable<{}> {
+    return this.http.delete(`${this.bookingsUrl}/${bookingId}`);
+  }
 }

@@ -6,6 +6,8 @@ import { PaymentInfo } from '../../models/PaymentInfo';
 import { PaymentService } from '../../services/payment.service';
 import { ActivatedRoute } from '@angular/router';
 import { UserInfo, UserService } from '../../services/user.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ConfirmModalComponent } from '../../components/confirm-modal/confirm-modal.component';
 
 @Component({
   selector: 'app-bookings-page',
@@ -25,7 +27,8 @@ export class BookingsPageComponent implements OnInit {
     private readonly fb: FormBuilder,
     private readonly paymentService: PaymentService,
     private readonly route: ActivatedRoute,
-    private readonly userService: UserService
+    private readonly userService: UserService,
+    private modalService: NgbModal
   ) {
     this.bookingSearchForm = this.fb.group({
       confirmationCode: [
@@ -45,6 +48,20 @@ export class BookingsPageComponent implements OnInit {
       confirmationCode: code,
     });
     this.onSubmit();
+  }
+
+  cancelBooking(bookingId: number): void {
+    const modalRef = this.modalService.open(ConfirmModalComponent);
+    modalRef.componentInstance.message = `Are you sure you want to cancel this booking?
+      This action cannot be undone.
+      If you do wish to cancel this booking you will recieve a full refund.`;
+    modalRef.closed.subscribe((reason) => {
+      if (reason === 'delete') {
+        this.bookingService.cancelBooking(bookingId).subscribe(() => {
+          this.ngOnInit();
+        });
+      }
+    });
   }
 
   ngOnInit(): void {
