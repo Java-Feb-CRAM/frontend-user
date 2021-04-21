@@ -5,6 +5,8 @@ import {
   ViewChild,
   EventEmitter,
   Input,
+  OnChanges,
+  SimpleChanges,
 } from '@angular/core';
 import { StripeCardNumberComponent, StripeService } from 'ngx-stripe';
 import {
@@ -15,6 +17,7 @@ import {
   StripeElementsOptions,
 } from '@stripe/stripe-js';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UserInfo } from '../../../services/user.service';
 
 export interface PaymentFormData {
   stripeToken: string;
@@ -26,7 +29,8 @@ export interface PaymentFormData {
   templateUrl: './payment-form.component.html',
   styleUrls: ['./payment-form.component.scss'],
 })
-export class PaymentFormComponent implements OnInit {
+export class PaymentFormComponent implements OnInit, OnChanges {
+  @Input() user: UserInfo | undefined;
   @Input() passengerCount = 0;
   @Output() paymentFormSubmitEvent = new EventEmitter<PaymentFormData>();
 
@@ -84,6 +88,15 @@ export class PaymentFormComponent implements OnInit {
     private readonly fb: FormBuilder,
     private readonly stripeService: StripeService
   ) {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.user && this.user.role === 'ROLE_USER') {
+      this.stripeTest.setValue({
+        name: `${this.user.givenName} ${this.user.familyName}`,
+      });
+    }
+  }
+
   ngOnInit(): void {
     this.stripeTest = this.fb.group({
       name: ['', [Validators.required]],

@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import {
   AbstractControl,
   FormArray,
@@ -6,6 +13,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { UserInfo } from '../../../services/user.service';
 
 export interface PassengerData {
   givenName: string;
@@ -24,8 +32,9 @@ export interface PassengersFormData {
   templateUrl: './passengers-form.component.html',
   styleUrls: ['./passengers-form.component.scss'],
 })
-export class PassengersFormComponent {
+export class PassengersFormComponent implements OnChanges {
   @Output() passengersFormSubmitEvent = new EventEmitter<PassengersFormData>();
+  @Input() user: UserInfo | undefined;
   passengersForm: FormGroup;
   validationErrors = {
     givenName: { required: 'First name is required' },
@@ -47,6 +56,18 @@ export class PassengersFormComponent {
       month: date.getMonth() + 1,
       day: date.getDate(),
     };
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.user && this.user.role === 'ROLE_USER') {
+      this.passengers.controls[0].setValue({
+        givenName: this.user.givenName,
+        familyName: this.user.familyName,
+        dob: '',
+        gender: '---Select Gender---',
+        address: '',
+      });
+    }
   }
 
   get passengers(): FormArray {

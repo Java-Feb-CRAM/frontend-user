@@ -113,6 +113,7 @@
               id="phone"
               placeholder="000-000-0000"
               formControlName="phone"
+              [value]="registrationForm.get('phone')?.value || '' | phone"
               [ngClass]="validationClass('phone')"
             />
             <div class="invalid-feedback" *ngIf="hasErrors('phone')">
