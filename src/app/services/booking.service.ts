@@ -5,6 +5,8 @@ import { CreateGuestBookingDto } from '../dto/CreateGuestBookingDto';
 import { Booking } from '../models/Booking';
 import { catchError, map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
+import { CreateUserBookingDto } from '../dto/CreateUserBookingDto';
+import { CreateAgentBookingDto } from '../dto/CreateAgentBookingDto';
 
 @Injectable({
   providedIn: 'root',
@@ -22,6 +24,24 @@ export class BookingService {
     return this.http.post<Booking>(
       `${this.bookingsUrl}/guest`,
       createGuestBookingDto
+    );
+  }
+
+  createUserBooking(
+    createUserBookingDto: CreateUserBookingDto
+  ): Observable<Booking> {
+    return this.http.post<Booking>(
+      `${this.bookingsUrl}/user`,
+      createUserBookingDto
+    );
+  }
+
+  createAgentBooking(
+    createAgentBoookingDto: CreateAgentBookingDto
+  ): Observable<Booking> {
+    return this.http.post<Booking>(
+      `${this.bookingsUrl}/agent`,
+      createAgentBoookingDto
     );
   }
 
@@ -46,5 +66,32 @@ export class BookingService {
           return throwError('Something went wrong!');
         })
       );
+  }
+
+  getBookingsByUser(userId: number): Observable<Booking[]> {
+    return this.http.get<Booking[]>(`${this.bookingsUrl}/user/${userId}`).pipe(
+      map((data) => {
+        return data.map((booking) => {
+          return new Booking(
+            booking.id,
+            booking.isActive,
+            booking.confirmationCode,
+            booking.flights,
+            booking.passengers,
+            booking.bookingPayment,
+            booking.bookingGuest,
+            booking.bookingAgent,
+            booking.bookingUser
+          );
+        });
+      }),
+      catchError((error) => {
+        return throwError('Something went wrong!');
+      })
+    );
+  }
+
+  cancelBooking(bookingId: number): Observable<{}> {
+    return this.http.delete(`${this.bookingsUrl}/${bookingId}`);
   }
 }
