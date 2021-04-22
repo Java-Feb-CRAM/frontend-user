@@ -71,7 +71,7 @@ export class SearchFlightsComponent {
     if (this.isOriginAirportValid) {
       this.originAirportIataId = filteredAirports[0].iataId;
     }
-    let dateNow = new Date();
+    const dateNow = new Date();
     if (dateNow < this.dateRangeStartTo && dateNow < this.dateRangeEndTo && this.dateRangeStartTo < this.dateRangeEndTo) {
       this.subscribeFlightsTo();
     }
@@ -99,7 +99,7 @@ export class SearchFlightsComponent {
     if (this.isDestinationAirportValid) {
       this.destinationAirportIataId = filteredAirports[0].iataId;
     }
-    let dateNow = new Date();
+    const dateNow = new Date();
     if (dateNow < this.dateRangeStartTo && dateNow < this.dateRangeEndTo && this.dateRangeStartTo < this.dateRangeEndTo) {
       this.subscribeFlightsTo();
     }
@@ -176,15 +176,15 @@ export class SearchFlightsComponent {
     let dateStartTo = "";
     let dateEndTo = "";
     if (hasStart) {
-      let month = this.dateRangeStartTo.getMonth() + 1;
-      let date = this.dateRangeStartTo.getDate();
-      let year = this.dateRangeStartTo.getFullYear();
+      const month = this.dateRangeStartTo.getMonth() + 1;
+      const date = this.dateRangeStartTo.getDate();
+      const year = this.dateRangeStartTo.getFullYear();
       dateStartTo = `${month}/${date}/${year}`;
     }
     if (hasEnd) {
-      let month = this.dateRangeEndTo.getMonth() + 1;
-      let date = this.dateRangeEndTo.getDate();
-      let year = this.dateRangeEndTo.getFullYear();
+      const month = this.dateRangeEndTo.getMonth() + 1;
+      const date = this.dateRangeEndTo.getDate();
+      const year = this.dateRangeEndTo.getFullYear();
       dateEndTo = `${month}/${date}/${year}`;
     }
     this.departureDateStringTo = `${dateStartTo} -> ${dateEndTo}`;
@@ -209,7 +209,7 @@ export class SearchFlightsComponent {
   }
 
   departureDateRangeStartTo(dateString: string): void {
-    let newDate = new Date(dateString);
+    const newDate = new Date(dateString);
     this.dateRangeStartTo = newDate;
     if ((new Date()) < newDate) {
       if (this.dateRangeStartTo < newDate) {
@@ -221,7 +221,7 @@ export class SearchFlightsComponent {
     }
   }
   departureDateRangeEndTo(dateString: string): void {
-    let newDate = new Date(dateString);
+    const newDate = new Date(dateString);
     this.dateRangeEndTo = newDate;
     if ((new Date()) < newDate) {
       if (this.dateRangeStartTo < newDate) {
@@ -234,7 +234,7 @@ export class SearchFlightsComponent {
   }
 
   departureDateRangeStartFrom(dateString: string): void {
-    let newDate = new Date(dateString);
+    const newDate = new Date(dateString);
     this.dateRangeStartFrom = newDate;
     if ((new Date()) < newDate) {
       if (this.dateRangeStartFrom < newDate) {
@@ -246,7 +246,7 @@ export class SearchFlightsComponent {
     }
   }
   departureDateRangeEndFrom(dateString: string): void {
-    let newDate = new Date(dateString);
+    const newDate = new Date(dateString);
     this.dateRangeEndFrom = newDate;
     if ((new Date()) < newDate) {
       if (this.dateRangeStartFrom < newDate) {
