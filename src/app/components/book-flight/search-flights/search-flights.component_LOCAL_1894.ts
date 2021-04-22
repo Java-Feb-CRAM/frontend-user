@@ -8,14 +8,14 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { CartService } from 'src/app/services/cart.service';
 
 export interface MultiHopFlightPaths {
-  orderedMultiHopFlights: Set<Flight[]>;
+  orderedMultiHopFlights: Set<Flight[]>
 }
-export const FOUR_HOURS_MAX = 4 * 60 * 60 * 1000;
+export const FOUR_HOURS_MAX = (4 * 60 * 60 * 1000);
 
 @Component({
   selector: 'app-search-flights',
   templateUrl: './search-flights.component.html',
-  styleUrls: ['./search-flights.component.scss'],
+  styleUrls: ['./search-flights.component.scss']
 })
 export class SearchFlightsComponent {
   public airports: Airport[] = [];
@@ -36,8 +36,10 @@ export class SearchFlightsComponent {
   public dateRangeEndFrom: Date = new Date();
   public stopsTo = 0;
   public stopsFrom = 0;
+  public currentPage = 0;
   public departureTo = 0;
   public departureFrom = 0;
+  public chosenFlightPathToPages = 0;
   public page = 1;
   public pageSize = 5;
   public returnPage = 1;
@@ -55,7 +57,7 @@ export class SearchFlightsComponent {
   }
 
   validateOriginAirport(value: string): void {
-    const values: string[] = value.split(', ');
+    const values: string[] = value.split(", ");
     let filteredAirports: Airport[];
     if (values.length > 1) {
       filteredAirports = this.airports.filter(v =>
@@ -81,19 +83,16 @@ export class SearchFlightsComponent {
   }
 
   validateDestinationAirport(value: string): void {
-    const values: string[] = value.split(', ');
+    const values: string[] = value.split(", ");
     let filteredAirports: Airport[];
     if (values.length > 1) {
-      filteredAirports = this.airports.filter(
-        (v) => v.iataId.toLowerCase() === values[1].toLowerCase()
-      );
+      filteredAirports = this.airports.filter(v =>
+        v.iataId.toLowerCase() === values[1].toLowerCase());
       this.isDestinationAirportValid = filteredAirports.length === 1;
     } else {
-      filteredAirports = this.airports.filter(
-        (v) =>
-          v.city.toLowerCase() === value.toLowerCase() ||
-          v.iataId.toLowerCase() === value.toLowerCase()
-      );
+      filteredAirports = this.airports.filter(v =>
+        v.city.toLowerCase() === value.toLowerCase() ||
+        v.iataId.toLowerCase() === value.toLowerCase());
       this.isDestinationAirportValid = filteredAirports.length === 1;
     }
     if (this.isDestinationAirportValid) {
@@ -144,18 +143,15 @@ export class SearchFlightsComponent {
   }
 
   addToCart(): void {
-    this.chosenFlightPathTo.forEach((flight) =>
-      this.cartService.addToCart({ id: flight.id })
-    );
+    this.chosenFlightPathTo.forEach(flight =>
+      this.cartService.addToCart({ id: flight.id }));
   }
 
   addToCartRoundTrip(): void {
-    this.chosenFlightPathTo.forEach((flight) =>
-      this.cartService.addToCart({ id: flight.id })
-    );
-    this.chosenFlightPathFrom.forEach((flight) =>
-      this.cartService.addToCart({ id: flight.id })
-    );
+    this.chosenFlightPathTo.forEach(flight =>
+      this.cartService.addToCart({ id: flight.id }));
+    this.chosenFlightPathFrom.forEach(flight =>
+      this.cartService.addToCart({ id: flight.id }));
   }
 
   updateStopsTo(stops: string): void {
@@ -262,13 +258,11 @@ export class SearchFlightsComponent {
     this.isRoundTrip = !this.isRoundTrip;
   }
 
-  search: OperatorFunction<string, readonly string[]> = (
-    text$: Observable<string>
-  ) =>
+  search: OperatorFunction<string, readonly string[]> = (text$: Observable<string>) =>
     text$.pipe(
       debounceTime(200),
       distinctUntilChanged(),
-      map((term) => {
+      map(term => {
         if (term.length < 2) {
           return [];
         }
@@ -279,9 +273,10 @@ export class SearchFlightsComponent {
             v.iataId.toLowerCase().indexOf(term.toLowerCase()) > -1)
             .slice(0, 10).forEach(airport =>
               airportMatches.push(`${airport.city}, ${airport.iataId}`)
-            );
-          return airportMatches;
+            )
+          return airportMatches
         }
       })
-    );
+    )
+
 }

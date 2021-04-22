@@ -33,8 +33,6 @@ import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { SearchFlightsComponent } from './components/book-flight/search-flights/search-flights.component';
 import { PhonePipe } from './phone.pipe';
-import { TimepickerModule } from 'ngx-bootstrap/timepicker';
-import { PopoverModule } from 'ngx-bootstrap/popover';
 
 @NgModule({
   declarations: [
@@ -71,8 +69,6 @@ import { PopoverModule } from 'ngx-bootstrap/popover';
     NgxStripeModule.forRoot(
       'pk_test_51IbSmqKMAXXjSzaxL3WIYu5kSzambFamCzc2LhMp5AtyOOhwjoh5PJKq2He2N566ECIPpvHYZU7yq5PAt9sMJG4H00MTCuphgp'
     ),
-    TimepickerModule.forRoot(),
-    PopoverModule.forRoot(),
   ],
   providers: [
     {
