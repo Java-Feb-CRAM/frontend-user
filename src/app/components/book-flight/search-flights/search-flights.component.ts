@@ -187,25 +187,33 @@ export class SearchFlightsComponent {
       const year = this.dateRangeEndTo.getFullYear();
       dateEndTo = `${month}/${date}/${year}`;
     }
-    this.departureDateStringTo = `${dateStartTo} -> ${dateEndTo}`;
+    this.departureDateStringTo = `${dateStartTo} → ${dateEndTo}`;
   }
 
   updateDepartureDateStringFrom(hasStart: boolean, hasEnd: boolean): void {
     let dateStartFrom = "";
     let dateEndFrom = "";
     if (hasStart) {
-      let month = this.dateRangeStartFrom.getMonth() + 1;
-      let date = this.dateRangeStartFrom.getDate();
-      let year = this.dateRangeStartFrom.getFullYear();
+      const month = this.dateRangeStartFrom.getMonth() + 1;
+      const date = this.dateRangeStartFrom.getDate();
+      const year = this.dateRangeStartFrom.getFullYear();
       dateStartFrom = `${month}/${date}/${year}`;
     }
     if (hasEnd) {
-      let month = this.dateRangeEndFrom.getMonth() + 1;
-      let date = this.dateRangeEndFrom.getDate();
-      let year = this.dateRangeEndFrom.getFullYear();
+      const month = this.dateRangeEndFrom.getMonth() + 1;
+      const date = this.dateRangeEndFrom.getDate();
+      const year = this.dateRangeEndFrom.getFullYear();
       dateEndFrom = `${month}/${date}/${year}`;
     }
-    this.departureDateStringFrom = `${dateStartFrom} -> ${dateEndFrom}`;
+    this.departureDateStringFrom = `${dateStartFrom} → ${dateEndFrom}`;
+  }
+
+  getMinDateNow() {
+    const date = new Date();
+    return { year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() };
+  }
+  getMinDate(date: Date) {
+    return { year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() };
   }
 
   departureDateRangeStartTo(dateString: string): void {

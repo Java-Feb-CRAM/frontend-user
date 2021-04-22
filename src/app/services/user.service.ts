@@ -37,6 +37,7 @@ export class UserService {
   ) {
     this.loginUrl = `${environment.apiBase}/users/credentials/authenticate`;
     this.registrationUri = `${environment.apiBase}/users/new`;
+    this.currentUserUri = `${environment.apiBase}/users/current`;
     this.loginLogoutChange.subscribe({
       next: (value) => {
         this.isLoggedIn = value;
@@ -50,6 +51,7 @@ export class UserService {
 
   loginUrl: string;
   registrationUri: string;
+  currentUserUri: string;
 
   register(userDetails: object): void {
     this.http
@@ -90,7 +92,7 @@ export class UserService {
   }
 
   public isUserFetchSuccess(role: string): Observable<boolean | UrlTree> {
-    return this.http.get('http://localhost:8080/users/current').pipe(
+    return this.http.get(this.currentUserUri).pipe(
       timeout(10000),
       map((response) => {
         if ((response as UserInfo).role === role) {
@@ -108,12 +110,12 @@ export class UserService {
   }
 
   public fetchUser(): Observable<UserInfo> {
-    return this.http.get<UserInfo>('http://localhost:8080/users/current');
+    return this.http.get<UserInfo>(this.currentUserUri);
   }
 
   private fetchUserDetails(): void {
     if (this.isJWTSet()) {
-      this.http.get('http://localhost:8080/users/current').subscribe({
+      this.http.get(this.currentUserUri).subscribe({
         next: (user) => {
           this.user = user as UserInfo;
         },
