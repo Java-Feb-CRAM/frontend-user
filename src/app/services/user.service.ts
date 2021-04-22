@@ -107,6 +107,10 @@ export class UserService {
     );
   }
 
+  public fetchUser(): Observable<UserInfo> {
+    return this.http.get<UserInfo>('http://localhost:8080/users/current');
+  }
+
   private fetchUserDetails(): void {
     if (this.isJWTSet()) {
       this.http.get('http://localhost:8080/users/current').subscribe({

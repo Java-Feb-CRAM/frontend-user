@@ -36,8 +36,10 @@ export class SearchFlightsComponent {
   public dateRangeEndFrom: Date = new Date();
   public stopsTo = 0;
   public stopsFrom = 0;
+  public currentPage = 0;
   public departureTo = 0;
   public departureFrom = 0;
+  public chosenFlightPathToPages = 0;
   public page = 1;
   public pageSize = 5;
   public returnPage = 1;

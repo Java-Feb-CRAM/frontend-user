@@ -6,7 +6,7 @@ import { Airport } from '../models/Airport';
 import { environment } from '../../environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AirportService {
   constructor(private readonly http: HttpClient) {
@@ -20,12 +20,7 @@ export class AirportService {
       map(
         (data: Airport[]) =>
           data.map((airport) => {
-            return new Airport(
-              airport.iataId,
-              airport.city,
-              [],
-              []
-            );
+            return new Airport(airport.iataId, airport.city, [], []);
           }),
         catchError((error) => {
           return throwError('Something went wrong!');
@@ -37,12 +32,7 @@ export class AirportService {
   getAirport(iataId: string): Observable<Airport> {
     return this.http.get<Airport>(`${this.airportsUrl}/${iataId}`).pipe(
       map((data: Airport) => {
-        return new Airport(
-          data.iataId,
-          data.city,
-          [],
-          []
-        );
+        return new Airport(data.iataId, data.city, [], []);
       }),
       catchError((error) => {
         return throwError('Something went wrong!');

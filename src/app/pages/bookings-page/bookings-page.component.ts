@@ -5,6 +5,9 @@ import { Booking } from '../../models/Booking';
 import { PaymentInfo } from '../../models/PaymentInfo';
 import { PaymentService } from '../../services/payment.service';
 import { ActivatedRoute } from '@angular/router';
+import { UserInfo, UserService } from '../../services/user.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ConfirmModalComponent } from '../../components/confirm-modal/confirm-modal.component';
 
 @Component({
   selector: 'app-bookings-page',
@@ -17,11 +20,15 @@ export class BookingsPageComponent implements OnInit {
   bookingPaymentDate = new Date();
   bookingSearchForm: FormGroup;
   checkedOut = false;
+  user: UserInfo | undefined;
+  bookings: Booking[] = [];
   constructor(
     private readonly bookingService: BookingService,
     private readonly fb: FormBuilder,
     private readonly paymentService: PaymentService,
-    private readonly route: ActivatedRoute
+    private readonly route: ActivatedRoute,
+    private readonly userService: UserService,
+    private modalService: NgbModal
   ) {
     this.bookingSearchForm = this.fb.group({
       confirmationCode: [
@@ -33,6 +40,27 @@ export class BookingsPageComponent implements OnInit {
           ),
         ],
       ],
+    });
+  }
+
+  lookupBooking(code: string): void {
+    this.bookingSearchForm.setValue({
+      confirmationCode: code,
+    });
+    this.onSubmit();
+  }
+
+  cancelBooking(bookingId: number): void {
+    const modalRef = this.modalService.open(ConfirmModalComponent);
+    modalRef.componentInstance.message = `Are you sure you want to cancel this booking?
+      This action cannot be undone.
+      If you do wish to cancel this booking you will recieve a full refund.`;
+    modalRef.closed.subscribe((reason) => {
+      if (reason === 'delete') {
+        this.bookingService.cancelBooking(bookingId).subscribe(() => {
+          this.ngOnInit();
+        });
+      }
     });
   }
 
@@ -49,6 +77,14 @@ export class BookingsPageComponent implements OnInit {
           this.checkedOut = true;
         }
       },
+    });
+    this.userService.fetchUser().subscribe((user) => {
+      this.user = user;
+      if (user && user.id) {
+        this.bookingService.getBookingsByUser(user.id).subscribe((bookings) => {
+          this.bookings = bookings;
+        });
+      }
     });
   }
 

@@ -1,25 +1,43 @@
 <h1 class="mt-5">Checkout</h1>
-<p>Guest</p>
+<p>
+  {{
+    user && user.role === "ROLE_USER"
+      ? "User"
+      : user && user.role === "ROLE_AGENT"
+      ? "Agent"
+      : "Guest"
+  }}
+</p>
 <ul
   ngbNav
   #nav="ngbNav"
   [destroyOnHide]="false"
   class="nav-tabs"
-  [activeId]="activePage"
+  [(activeId)]="activePage"
   (activeIdChange)="pageChanged($event)"
 >
   <li [ngbNavItem]="1">
     <a ngbNavLink>Personal Information</a>
     <ng-template ngbNavContent>
       <app-guest-booking-form
+        *ngIf="!user"
         (guestBookingFormSubmitEvent)="handleGuestBookingForm($event)"
       ></app-guest-booking-form>
+      <app-user-booking-form
+        [user]="user"
+        *ngIf="user && user.role === 'ROLE_USER'"
+        (userBookingFormSubmitEvent)="handleUserBookingForm($event)"
+      ></app-user-booking-form>
+      <app-agent-booking-form
+        *ngIf="user && user.role === 'ROLE_AGENT'"
+      ></app-agent-booking-form>
     </ng-template>
   </li>
   <li [ngbNavItem]="2" [disabled]="!stepOneCompleted">
     <a ngbNavLink>Passenger Information</a>
     <ng-template ngbNavContent>
       <app-passengers-form
+        [user]="user"
         (passengersFormSubmitEvent)="handlePassengersForm($event)"
       ></app-passengers-form>
     </ng-template>
@@ -28,6 +46,7 @@
     <a ngbNavLink>Payment</a>
     <ng-template ngbNavContent>
       <app-payment-form
+        [user]="user"
         (paymentFormSubmitEvent)="handlePaymentForm($event)"
         [passengerCount]="passengerCount"
       ></app-payment-form>

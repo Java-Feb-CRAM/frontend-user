@@ -34,7 +34,6 @@ import { AuthInterceptor } from './auth/auth.interceptor';
 import { SearchFlightsComponent } from './components/book-flight/search-flights/search-flights.component';
 import { PhonePipe } from './phone.pipe';
 
-
 @NgModule({
   declarations: [
     AppComponent,
