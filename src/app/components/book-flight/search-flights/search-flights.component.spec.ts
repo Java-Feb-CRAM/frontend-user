@@ -11,6 +11,12 @@ import { Airport } from 'src/app/models/Airport';
 import { NgbDatepickerModule, NgbInputDatepicker, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 
+class AirportServiceStub {
+  getAirport(): Airport {
+    return new Airport("JFK", "New York", [], []);
+  }
+}
+
 describe('SearchFlightsComponent', () => {
   let component: SearchFlightsComponent;
   let fixture: ComponentFixture<SearchFlightsComponent>;
@@ -31,6 +37,7 @@ describe('SearchFlightsComponent', () => {
 
   it('should validate origin and destination airports', () => {
     let searchFlights = new SearchFlightsComponent(TestBed.inject(FlightService), TestBed.inject(AirportService), TestBed.inject(CartService));
+    let stub = new AirportServiceStub();
     searchFlights.airports.push(new Airport("JFK", "New York", [], []));
     searchFlights.validateOriginAirport("Atlanta");
     expect(searchFlights.isOriginAirportValid).toBe(false, 'Atlanta invalid');
@@ -41,40 +48,4 @@ describe('SearchFlightsComponent', () => {
     searchFlights.validateDestinationAirport("new york");
     expect(searchFlights.isDestinationAirportValid).toBe(true, 'new york validated');
   });
-
-  it('should display the date in the textbox when a valid date is chosen', fakeAsync(() => {
-    const dateNow = new Date();
-    let dateBefore: Date;
-    let month = "";
-    let day = "";
-    let year = 0;
-    let hiddenInput: HTMLInputElement;
-    let datePickers = fixture.debugElement.queryAll(By.directive(NgbInputDatepicker));
-    let datePicker = datePickers[0].injector.get(NgbInputDatepicker);
-
-    hiddenInput = fixture.debugElement.query(By.css('#departureStartToId')).nativeElement;
-    (fixture.debugElement.query(By.css('#departureDateStartIdToButton')).nativeElement as HTMLElement).click();
-    tick();
-    expect(datePicker.isOpen()).toBe(true);
-    (fixture.debugElement.query(By.css('.ngb-dp-today')).nativeElement as HTMLElement).click();
-    tick();
-    expect(datePicker.isOpen()).toBe(false);
-    month = ("0" + (dateNow.getMonth() + 1)).slice(-2);
-    day = ("0" + dateNow.getDate()).slice(-2);
-    year = dateNow.getFullYear();
-    expect(hiddenInput.value).toContain(`${year}-${month}-${day}`);
-
-    datePicker = datePickers[1].injector.get(NgbInputDatepicker);
-    hiddenInput = fixture.debugElement.query(By.css('#departureEndToId')).nativeElement;
-    (fixture.debugElement.query(By.css('#departureDateEndIdToButton')).nativeElement as HTMLElement).click();
-    tick();
-    expect(datePicker.isOpen()).toBe(true);
-    (fixture.debugElement.query(By.css('.ngb-dp-today')).nativeElement as HTMLElement).click();
-    tick();
-    expect(datePicker.isOpen()).toBe(false);
-    month = ("0" + (dateNow.getMonth() + 1)).slice(-2);
-    day = ("0" + dateNow.getDate()).slice(-2);
-    year = dateNow.getFullYear();
-    expect(hiddenInput.value).toContain(`${year}-${month}-${day}`);
-  }));
 });
