@@ -32,7 +32,7 @@ export class BookingsPageComponent implements OnInit {
   ) {
     this.bookingSearchForm = this.fb.group({
       confirmationCode: [
-        'f2748220-7fbf-4712-9c93-c433e668b497',
+        '',
         [
           Validators.required,
           Validators.pattern(

@@ -8,7 +8,6 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { UserInfo } from '../../../services/user.service';
-import { GuestBookingFormData } from '../guest-booking-form/guest-booking-form.component';
 
 @Component({
   selector: 'app-user-booking-form',

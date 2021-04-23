@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GuestBookingFormComponent } from './guest-booking-form.component';
-import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { PhonePipe } from '../../../pipes/phone.pipe';
 import { By } from '@angular/platform-browser';
 

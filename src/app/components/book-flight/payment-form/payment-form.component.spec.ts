@@ -1,9 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PaymentFormComponent } from './payment-form.component';
-import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import {
-  NgxStripeModule,
   StripeCardCvcComponent,
   StripeCardExpiryComponent,
   StripeCardGroupDirective,
@@ -12,7 +11,6 @@ import {
   StripeService,
 } from 'ngx-stripe';
 import { ItemizedBillComponent } from '../itemized-bill/itemized-bill.component';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import {
   CreateTokenCardData,
   StripeCardElement,
@@ -25,7 +23,6 @@ import {
 import { EMPTY, Observable, of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
-import { Component, CUSTOM_ELEMENTS_SCHEMA, Directive } from '@angular/core';
 
 class StripeServiceStub {
   createToken(

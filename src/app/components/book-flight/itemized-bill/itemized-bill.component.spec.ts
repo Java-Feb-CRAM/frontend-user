@@ -4,7 +4,6 @@ import { ItemizedBillComponent } from './itemized-bill.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FlightService } from '../../../services/flight.service';
 import { CartService } from '../../../services/cart.service';
-import { Observable } from 'rxjs';
 import { of } from 'rxjs';
 import { Flight } from '../../../models/Flight';
 import { Route } from '../../../models/Route';

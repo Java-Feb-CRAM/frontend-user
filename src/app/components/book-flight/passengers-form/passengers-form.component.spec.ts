@@ -1,12 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PassengersFormComponent } from './passengers-form.component';
-import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import {
   NgbDateAdapter,
   NgbDateNativeAdapter,
   NgbDatepickerModule,
-  NgbModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { By } from '@angular/platform-browser';
 

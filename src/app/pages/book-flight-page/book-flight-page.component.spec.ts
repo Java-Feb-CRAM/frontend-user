@@ -2,30 +2,19 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BookFlightPageComponent } from './book-flight-page.component';
 import { HttpClientModule } from '@angular/common/http';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { RouterTestingModule } from '@angular/router/testing';
 import {
-  NgbDatepickerModule,
-  NgbModule,
   NgbNav,
   NgbNavItem,
   NgbNavLink,
   NgbNavModule,
 } from '@ng-bootstrap/ng-bootstrap';
-import { PaymentFormComponent } from '../../components/book-flight/payment-form/payment-form.component';
-import { ReactiveFormsModule } from '@angular/forms';
-import { NgxStripeModule } from 'ngx-stripe';
-import { GuestBookingFormComponent } from '../../components/book-flight/guest-booking-form/guest-booking-form.component';
-import { ItemizedBillComponent } from '../../components/book-flight/itemized-bill/itemized-bill.component';
-import {
-  PassengersFormComponent,
-  PassengersFormData,
-} from '../../components/book-flight/passengers-form/passengers-form.component';
+import { PaymentFormData } from '../../components/book-flight/payment-form/payment-form.component';
+import { PassengersFormData } from '../../components/book-flight/passengers-form/passengers-form.component';
 import { NavigationExtras, Router, RouterModule } from '@angular/router';
 import { CartService } from '../../services/cart.service';
 import { BookingService } from '../../services/booking.service';
 import { UserInfo, UserService } from '../../services/user.service';
-import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { Booking } from '../../models/Booking';
 import { CreateGuestBookingDto } from '../../dto/CreateGuestBookingDto';
@@ -197,14 +186,14 @@ describe('BookFlightPageComponent', () => {
     expect(component.activePage).toBe(2);
   });
 
-  it('can handle AgentBookingForm event', () => {
-    fixture.detectChanges();
-    // TODO
-    // component.handleAgentBookingForm(true);
-    fixture.detectChanges();
-    expect(component.stepOneCompleted).toBeTrue();
-    expect(component.activePage).toBe(2);
-  });
+  // it('can handle AgentBookingForm event', () => {
+  //   fixture.detectChanges();
+  //   // TODO
+  //   // component.handleAgentBookingForm(true);
+  //   fixture.detectChanges();
+  //   expect(component.stepOneCompleted).toBeTrue();
+  //   expect(component.activePage).toBe(2);
+  // });
 
   it('can handle PassengersForm event', () => {
     fixture.detectChanges();
@@ -226,6 +215,104 @@ describe('BookFlightPageComponent', () => {
     expect(component.passengersData).toEqual(passengers);
   });
 
-  // TODO
-  it('can handle PaymentForm event', () => {});
+  it('can handle PaymentForm event', () => {
+    fixture.detectChanges();
+    cartService.cartItems = [{ id: 1 }];
+    component.guestBookingData = {
+      guestEmail: 'example@example.com',
+      guestPhone: '281-292-1451',
+    };
+    component.passengersData = {
+      passengers: [
+        {
+          givenName: 'John',
+          familyName: 'Smith',
+          dob: '1996-10-08',
+          gender: 'Male',
+          address: 'Texas',
+        },
+      ],
+    };
+    const paymentFormData: PaymentFormData = {
+      name: 'John Smith',
+      stripeToken: 'TOKEN',
+    };
+    const submitGuestBookingSpy = spyOn<any>(
+      component,
+      'submitGuestBooking'
+    ).and.callThrough();
+    const createGuestBookingSpy = spyOn(
+      bookingService,
+      'createGuestBooking'
+    ).and.callThrough();
+    const finishBookingSpy = spyOn<any>(
+      component,
+      'finishBooking'
+    ).and.callThrough();
+    const routerSpy = spyOn(router, 'navigate').and.callThrough();
+    component.handlePaymentForm(paymentFormData);
+    expect(submitGuestBookingSpy).toHaveBeenCalledWith([1]);
+    expect(createGuestBookingSpy).toHaveBeenCalled();
+    expect(finishBookingSpy).toHaveBeenCalledWith(booking);
+    expect(routerSpy).toHaveBeenCalledWith(['/bookings'], {
+      queryParams: {
+        confirmationCode: booking.confirmationCode,
+        checkedOut: true,
+      },
+    });
+  });
+
+  it('can handle user PaymentForm event', () => {
+    userService.setUserInfo({
+      id: 2,
+      role: 'ROLE_USER',
+    });
+    fixture.detectChanges();
+    cartService.cartItems = [{ id: 1 }];
+    component.passengersData = {
+      passengers: [
+        {
+          givenName: 'John',
+          familyName: 'Smith',
+          dob: '1996-10-08',
+          gender: 'Male',
+          address: 'Texas',
+        },
+      ],
+    };
+    const paymentFormData: PaymentFormData = {
+      name: 'John Smith',
+      stripeToken: 'TOKEN',
+    };
+    const spy = spyOn<any>(component, 'submitUserBooking');
+    component.handlePaymentForm(paymentFormData);
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('can handle agentPaymentForm event', () => {
+    userService.setUserInfo({
+      id: 3,
+      role: 'ROLE_AGENT',
+    });
+    fixture.detectChanges();
+    cartService.cartItems = [{ id: 1 }];
+    component.passengersData = {
+      passengers: [
+        {
+          givenName: 'John',
+          familyName: 'Smith',
+          dob: '1996-10-08',
+          gender: 'Male',
+          address: 'Texas',
+        },
+      ],
+    };
+    const paymentFormData: PaymentFormData = {
+      name: 'John Smith',
+      stripeToken: 'TOKEN',
+    };
+    const spy = spyOn<any>(component, 'submitAgentBooking');
+    component.handlePaymentForm(paymentFormData);
+    expect(spy).toHaveBeenCalled();
+  });
 });
