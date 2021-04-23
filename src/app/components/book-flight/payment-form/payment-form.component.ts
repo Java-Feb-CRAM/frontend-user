@@ -1,12 +1,12 @@
 import {
   Component,
-  OnInit,
-  Output,
-  ViewChild,
   EventEmitter,
   Input,
   OnChanges,
+  OnInit,
+  Output,
   SimpleChanges,
+  ViewChild,
 } from '@angular/core';
 import { StripeCardNumberComponent, StripeService } from 'ngx-stripe';
 import {

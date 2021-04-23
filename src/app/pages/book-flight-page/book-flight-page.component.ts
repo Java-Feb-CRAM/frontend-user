@@ -38,7 +38,6 @@ export class BookFlightPageComponent implements OnInit {
     this.userService.fetchUser().subscribe((user) => {
       if (user) {
         this.user = user;
-        console.log(user);
       }
     });
   }
@@ -69,7 +68,6 @@ export class BookFlightPageComponent implements OnInit {
   }
 
   handlePassengersForm(data: PassengersFormData): void {
-    console.log(data);
     this.passengersData = data;
     this.stepTwoCompleted = true;
     this.activePage = 3;
@@ -88,27 +86,6 @@ export class BookFlightPageComponent implements OnInit {
     } else {
       this.submitGuestBooking(flightIds);
     }
-    // if (this.guestBookingData && this.passengersData && this.paymentData) {
-    //   const createGuestBookingDto: CreateGuestBookingDto = {
-    //     stripeToken: this.paymentData.stripeToken,
-    //     guestEmail: this.guestBookingData.guestEmail,
-    //     guestPhone: this.guestBookingData.guestPhone,
-    //     flightIds,
-    //     passengers: this.passengersData.passengers,
-    //   };
-    //   this.bookingService.createGuestBooking(createGuestBookingDto).subscribe({
-    //     next: (booking) => {
-    //       console.log(booking);
-    //       this.cartService.emptyCart();
-    //       this.router.navigate(['/bookings'], {
-    //         queryParams: {
-    //           confirmationCode: booking.confirmationCode,
-    //           checkedOut: true,
-    //         },
-    //       });
-    //     },
-    //   });
-    // }
   }
 
   private submitGuestBooking(flightIds: number[]): void {
@@ -129,7 +106,6 @@ export class BookFlightPageComponent implements OnInit {
   }
 
   private submitUserBooking(flightIds: number[]): void {
-    console.log('submit user booking');
     if (this.user && this.user.id && this.passengersData && this.paymentData) {
       const createUserBookingDto: CreateUserBookingDto = {
         stripeToken: this.paymentData.stripeToken,
