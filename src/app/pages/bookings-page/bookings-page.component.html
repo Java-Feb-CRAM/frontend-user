@@ -103,7 +103,7 @@
   </div>
   <div class="card-body">
     <ngb-accordion #acc="ngbAccordion" activeIds="1">
-      <ngb-panel title="Info" [id]="'1'">
+      <ngb-panel title="Info" [id]="'details'">
         <ng-template ngbPanelContent>
           <p class="text-muted">
             Booked as
@@ -118,10 +118,10 @@
           <p>
             Confirmation Code: <code>{{ booking.confirmationCode }}</code>
           </p>
-          <p *ngIf="booking.bookingGuest">
+          <p *ngIf="booking.bookingGuest" id="guestEmail">
             Guest Email: {{ booking.bookingGuest.contactEmail }}
           </p>
-          <p *ngIf="booking.bookingGuest">
+          <p *ngIf="booking.bookingGuest" id="guestPhone">
             Guest Phone: {{ booking.bookingGuest.contactPhone }}
           </p>
         </ng-template>
@@ -146,17 +146,19 @@
               class="list-group-item"
               *ngFor="let passenger of booking.passengers"
             >
-              <p>Name: {{ passenger.givenName }} {{ passenger.familyName }}</p>
-              <p>Birthday: {{ passenger.dob }}</p>
-              <p>Gender: {{ passenger.gender }}</p>
-              <p>Address: {{ passenger.address }}</p>
+              <p class="pass-name">
+                Name: {{ passenger.givenName }} {{ passenger.familyName }}
+              </p>
+              <p class="pass-dob">Birthday: {{ passenger.dob }}</p>
+              <p class="pass-gen">Gender: {{ passenger.gender }}</p>
+              <p class="pass-addr">Address: {{ passenger.address }}</p>
             </li>
           </ul>
         </ng-template>
       </ngb-panel>
       <ngb-panel title="Payment Info" *ngIf="bookingPayment">
         <ng-template ngbPanelContent>
-          <p>
+          <p id="paymentInfo">
             <strong>{{
               bookingPayment.amount / 100
                 | currency: bookingPayment.currency.toUpperCase()

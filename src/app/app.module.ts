@@ -18,7 +18,6 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BookFlightPageComponent } from './pages/book-flight-page/book-flight-page.component';
 import { CartPageComponent } from './pages/cart-page/cart-page.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { StripePaymentComponent } from './components/stripe-payment/stripe-payment.component';
 import { NgxStripeModule } from 'ngx-stripe';
 import { GuestBookingFormComponent } from './components/book-flight/guest-booking-form/guest-booking-form.component';
 import { AgentBookingFormComponent } from './components/book-flight/agent-booking-form/agent-booking-form.component';
@@ -32,7 +31,10 @@ import { LoginFormComponent } from './components/authentication/login-form/login
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { SearchFlightsComponent } from './components/book-flight/search-flights/search-flights.component';
-import { PhonePipe } from './phone.pipe';
+import { PhonePipe } from './pipes/phone.pipe';
+import { TimepickerModule } from 'ngx-bootstrap/timepicker';
+import { PopoverModule } from 'ngx-bootstrap/popover';
+import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +47,6 @@ import { PhonePipe } from './phone.pipe';
     BookingsPageComponent,
     BookFlightPageComponent,
     CartPageComponent,
-    StripePaymentComponent,
     GuestBookingFormComponent,
     AgentBookingFormComponent,
     UserBookingFormComponent,
@@ -58,6 +59,7 @@ import { PhonePipe } from './phone.pipe';
     LoginPageComponent,
     SearchFlightsComponent,
     PhonePipe,
+    ConfirmModalComponent,
   ],
   imports: [
     BrowserModule,
