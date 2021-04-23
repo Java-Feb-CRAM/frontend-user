@@ -5,82 +5,38 @@
       <div class="input-group-prepend">
         <label class="input-group-text" for="originAirport">Origin</label>
       </div>
-      <input
-        id="originAirport"
-        type="text"
-        class="form-control"
-        [ngbTypeahead]="search"
-        (change)="validateOriginAirport(textOrigin.value)"
-        #textOrigin
-      />
+      <input id="originAirport" type="text" placeholder="New York" class="form-control" [ngbTypeahead]="search"
+        (change)="validateOriginAirport(textOrigin.value)" #textOrigin />
       <div class="input-group-prepend">
-        <label class="input-group-text" for="destinationAirport"
-          >Destination</label
-        >
+        <label class="input-group-text" for="destinationAirport">Destination</label>
       </div>
-      <input
-        id="destinationAirport"
-        type="text"
-        class="form-control"
-        [ngbTypeahead]="search"
-        (change)="validateDestinationAirport(textDestination.value)"
-        #textDestination
-      />
+      <input id="destinationAirport" type="text" placeholder="Portland, PDX" class="form-control"
+        [ngbTypeahead]="search" (change)="validateDestinationAirport(textDestination.value)" #textDestination />
     </div>
     <div class="input-group mb-3">
       <div class="input-group-prepend">
-        <label class="input-group-text" for="departureDateIdTo"
-          >Departure</label
-        >
-        <button
-          type="button"
-          class="btn btn-default input-group-text"
-          aria-label="Calendar"
-          id="departureDateIdTo"
-          (click)="d.toggle()"
-        >
+        <label class="input-group-text" for="startDateLabelTo">Departure</label>
+        <label class="input-group-text" id="startDateLabelTo" for="departureDateStartIdToButton">Start</label>
+        <button type="button" class="btn btn-default input-group-text" aria-label="Calendar"
+          id="departureDateStartIdToButton" (click)="dst.toggle()">
           <span aria-hidden="true"><em class="bi bi-calendar"></em></span>
         </button>
-        <ng-template #popTemplate>
-          <timepicker
-            [(ngModel)]="departureDateTo"
-            [showMeridian]="true"
-            (change)="subscribeFlightsTo()"
-          ></timepicker>
-        </ng-template>
-        <button
-          type="button"
-          class="btn btn-default input-group-text"
-          aria-label="Time"
-          [popover]="popTemplate"
-          [outsideClick]="true"
-          placement="bottom"
-        >
-          <span aria-hidden="true"><em class="bi bi-clock"></em></span>
+        <input id="departureStartToId" type="text" [ngModel]="dateRangeStartTo"
+          (ngModelChange)="departureDateRangeStartTo($event)" class="hideInput" placement="right" name="dp"
+          ngbDatepicker #dst="ngbDatepicker" [minDate]="getMinDateNow()" />
+        <label class="input-group-text" id="endDateLabelTo" for="departureDateEndIdToButton">End</label>
+        <button type="button" class="btn btn-default input-group-text" aria-label="Calendar"
+          id="departureDateEndIdToButton" (click)="det.toggle()">
+          <span aria-hidden="true"><em class="bi bi-calendar"></em></span>
         </button>
-        <input
-          type="text"
-          [(ngModel)]="departureDateTo"
-          class="hideInput"
-          placement="right"
-          name="dp"
-          ngbDatepicker
-          #d="ngbDatepicker"
-        />
+        <input id="departureEndToId" type="text" [ngModel]="dateRangeEndTo"
+          (ngModelChange)="departureDateRangeEndTo($event)" class="hideInput" placement="right" name="dp" ngbDatepicker
+          #det="ngbDatepicker" [minDate]="getMinDate(dateRangeStartTo)" />
       </div>
-      <input
-        class="form-control"
-        [(ngModel)]="departureDateTo"
-        disabled="disabled"
-      />
+      <input id="departureDateInputTo" class="form-control" [ngModel]="departureDateStringTo" disabled="disabled" />
       <div class="input-group-prepend">
         <label class="input-group-text" for="stops">Stops</label>
-        <select
-          class="custom-select"
-          id="stops"
-          (change)="updateStopsTo(stopsTo.value)"
-          #stopsTo
-        >
+        <select class="custom-select" id="stops" (change)="updateStopsTo(stopsTo.value)" #stopsTo>
           <option selected>0</option>
           <option value="1">1</option>
           <option value="2">2</option>
@@ -89,19 +45,10 @@
         </select>
       </div>
     </div>
-    <div
-      *ngIf="isOriginAirportValid && isDestinationAirportValid"
-      class="input-group mb-3"
-    >
+    <div *ngIf="isOriginAirportValid && isDestinationAirportValid" class="input-group mb-3">
       <div class="card mt-1" *ngIf="chosenFlightPathTo.length > 0">
         <div class="card-header">
-          <button
-            type="button"
-            class="btn btn-danger"
-            (click)="removeFlightPathTo()"
-          >
-            Remove Flightpath
-          </button>
+          <button type="button" class="btn btn-danger" (click)="removeFlightPathTo()">Remove Departure Flight</button>
         </div>
         <div class="card-body">
           <table class="table" aria-label="chosen flight path">
@@ -116,38 +63,23 @@
             </thead>
             <tbody>
               <tr *ngFor="let flight of chosenFlightPathTo">
-                <td>
-                  {{
-                    flight.route.originAirport.city +
-                      ", " +
-                      flight.route.originAirport.iataId
-                  }}
+                <td>{{flight.route.originAirport.city+", "+flight.route.originAirport.iataId}}</td>
+                <td>{{flight.route.destinationAirport.city+", "+flight.route.destinationAirport.iataId}}
                 </td>
-                <td>
-                  {{
-                    flight.route.destinationAirport.city +
-                      ", " +
-                      flight.route.destinationAirport.iataId
-                  }}
-                </td>
-                <td>{{ flight.departureTime }}</td>
-                <td>{{ flight.availableSeats }}</td>
-                <td>{{ flight.seatPrice }}</td>
+                <td>{{flight.departureTime}}</td>
+                <td>{{flight.availableSeats}}</td>
+                <td>{{flight.seatPrice}}</td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
-      <div class="card mt-1" *ngIf="chosenFlightPathTo.length == 0">
-        <div class="card" *ngFor="let flights of flightPathsTo">
+      <ng-container *ngIf="chosenFlightPathTo.length == 0">
+        <div class="card mt-1"
+          *ngFor="let flights of getArrayOfFlightPaths(flightPathsTo) | slice: (page-1) * pageSize : page * pageSize">
           <div class="card-header">
-            <button
-              type="button"
-              class="btn btn-primary"
-              (click)="addFlightPathTo(flights)"
-            >
-              Add Flightpath
-            </button>
+            <button type="button" class="btn btn-primary" (click)="addFlightPathTo(flights)">Choose
+              Departure Flight</button>
           </div>
           <div class="card-body">
             <table class="table" aria-label="flight search results">
@@ -162,110 +94,63 @@
               </thead>
               <tbody>
                 <tr *ngFor="let flight of flights">
-                  <td>
-                    {{
-                      flight.route.originAirport.city +
-                        ", " +
-                        flight.route.originAirport.iataId
-                    }}
-                  </td>
-                  <td>
-                    {{
-                      flight.route.destinationAirport.city +
-                        ", " +
-                        flight.route.destinationAirport.iataId
-                    }}
-                  </td>
-                  <td>{{ flight.departureTime }}</td>
-                  <td>{{ flight.availableSeats }}</td>
-                  <td>{{ flight.seatPrice }}</td>
+                  <td>{{flight.route.originAirport.city+", "+flight.route.originAirport.iataId}}</td>
+                  <td>{{flight.route.destinationAirport.city+",
+                    "+flight.route.destinationAirport.iataId}}</td>
+                  <td>{{flight.departureTime}}</td>
+                  <td>{{flight.availableSeats}}</td>
+                  <td>{{flight.seatPrice}}</td>
                 </tr>
               </tbody>
             </table>
           </div>
         </div>
+      </ng-container>
+      <div class="card mt-1" *ngIf="chosenFlightPathTo.length == 0 && flightPathsTo.size > 5">
+        <div class="card-header">
+          <ngb-pagination [collectionSize]="flightPathsTo.size" [pageSize]="pageSize" [(page)]="page" [maxSize]="5"
+            [rotate]="true" [ellipses]="false" [boundaryLinks]="true">
+          </ngb-pagination>
+        </div>
       </div>
       <div class="card mt-1" *ngIf="flightPathsTo.size == 0">
         <div class="card-header">
-          <button type="button" class="btn btn-primary">
-            No Flight Paths Found
-          </button>
+          <span>No Flights Found</span>
         </div>
       </div>
     </div>
-    <div
-      *ngIf="
-        chosenFlightPathTo.length > 0 &&
-        isOriginAirportValid &&
-        isDestinationAirportValid
-      "
-      class="input-group mb-3"
-    >
+    <div *ngIf="chosenFlightPathTo.length > 0 && isOriginAirportValid && isDestinationAirportValid"
+      class="input-group mb-3">
       <div class="input-group-prepend" *ngIf="chosenFlightPathTo.length > 0">
         <label class="input-group-text" for="roundTrip">Round-Trip</label>
         <div class="input-group-text">
-          <input
-            type="checkbox"
-            id="roundTrip"
-            aria-label="Checkbox for round trip"
-            (click)="toggleRoundTrip()"
-          />
+          <input type="checkbox" id="roundTrip" aria-label="Checkbox for round trip" (click)="toggleRoundTrip()">
         </div>
       </div>
       <div *ngIf="isRoundTrip" class="input-group-prepend">
-        <label class="input-group-text" for="departureDateIdFrom"
-          >Departure</label
-        >
-        <button
-          type="button"
-          class="btn btn-default input-group-text"
-          aria-label="Calendar"
-          id="departureDateIdFrom"
-          (click)="df.toggle()"
-        >
+        <label class="input-group-text" for="startDateLabelFrom">Departure</label>
+        <label class="input-group-text" id="startDateLabelFrom" for="departureDateStartIdFromButton">Start</label>
+        <button type="button" class="btn btn-default input-group-text" aria-label="Calendar"
+          id="departureDateStartIdFromButton" (click)="dsf.toggle()">
           <span aria-hidden="true"><em class="bi bi-calendar"></em></span>
         </button>
-        <ng-template #popTemplate>
-          <timepicker
-            [(ngModel)]="departureDateFrom"
-            [showMeridian]="true"
-            (change)="subscribeFlightsFrom()"
-          ></timepicker>
-        </ng-template>
-        <button
-          type="button"
-          class="btn btn-default input-group-text"
-          aria-label="Time"
-          [popover]="popTemplate"
-          [outsideClick]="true"
-          placement="bottom"
-        >
-          <span aria-hidden="true"><em class="bi bi-clock"></em></span>
+        <input id="departureStartFromId" type="text" [ngModel]="dateRangeStartFrom"
+          (ngModelChange)="departureDateRangeStartFrom($event)" class="hideInput" placement="right" name="dp"
+          ngbDatepicker #dsf="ngbDatepicker" [minDate]="getMinDate(getDayAfterDate(dateRangeEndTo))" />
+        <label class="input-group-text" id="endDateLabelFrom" for="departureDateEndIdFromButton">End</label>
+        <button type="button" class="btn btn-default input-group-text" aria-label="Calendar"
+          id="departureDateEndIdFromButton" (click)="def.toggle()">
+          <span aria-hidden="true"><em class="bi bi-calendar"></em></span>
         </button>
-        <input
-          type="text"
-          [(ngModel)]="departureDateFrom"
-          class="hideInput"
-          placement="right"
-          name="dpf"
-          ngbDatepicker
-          #df="ngbDatepicker"
-        />
+        <input id="departureEndFromId" type="text" [ngModel]="dateRangeEndFrom"
+          (ngModelChange)="departureDateRangeEndFrom($event)" class="hideInput" placement="right" name="dp"
+          ngbDatepicker #def="ngbDatepicker" [minDate]="getMinDate(getDayAfterDate(dateRangeEndTo))" />
       </div>
-      <input
-        *ngIf="isRoundTrip"
-        class="form-control"
-        [(ngModel)]="departureDateFrom"
-        disabled="disabled"
-      />
+      <input id="departureDateInputFrom" *ngIf="isRoundTrip" class="form-control" [ngModel]="departureDateStringFrom"
+        disabled="disabled" />
       <div *ngIf="isRoundTrip" class="input-group-prepend">
         <label class="input-group-text" for="stops">Stops</label>
-        <select
-          class="custom-select"
-          id="stops"
-          (change)="updateStopsFrom(stopsFrom.value)"
-          #stopsFrom
-        >
+        <select class="custom-select " id="stops" (change)="updateStopsFrom(stopsFrom.value)" #stopsFrom>
           <option selected>0</option>
           <option value="1">1</option>
           <option value="2">2</option>
@@ -274,24 +159,11 @@
         </select>
       </div>
     </div>
-    <div
-      *ngIf="
-        chosenFlightPathTo.length > 0 &&
-        isRoundTrip &&
-        isOriginAirportValid &&
-        isDestinationAirportValid
-      "
-      class="input-group mb-3"
-    >
+    <div *ngIf="chosenFlightPathTo.length > 0 && isRoundTrip && isOriginAirportValid && isDestinationAirportValid"
+      class="input-group mb-3">
       <div class="card mt-1" *ngIf="chosenFlightPathFrom.length > 0">
         <div class="card-header">
-          <button
-            type="button"
-            class="btn btn-danger"
-            (click)="removeFlightPathFrom()"
-          >
-            Remove Flightpath
-          </button>
+          <button type="button" class="btn btn-danger" (click)="removeFlightPathFrom()">Remove Return Flight</button>
         </div>
         <div class="card-body">
           <table class="table" aria-label="chosen return flight path">
@@ -306,38 +178,23 @@
             </thead>
             <tbody>
               <tr *ngFor="let flight of chosenFlightPathFrom">
-                <td>
-                  {{
-                    flight.route.originAirport.city +
-                      ", " +
-                      flight.route.originAirport.iataId
-                  }}
+                <td>{{flight.route.originAirport.city+", "+flight.route.originAirport.iataId}}</td>
+                <td>{{flight.route.destinationAirport.city+", "+flight.route.destinationAirport.iataId}}
                 </td>
-                <td>
-                  {{
-                    flight.route.destinationAirport.city +
-                      ", " +
-                      flight.route.destinationAirport.iataId
-                  }}
-                </td>
-                <td>{{ flight.departureTime }}</td>
-                <td>{{ flight.availableSeats }}</td>
-                <td>{{ flight.seatPrice }}</td>
+                <td>{{flight.departureTime}}</td>
+                <td>{{flight.availableSeats}}</td>
+                <td>{{flight.seatPrice}}</td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
-      <div class="card mt-1" *ngIf="chosenFlightPathFrom.length == 0">
-        <div class="card" *ngFor="let flights of flightPathsFrom">
+      <ng-container *ngIf="chosenFlightPathFrom.length == 0">
+        <div class="card mt-1"
+          *ngFor="let flights of getArrayOfFlightPaths(flightPathsFrom) | slice: (returnPage-1) * returnPageSize : returnPage * returnPageSize">
           <div class="card-header">
-            <button
-              type="button"
-              class="btn btn-primary"
-              (click)="addFlightPathFrom(flights)"
-            >
-              Add Flightpath
-            </button>
+            <button type="button" class="btn btn-primary" (click)="addFlightPathFrom(flights)">Choose
+              Return Flight</button>
           </div>
           <div class="card-body">
             <table class="table" aria-label="return flight search results">
@@ -352,52 +209,38 @@
               </thead>
               <tbody>
                 <tr *ngFor="let flight of flights">
-                  <td>
-                    {{
-                      flight.route.originAirport.city +
-                        ", " +
-                        flight.route.originAirport.iataId
-                    }}
-                  </td>
-                  <td>
-                    {{
-                      flight.route.destinationAirport.city +
-                        ", " +
-                        flight.route.destinationAirport.iataId
-                    }}
-                  </td>
-                  <td>{{ flight.departureTime }}</td>
-                  <td>{{ flight.availableSeats }}</td>
-                  <td>{{ flight.seatPrice }}</td>
+                  <td>{{flight.route.originAirport.city+", "+flight.route.originAirport.iataId}}</td>
+                  <td>{{flight.route.destinationAirport.city+",
+                    "+flight.route.destinationAirport.iataId}}</td>
+                  <td>{{flight.departureTime}}</td>
+                  <td>{{flight.availableSeats}}</td>
+                  <td>{{flight.seatPrice}}</td>
                 </tr>
               </tbody>
             </table>
           </div>
         </div>
+      </ng-container>
+      <div class="card mt-1" *ngIf="chosenFlightPathFrom.length == 0 && flightPathsFrom.size > 5">
+        <div class="card-header">
+          <ngb-pagination [collectionSize]="flightPathsFrom.size" [pageSize]="returnPageSize" [(page)]="returnPage"
+            [maxSize]="5" [rotate]="true" [ellipses]="false" [boundaryLinks]="true">
+          </ngb-pagination>
+        </div>
       </div>
       <div class="card mt-1" *ngIf="isRoundTrip && flightPathsFrom.size == 0">
         <div class="card-header">
-          <button type="button" class="btn btn-primary">
-            No Flight Paths Found
-          </button>
+          <span>No Flights Found</span>
         </div>
       </div>
     </div>
     <div *ngIf="chosenFlightPathTo.length > 0" class="input-group mb-3">
-      <button
-        class="btn btn-primary"
-        *ngIf="chosenFlightPathFrom.length > 0 && isRoundTrip"
-        (click)="addToCartRoundTrip()"
-      >
+      <button class="btn btn-primary" *ngIf="chosenFlightPathFrom.length > 0 && isRoundTrip"
+        (click)="addToCartRoundTrip()">
         Add to Cart
       </button>
-      <button
-        class="btn btn-primary"
-        *ngIf="!isRoundTrip"
-        (click)="addToCart()"
-      >
+      <button class="btn btn-primary" *ngIf="!isRoundTrip" (click)="addToCart()">
         Add to Cart
       </button>
     </div>
   </div>
-</div>

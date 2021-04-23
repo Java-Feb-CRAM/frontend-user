@@ -71,8 +71,6 @@ import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.
     NgxStripeModule.forRoot(
       'pk_test_51IbSmqKMAXXjSzaxL3WIYu5kSzambFamCzc2LhMp5AtyOOhwjoh5PJKq2He2N566ECIPpvHYZU7yq5PAt9sMJG4H00MTCuphgp'
     ),
-    TimepickerModule.forRoot(),
-    PopoverModule.forRoot(),
   ],
   providers: [
     {
