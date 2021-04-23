@@ -6,6 +6,7 @@ import { FlightService } from '../../../services/flight.service';
 import { Observable, OperatorFunction } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { CartService } from 'src/app/services/cart.service';
+import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 
 export interface MultiHopFlightPaths {
   orderedMultiHopFlights: Set<Flight[]>;
@@ -30,7 +31,7 @@ export class SearchFlightsComponent {
   public destinationAirportIataId = "";
   public departureDateStringTo = "";
   public departureDateStringFrom = "";
-  public dateRangeStartTo: Date = new Date();
+  public dateRangeStartTo: Date = new Date(Date.UTC(1970, 1, 1, 0, 0, 0, 0));
   public dateRangeEndTo: Date = new Date();
   public dateRangeStartFrom: Date = new Date();
   public dateRangeEndFrom: Date = new Date();
@@ -168,10 +169,6 @@ export class SearchFlightsComponent {
     this.subscribeFlightsFrom();
   }
 
-  getDateFromNow(): Date {
-    return new Date();
-  }
-
   updateDepartureDateStringTo(hasStart: boolean, hasEnd: boolean): void {
     let dateStartTo = "";
     let dateEndTo = "";
@@ -208,19 +205,31 @@ export class SearchFlightsComponent {
     this.departureDateStringFrom = `${dateStartFrom} → ${dateEndFrom}`;
   }
 
-  getMinDateNow() {
-    const date = new Date();
-    return { year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() };
+  getZeroedTimeDate(date: Date): Date {
+    return new Date(date.setHours(0, 0, 0, 0));
   }
-  getMinDate(date: Date) {
-    return { year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() };
+
+  getMinDateNow(): NgbDate {
+    const date = this.getZeroedTimeDate(new Date());
+    return new NgbDate(date.getFullYear(), date.getMonth() + 1, date.getDate());
+  }
+
+  getMinDate(date: Date): NgbDate {
+    date = this.getZeroedTimeDate(date);
+    return new NgbDate(date.getFullYear(), date.getMonth() + 1, date.getDate());
+  }
+
+  getDayAfterDate(date: Date): Date {
+    date = this.getZeroedTimeDate(date);
+    return new Date(date.setDate(date.getDate() + 1));
   }
 
   departureDateRangeStartTo(dateString: string): void {
-    const newDate = new Date(dateString);
-    this.dateRangeStartTo = newDate;
-    if ((new Date()) < newDate) {
-      if (this.dateRangeStartTo < newDate) {
+    const thisDate = this.getZeroedTimeDate(new Date(dateString));
+    const today = this.getZeroedTimeDate((new Date()));
+    this.dateRangeStartTo = thisDate;
+    if (today <= thisDate) {
+      if (this.dateRangeEndTo >= thisDate) {
         this.updateDepartureDateStringTo(true, true);
         this.subscribeFlightsTo();
       } else {
@@ -229,10 +238,11 @@ export class SearchFlightsComponent {
     }
   }
   departureDateRangeEndTo(dateString: string): void {
-    const newDate = new Date(dateString);
-    this.dateRangeEndTo = newDate;
-    if ((new Date()) < newDate) {
-      if (this.dateRangeStartTo < newDate) {
+    const thisDate = this.getZeroedTimeDate(new Date(dateString));
+    const today = this.getZeroedTimeDate((new Date()));
+    this.dateRangeEndTo = thisDate;
+    if (today <= thisDate) {
+      if (this.dateRangeStartTo <= thisDate) {
         this.updateDepartureDateStringTo(true, true);
         this.subscribeFlightsTo();
       } else {
@@ -242,10 +252,11 @@ export class SearchFlightsComponent {
   }
 
   departureDateRangeStartFrom(dateString: string): void {
-    const newDate = new Date(dateString);
-    this.dateRangeStartFrom = newDate;
-    if ((new Date()) < newDate) {
-      if (this.dateRangeStartFrom < newDate) {
+    const thisDate = this.getZeroedTimeDate(new Date(dateString));
+    const today = this.getZeroedTimeDate((new Date()));
+    this.dateRangeStartFrom = thisDate;
+    if (today <= thisDate) {
+      if (this.dateRangeEndFrom >= thisDate) {
         this.updateDepartureDateStringFrom(true, true);
         this.subscribeFlightsFrom();
       } else {
@@ -254,10 +265,11 @@ export class SearchFlightsComponent {
     }
   }
   departureDateRangeEndFrom(dateString: string): void {
-    const newDate = new Date(dateString);
-    this.dateRangeEndFrom = newDate;
-    if ((new Date()) < newDate) {
-      if (this.dateRangeStartFrom < newDate) {
+    const thisDate = this.getZeroedTimeDate(new Date(dateString));
+    const today = this.getZeroedTimeDate((new Date()));
+    this.dateRangeEndFrom = thisDate;
+    if (today <= thisDate) {
+      if (this.dateRangeStartFrom <= thisDate) {
         this.updateDepartureDateStringFrom(true, true);
         this.subscribeFlightsFrom();
       } else {
