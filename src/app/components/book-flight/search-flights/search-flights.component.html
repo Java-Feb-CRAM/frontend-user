@@ -16,24 +16,24 @@
     <div class="input-group mb-3">
       <div class="input-group-prepend">
         <label class="input-group-text" for="startDateLabelTo">Departure</label>
-        <label class="input-group-text" id="startDateLabelTo" for="departureDateStartIdTo">Start</label>
-        <button type="button" class="btn btn-default input-group-text" aria-label="Calendar" id="departureDateStartIdTo"
-          (click)="dst.toggle()">
+        <label class="input-group-text" id="startDateLabelTo" for="departureDateStartIdToButton">Start</label>
+        <button type="button" class="btn btn-default input-group-text" aria-label="Calendar"
+          id="departureDateStartIdToButton" (click)="dst.toggle()">
           <span aria-hidden="true"><em class="bi bi-calendar"></em></span>
         </button>
-        <input type="text" [ngModel]="dateRangeStartTo" (ngModelChange)="departureDateRangeStartTo($event)"
-          class="hideInput" placement="right" name="dp" ngbDatepicker #dst="ngbDatepicker"
-          [minDate]="getMinDateNow()" />
-        <label class="input-group-text" id="endDateLabelTo" for="departureDateEndIdTo">End</label>
-        <button type="button" class="btn btn-default input-group-text" aria-label="Calendar" id="departureDateEndIdTo"
-          (click)="det.toggle()">
+        <input id="departureStartToId" type="text" [ngModel]="dateRangeStartTo"
+          (ngModelChange)="departureDateRangeStartTo($event)" class="hideInput" placement="right" name="dp"
+          ngbDatepicker #dst="ngbDatepicker" [minDate]="getMinDateNow()" />
+        <label class="input-group-text" id="endDateLabelTo" for="departureDateEndIdToButton">End</label>
+        <button type="button" class="btn btn-default input-group-text" aria-label="Calendar"
+          id="departureDateEndIdToButton" (click)="det.toggle()">
           <span aria-hidden="true"><em class="bi bi-calendar"></em></span>
         </button>
-        <input type="text" [ngModel]="dateRangeEndTo" (ngModelChange)="departureDateRangeEndTo($event)"
-          class="hideInput" placement="right" name="dp" ngbDatepicker #det="ngbDatepicker"
-          [minDate]="getMinDate(dateRangeStartTo)" />
+        <input id="departureEndToId" type="text" [ngModel]="dateRangeEndTo"
+          (ngModelChange)="departureDateRangeEndTo($event)" class="hideInput" placement="right" name="dp" ngbDatepicker
+          #det="ngbDatepicker" [minDate]="getMinDate(dateRangeStartTo)" />
       </div>
-      <input class="form-control" [ngModel]="departureDateStringTo" disabled="disabled" />
+      <input id="departureDateInputTo" class="form-control" [ngModel]="departureDateStringTo" disabled="disabled" />
       <div class="input-group-prepend">
         <label class="input-group-text" for="stops">Stops</label>
         <select class="custom-select" id="stops" (change)="updateStopsTo(stopsTo.value)" #stopsTo>
@@ -129,22 +129,25 @@
       </div>
       <div *ngIf="isRoundTrip" class="input-group-prepend">
         <label class="input-group-text" for="startDateLabelFrom">Departure</label>
-        <label class="input-group-text" id="startDateLabelFrom" for="departureDateStartIdFrom">Start</label>
+        <label class="input-group-text" id="startDateLabelFrom" for="departureDateStartIdFromButton">Start</label>
         <button type="button" class="btn btn-default input-group-text" aria-label="Calendar"
-          id="departureDateStartIdFrom" (click)="dsf.toggle()">
+          id="departureDateStartIdFromButton" (click)="dsf.toggle()">
           <span aria-hidden="true"><em class="bi bi-calendar"></em></span>
         </button>
-        <input type="text" [ngModel]="dateRangeStartFrom" (ngModelChange)="departureDateRangeStartFrom($event)"
-          class="hideInput" placement="right" name="dp" ngbDatepicker #dsf="ngbDatepicker" />
-        <label class="input-group-text" id="endDateLabelFrom" for="departureDateEndIdFrom">End</label>
-        <button type="button" class="btn btn-default input-group-text" aria-label="Calendar" id="departureDateEndIdFrom"
-          (click)="def.toggle()">
+        <input id="departureStartFromId" type="text" [ngModel]="dateRangeStartFrom"
+          (ngModelChange)="departureDateRangeStartFrom($event)" class="hideInput" placement="right" name="dp"
+          ngbDatepicker #dsf="ngbDatepicker" [minDate]="getMinDate(getDayAfterDate(dateRangeEndTo))" />
+        <label class="input-group-text" id="endDateLabelFrom" for="departureDateEndIdFromButton">End</label>
+        <button type="button" class="btn btn-default input-group-text" aria-label="Calendar"
+          id="departureDateEndIdFromButton" (click)="def.toggle()">
           <span aria-hidden="true"><em class="bi bi-calendar"></em></span>
         </button>
-        <input type="text" [ngModel]="dateRangeEndFrom" (ngModelChange)="departureDateRangeEndFrom($event)"
-          class="hideInput" placement="right" name="dp" ngbDatepicker #def="ngbDatepicker" />
+        <input id="departureEndFromId" type="text" [ngModel]="dateRangeEndFrom"
+          (ngModelChange)="departureDateRangeEndFrom($event)" class="hideInput" placement="right" name="dp"
+          ngbDatepicker #def="ngbDatepicker" [minDate]="getMinDate(getDayAfterDate(dateRangeEndTo))" />
       </div>
-      <input *ngIf="isRoundTrip" class="form-control" [ngModel]="departureDateStringFrom" disabled="disabled" />
+      <input id="departureDateInputFrom" *ngIf="isRoundTrip" class="form-control" [ngModel]="departureDateStringFrom"
+        disabled="disabled" />
       <div *ngIf="isRoundTrip" class="input-group-prepend">
         <label class="input-group-text" for="stops">Stops</label>
         <select class="custom-select " id="stops" (change)="updateStopsFrom(stopsFrom.value)" #stopsFrom>
