@@ -123,7 +123,7 @@
       class="input-group mb-3">
       <div class="input-group-prepend" *ngIf="chosenFlightPathTo.length > 0">
         <label class="input-group-text" for="roundTrip">Round-Trip</label>
-        <div class="input-group-text">
+        <div class="input-group-text" *ngIf="!addedToCart">
           <input type="checkbox" id="roundTrip" aria-label="Checkbox for round trip" (click)="toggleRoundTrip()">
         </div>
       </div>
@@ -234,8 +234,8 @@
         </div>
       </div>
     </div>
-    <div *ngIf="chosenFlightPathTo.length > 0" class="input-group mb-3">
-      <button class="btn btn-primary" *ngIf="chosenFlightPathFrom.length > 0 && isRoundTrip"
+    <div *ngIf="chosenFlightPathTo.length > 0 && !addedToCart" class="input-group mb-3">
+      <button type="button" class="btn btn-primary" *ngIf="chosenFlightPathFrom.length > 0 && isRoundTrip"
         (click)="addToCartRoundTrip()">
         Add to Cart
       </button>
@@ -243,4 +243,14 @@
         Add to Cart
       </button>
     </div>
+    <div *ngIf="chosenFlightPathTo.length > 0 && addedToCart" class="input-group mb-3">
+      <button type="button" class="btn btn-primary" routerLink="/cart">
+        Go To Cart
+      </button>
+      &nbsp;
+      <button type="button" class="btn btn-primary" routerLink="/flights" (click)="resetSearch()">
+        Reset Search
+      </button>
+    </div>
   </div>
+</div>

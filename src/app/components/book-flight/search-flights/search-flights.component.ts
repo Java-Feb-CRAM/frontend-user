@@ -27,6 +27,7 @@ export class SearchFlightsComponent {
   public isRoundTrip = false;
   public isOriginAirportValid = false;
   public isDestinationAirportValid = false;
+  public addedToCart = false;
   public originAirportIataId = "";
   public destinationAirportIataId = "";
   public departureDateStringTo = "";
@@ -148,6 +149,7 @@ export class SearchFlightsComponent {
     this.chosenFlightPathTo.forEach((flight) =>
       this.cartService.addToCart({ id: flight.id })
     );
+    this.addedToCart = true;
   }
 
   addToCartRoundTrip(): void {
@@ -157,6 +159,7 @@ export class SearchFlightsComponent {
     this.chosenFlightPathFrom.forEach((flight) =>
       this.cartService.addToCart({ id: flight.id })
     );
+    this.addedToCart = true;
   }
 
   updateStopsTo(stops: string): void {
@@ -276,6 +279,34 @@ export class SearchFlightsComponent {
         this.updateDepartureDateStringFrom(false, true);
       }
     }
+  }
+
+  resetSearch(): void {
+    this.airports = [];
+    this.chosenFlightPathTo = [];
+    this.chosenFlightPathFrom = [];
+    this.flightPathsTo = new Set<Flight[]>();
+    this.flightPathsFrom = new Set<Flight[]>();
+    this.isRoundTrip = false;
+    this.isOriginAirportValid = false;
+    this.isDestinationAirportValid = false;
+    this.addedToCart = false;
+    this.originAirportIataId = "";
+    this.destinationAirportIataId = "";
+    this.departureDateStringTo = "";
+    this.departureDateStringFrom = "";
+    this.dateRangeStartTo = new Date(Date.UTC(1970, 1, 1, 0, 0, 0, 0));
+    this.dateRangeEndTo = new Date();
+    this.dateRangeStartFrom = new Date();
+    this.dateRangeEndFrom = new Date();
+    this.stopsTo = 0;
+    this.stopsFrom = 0;
+    this.departureTo = 0;
+    this.departureFrom = 0;
+    this.page = 1;
+    this.pageSize = 5;
+    this.returnPage = 1;
+    this.returnPageSize = 5;
   }
 
   toggleRoundTrip(): void {
