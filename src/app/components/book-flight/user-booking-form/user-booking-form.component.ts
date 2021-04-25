@@ -3,18 +3,18 @@ import {
   EventEmitter,
   Input,
   OnChanges,
+  OnInit,
   Output,
   SimpleChanges,
 } from '@angular/core';
 import { UserInfo } from '../../../services/user.service';
-import { GuestBookingFormData } from '../guest-booking-form/guest-booking-form.component';
 
 @Component({
   selector: 'app-user-booking-form',
   templateUrl: './user-booking-form.component.html',
   styleUrls: ['./user-booking-form.component.scss'],
 })
-export class UserBookingFormComponent implements OnChanges {
+export class UserBookingFormComponent implements OnChanges, OnInit {
   @Input() user: UserInfo | undefined;
   userEmail = '';
   userPhone = '';
@@ -22,7 +22,15 @@ export class UserBookingFormComponent implements OnChanges {
   @Output()
   userBookingFormSubmitEvent = new EventEmitter<boolean>();
 
+  ngOnInit(): void {
+    this.updateUser();
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
+    this.updateUser();
+  }
+
+  private updateUser(): void {
     if (this.user) {
       this.userEmail = this.user.email || '';
       this.userPhone = this.user.phoneNumber || '';

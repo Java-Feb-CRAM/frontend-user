@@ -31,6 +31,7 @@ module.exports = function (config) {
       reporters: [
         { type: "lcovonly", dir: "coverage/", file: "lcov.info" },
         { type: "text-summary" },
+        { type: "html" },
       ],
     },
     reporters: ["progress", "kjhtml", "spec"],

@@ -3,7 +3,9 @@
     <div class="d-flex justify-content-between">
       <div class="align-self-center d-flex">
         <div class="align-self-center mr-2">Passengers</div>
-        <span class="align-self-center badge badge-secondary">1</span>
+        <span class="align-self-center badge badge-secondary">{{
+          passengers.length
+        }}</span>
       </div>
       <div>
         <button type="button" class="btn btn-primary" (click)="addPassenger()">

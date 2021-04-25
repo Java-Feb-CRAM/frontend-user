@@ -2,9 +2,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RegistrationPageComponent } from './registration-page.component';
 import { RegistrationFormComponent } from '../../components/authentication/registration-form/registration-form.component';
-import { RouterTestingModule } from '@angular/router/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
+import { By } from '@angular/platform-browser';
+import { PhonePipe } from '../../pipes/phone.pipe';
 
 describe('RegistrationPageComponent', () => {
   let component: RegistrationPageComponent;
@@ -12,12 +14,17 @@ describe('RegistrationPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      declarations: [
+        RegistrationPageComponent,
+        RegistrationFormComponent,
+        PhonePipe,
+      ],
+      providers: [FormBuilder],
       imports: [
-        RouterTestingModule,
-        HttpClientTestingModule,
+        RouterModule.forRoot([]),
+        HttpClientModule,
         ReactiveFormsModule,
       ],
-      declarations: [RegistrationPageComponent, RegistrationFormComponent],
     }).compileComponents();
   });
 
@@ -27,7 +34,10 @@ describe('RegistrationPageComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('should display RegistrationFormComponent', () => {
+    const de = fixture.debugElement.query(
+      By.directive(RegistrationFormComponent)
+    );
+    expect(de).toBeTruthy();
   });
 });
