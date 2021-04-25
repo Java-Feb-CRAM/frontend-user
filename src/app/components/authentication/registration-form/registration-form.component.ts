@@ -27,15 +27,23 @@ export class RegistrationFormComponent {
       minLength: 'Username must be a minimum of 8 characters',
       maxLength: 'Username must be a maximum of 32 characters',
       pattern:
-        'Username can only have lowercase/uppercase letters, numbers and underscores',
+        'Username can only have lowercase/uppercase letters, numbers ' +
+        'and underscores with a length between 8 and 32 characters',
     },
     password: {
       required: 'Password is required',
       minLength: 'Password must be a minimum of 8 characters',
       maxLength: 'Password must be a maximum of 32 characters',
       pattern:
-        'Password must contain: 1 uppercase letter' +
-        '1 lowercase letter 1 number 1 of these symbols: @!#$%^&*_+=~',
+        'Password must contain: 1 uppercase letter ' +
+        '1 lowercase letter 1 number 1 of these symbols: @!#$%^&*_+=~' +
+        'with a length between 8 and 32 characters',
+    },
+    matchingPassword: {
+      required: 'Confirm password is required',
+      minLength: 'Confirm password must be a minimum of 8 characters',
+      maxLength: 'Confirm password must be a maximum of 32 characters',
+      pattern: 'Confirm password must match the password you first typed',
     },
     email: {
       required: 'Email is required',
@@ -43,17 +51,21 @@ export class RegistrationFormComponent {
     },
     phone: {
       required: 'Phone number is required',
-      pattern: 'Phone number must follow pattern 000-111-2222',
+      minLength: 'Phone number must be a minimum of 10 characters',
+      maxLength: 'Phone number must be a maximum of 24 characters',
+      pattern: 'Phone number must have a length of 10 to 24',
     },
     givenName: {
       required: 'First name is required',
-      minLength: 'First name must be a minimum of 1 characters',
+      minLength: 'First name must be a minimum of 2 characters',
       maxLength: 'First name must be a maximum of 32 characters',
+      pattern: 'First name must have a length of 2 to 32',
     },
     familyName: {
       required: 'Last name is required',
-      minLength: 'Last name must be a minimum of 1 characters',
+      minLength: 'Last name must be a minimum of 2 characters',
       maxLength: 'Last name must be a maximum of 32 characters',
+      pattern: 'Last name must have a length of 2 to 32',
     },
   };
 
@@ -68,7 +80,7 @@ export class RegistrationFormComponent {
           Validators.required,
           Validators.minLength(8),
           Validators.maxLength(32),
-          Validators.pattern('^[a-zA-Z]+[a-zA-Z\\d_]+$'),
+          Validators.pattern('^[a-zA-Z]+[a-zA-Z\\d_]{7,31}$'),
         ],
       ],
       password: [
@@ -82,13 +94,22 @@ export class RegistrationFormComponent {
           ),
         ],
       ],
-      matchingPassword: ['', []],
+      matchingPassword: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(8),
+          Validators.maxLength(32),
+          Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@!#$%^&*_+=~])[A-Za-z\\d@!#$%^&*_+=~]{8,32}$'),
+        ]
+      ],
       phone: [
         '',
         [
           Validators.required,
           Validators.minLength(10),
-          Validators.maxLength(16),
+          Validators.maxLength(24),
+          Validators.pattern('^.{10,24}$'),
         ],
       ],
       email: ['', [Validators.required, Validators.email]],
@@ -96,16 +117,18 @@ export class RegistrationFormComponent {
         '',
         [
           Validators.required,
-          Validators.minLength(1),
+          Validators.minLength(2),
           Validators.maxLength(32),
+          Validators.pattern('^.{2,32}$'),
         ],
       ],
       givenName: [
         '',
         [
           Validators.required,
-          Validators.minLength(1),
+          Validators.minLength(2),
           Validators.maxLength(32),
+          Validators.pattern('^.{2,32}$'),
         ],
       ],
     });
@@ -128,8 +151,8 @@ export class RegistrationFormComponent {
   isFieldInvalid(controlName: string): boolean {
     return Boolean(
       this.registrationForm.get(controlName)?.invalid &&
-        (this.registrationForm.get(controlName)?.dirty ||
-          this.registrationForm.get(controlName)?.touched)
+      (this.registrationForm.get(controlName)?.dirty ||
+        this.registrationForm.get(controlName)?.touched)
     );
   }
 
@@ -149,8 +172,8 @@ export class RegistrationFormComponent {
   }
 
   allErrors(controlName: string): string[] {
-    if (this.registrationForm.get(controlName)) {
-      const control = this.registrationForm.get(controlName);
+    const control = this.registrationForm.get(controlName);
+    if (control) {
       if (control?.errors) {
         return Object.keys(control.errors);
       }
