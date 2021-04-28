@@ -23,7 +23,7 @@ export class LoginFormComponent {
       minLength: 'Username must be a minimum of 8 characters',
       maxLength: 'Username must be a maximum of 32 characters',
       pattern:
-        'Username can only have lowercase/uppercase letters, numbers and underscores',
+        'Username can only have lowercase/uppercase letters, numbers and underscores with a length between 8 and 32 characters',
     },
     password: {
       required: 'Password is required',
@@ -47,7 +47,7 @@ export class LoginFormComponent {
           Validators.required,
           Validators.minLength(8),
           Validators.maxLength(32),
-          Validators.pattern('^[a-zA-Z]+[a-zA-Z\\d_]+$'),
+          Validators.pattern('^[a-zA-Z]{1}[a-zA-Z\\d_]{7,31}$'),
         ],
       ],
       password: [
@@ -56,7 +56,7 @@ export class LoginFormComponent {
           Validators.required,
           Validators.minLength(8),
           Validators.maxLength(32),
-          Validators.pattern('[A-Za-z\\d@!#$%^&*_+=~]+$'),
+          Validators.pattern('[A-Za-z\\d@!#$%^&*_+=~]{8,32}$'),
         ],
       ],
     });
@@ -65,8 +65,8 @@ export class LoginFormComponent {
   isFieldInvalid(controlName: string): boolean {
     return Boolean(
       this.loginForm.get(controlName)?.invalid &&
-        (this.loginForm.get(controlName)?.dirty ||
-          this.loginForm.get(controlName)?.touched)
+      (this.loginForm.get(controlName)?.dirty ||
+        this.loginForm.get(controlName)?.touched)
     );
   }
 

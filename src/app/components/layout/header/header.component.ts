@@ -11,7 +11,7 @@ export class HeaderComponent {
   constructor(
     public userService: UserService,
     public cartService: CartService
-  ) {}
+  ) { }
 
   get isLoggedIn(): boolean {
     return this.userService.isLoggedIn;
