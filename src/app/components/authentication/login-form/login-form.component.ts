@@ -65,8 +65,8 @@ export class LoginFormComponent {
   isFieldInvalid(controlName: string): boolean {
     return Boolean(
       this.loginForm.get(controlName)?.invalid &&
-      (this.loginForm.get(controlName)?.dirty ||
-        this.loginForm.get(controlName)?.touched)
+        (this.loginForm.get(controlName)?.dirty ||
+          this.loginForm.get(controlName)?.touched)
     );
   }
 

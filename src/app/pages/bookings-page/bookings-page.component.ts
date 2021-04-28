@@ -8,6 +8,8 @@ import { ActivatedRoute } from '@angular/router';
 import { UserInfo, UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmModalComponent } from '../../components/confirm-modal/confirm-modal.component';
+import { UpdateBookingDto } from '../../dto/UpdateBookingDto';
+import { EditBookingFormComponent } from '../../components/edit-booking-form/edit-booking-form.component';
 
 @Component({
   selector: 'app-bookings-page',
@@ -60,6 +62,23 @@ export class BookingsPageComponent implements OnInit {
         this.bookingService.cancelBooking(bookingId).subscribe(() => {
           this.ngOnInit();
         });
+      }
+    });
+  }
+
+  editBooking(bookingId: number): void {
+    console.log(this.booking?.passengers);
+    const modalRef = this.modalService.open(EditBookingFormComponent);
+    modalRef.componentInstance.originalPassengers = this.booking?.passengers;
+    modalRef.componentInstance.update();
+    modalRef.closed.subscribe((reason) => {
+      if (reason as UpdateBookingDto) {
+        console.log('yep');
+        this.bookingService.updateBooking(bookingId, reason).subscribe(() => {
+          this.ngOnInit();
+        });
+      } else {
+        console.log('nope');
       }
     });
   }

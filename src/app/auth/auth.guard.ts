@@ -12,7 +12,7 @@ import { UserService } from '../services/user.service';
   providedIn: 'root',
 })
 export class AuthGuard implements CanActivate {
-  constructor(private readonly userService: UserService) { }
+  constructor(private readonly userService: UserService) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,

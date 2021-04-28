@@ -100,8 +100,10 @@ export class RegistrationFormComponent {
           Validators.required,
           Validators.minLength(8),
           Validators.maxLength(32),
-          Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@!#$%^&*_+=~])[A-Za-z\\d@!#$%^&*_+=~]{8,32}$'),
-        ]
+          Validators.pattern(
+            '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@!#$%^&*_+=~])[A-Za-z\\d@!#$%^&*_+=~]{8,32}$'
+          ),
+        ],
       ],
       phone: [
         '',
@@ -151,8 +153,8 @@ export class RegistrationFormComponent {
   isFieldInvalid(controlName: string): boolean {
     return Boolean(
       this.registrationForm.get(controlName)?.invalid &&
-      (this.registrationForm.get(controlName)?.dirty ||
-        this.registrationForm.get(controlName)?.touched)
+        (this.registrationForm.get(controlName)?.dirty ||
+          this.registrationForm.get(controlName)?.touched)
     );
   }
 

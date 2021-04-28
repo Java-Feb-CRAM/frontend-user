@@ -1,4 +1,7 @@
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 import { environment } from 'src/environments/environment';
@@ -19,7 +22,7 @@ const validRegistrationFormData = {
   email: 'craig@ss.com',
   familyName: 'Craig',
   givenName: 'Saunders',
-}
+};
 
 const invalidRegistrationFormData = {
   username: 'A!123456',
@@ -29,7 +32,7 @@ const invalidRegistrationFormData = {
   email: 'craig',
   familyName: '',
   givenName: 'S',
-}
+};
 
 describe('UserService', () => {
   let httpTestingController: HttpTestingController;
@@ -37,13 +40,8 @@ describe('UserService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        UserService,
-      ],
-      imports: [
-        RouterModule.forRoot([]),
-        HttpClientTestingModule,
-      ]
+      providers: [UserService],
+      imports: [RouterModule.forRoot([]), HttpClientTestingModule],
     });
     httpTestingController = TestBed.inject(HttpTestingController);
     userService = TestBed.inject(UserService);

@@ -35,6 +35,7 @@ import { PhonePipe } from './pipes/phone.pipe';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { PopoverModule } from 'ngx-bootstrap/popover';
 import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.component';
+import { EditBookingFormComponent } from './components/edit-booking-form/edit-booking-form.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.
     SearchFlightsComponent,
     PhonePipe,
     ConfirmModalComponent,
+    EditBookingFormComponent,
   ],
   imports: [
     BrowserModule,
