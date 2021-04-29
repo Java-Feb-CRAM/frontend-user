@@ -13,9 +13,11 @@ const validCredentials = new CredentialsDto('A1234567', 'Testing123!');
 const formBuilderGroupEmpty = new FormBuilder().group({});
 
 class UserServiceStub {
-  login(): void { };
-  checkRedirect(): void { };
-  isJWTSet(): boolean { return false };
+  login(): void {}
+  checkRedirect(): void {}
+  isJWTSet(): boolean {
+    return false;
+  }
 }
 
 describe('LoginFormComponent', () => {
@@ -52,19 +54,25 @@ describe('LoginFormComponent', () => {
 
   it('should display username errors only on any error', async () => {
     fixture.whenStable().then(() => {
-      let usernameElement = fixture.debugElement.query(By.css('#username')).nativeElement;
+      let usernameElement = fixture.debugElement.query(By.css('#username'))
+        .nativeElement;
       let errorElement = fixture.debugElement.query(By.css('#usernameErrors'));
       expect(usernameElement).toBeTruthy();
       expect(errorElement).toBeTruthy(); // zero length
-      usernameElement = fixture.debugElement.query(By.css('#username')).nativeElement;
+      usernameElement = fixture.debugElement.query(By.css('#username'))
+        .nativeElement;
       usernameElement.value = 'A1234567!';
       usernameElement.dispatchEvent(new Event('input'));
       errorElement = fixture.debugElement.query(By.css('#usernameErrors'));
       expect(errorElement).toBeTruthy();
-      const displayedErrorElement = fixture.debugElement.query(By.css('#usernameErrors div')).nativeElement;
-      expect((displayedErrorElement as HTMLDivElement).innerText)
-        .toBe("Username can only have lowercase/uppercase letters, numbers and underscores with a length between 8 and 32 characters");
-      usernameElement = fixture.debugElement.query(By.css('#username')).nativeElement;
+      const displayedErrorElement = fixture.debugElement.query(
+        By.css('#usernameErrors div')
+      ).nativeElement;
+      expect((displayedErrorElement as HTMLDivElement).innerText).toBe(
+        'Username can only have lowercase/uppercase letters, numbers and underscores with a length between 8 and 32 characters'
+      );
+      usernameElement = fixture.debugElement.query(By.css('#username'))
+        .nativeElement;
       usernameElement.value = validCredentials.username;
       usernameElement.dispatchEvent(new Event('input'));
       errorElement = fixture.debugElement.query(By.css('#usernameErrors'));
@@ -75,7 +83,8 @@ describe('LoginFormComponent', () => {
   it('should return with empty list of username errors if no error for controlname', async () => {
     fixture.whenStable().then(() => {
       expect(component.allErrors('username')).toEqual(['required']);
-      const usernameElement = fixture.debugElement.query(By.css('#username')).nativeElement;
+      const usernameElement = fixture.debugElement.query(By.css('#username'))
+        .nativeElement;
       usernameElement.value = validCredentials.username;
       usernameElement.dispatchEvent(new Event('input'));
       expect(component.allErrors('username')).toEqual([]);
@@ -84,15 +93,20 @@ describe('LoginFormComponent', () => {
 
   it('should submit and run login method onSubmit()', async () => {
     fixture.whenStable().then(() => {
-      let submitButtonElement = fixture.debugElement.query(By.css('#submitButton')).nativeElement;
+      let submitButtonElement = fixture.debugElement.query(
+        By.css('#submitButton')
+      ).nativeElement;
       expect((submitButtonElement as HTMLButtonElement).disabled).toBeTrue();
-      const usernameElement = fixture.debugElement.query(By.css('#username')).nativeElement;
+      const usernameElement = fixture.debugElement.query(By.css('#username'))
+        .nativeElement;
       usernameElement.value = validCredentials.username;
       usernameElement.dispatchEvent(new Event('input'));
-      const passwordElement = fixture.debugElement.query(By.css('#password')).nativeElement;
+      const passwordElement = fixture.debugElement.query(By.css('#password'))
+        .nativeElement;
       passwordElement.value = validCredentials.password;
       passwordElement.dispatchEvent(new Event('input'));
-      submitButtonElement = fixture.debugElement.query(By.css('#submitButton')).nativeElement;
+      submitButtonElement = fixture.debugElement.query(By.css('#submitButton'))
+        .nativeElement;
       expect((submitButtonElement as HTMLButtonElement).disabled).toBeFalse();
       (submitButtonElement as HTMLButtonElement).click();
       expect((submitButtonElement as HTMLButtonElement).disabled).toBeFalse();

@@ -28,10 +28,10 @@ export class SearchFlightsComponent {
   public isOriginAirportValid = false;
   public isDestinationAirportValid = false;
   public addedToCart = false;
-  public originAirportIataId = "";
-  public destinationAirportIataId = "";
-  public departureDateStringTo = "";
-  public departureDateStringFrom = "";
+  public originAirportIataId = '';
+  public destinationAirportIataId = '';
+  public departureDateStringTo = '';
+  public departureDateStringFrom = '';
   public dateRangeStartTo: Date = new Date(Date.UTC(1970, 1, 1, 0, 0, 0, 0));
   public dateRangeEndTo: Date = new Date();
   public dateRangeStartFrom: Date = new Date();
@@ -48,8 +48,11 @@ export class SearchFlightsComponent {
   constructor(
     private readonly flightService: FlightService,
     private readonly airportService: AirportService,
-    private readonly cartService: CartService) {
-    this.airportService.getAllAirports().subscribe((airports) => this.airports = airports)
+    private readonly cartService: CartService
+  ) {
+    this.airportService
+      .getAllAirports()
+      .subscribe((airports) => (this.airports = airports));
   }
 
   getArrayOfFlightPaths(flightPaths: Set<Flight[]>): Flight[][] {
@@ -60,24 +63,35 @@ export class SearchFlightsComponent {
     const values: string[] = value.split(', ');
     let filteredAirports: Airport[];
     if (values.length > 1) {
-      filteredAirports = this.airports.filter(v =>
-        v.iataId.toLowerCase() === values[1].toLowerCase());
+      filteredAirports = this.airports.filter(
+        (v) => v.iataId.toLowerCase() === values[1].toLowerCase()
+      );
       this.isOriginAirportValid = filteredAirports.length === 1;
-    }
-    else {
-      filteredAirports = this.airports.filter(v =>
-        v.city.toLowerCase() === value.toLowerCase() ||
-        v.iataId.toLowerCase() === value.toLowerCase());
+    } else {
+      filteredAirports = this.airports.filter(
+        (v) =>
+          v.city.toLowerCase() === value.toLowerCase() ||
+          v.iataId.toLowerCase() === value.toLowerCase()
+      );
       this.isOriginAirportValid = filteredAirports.length === 1;
     }
     if (this.isOriginAirportValid) {
       this.originAirportIataId = filteredAirports[0].iataId;
     }
     const dateNow = new Date();
-    if (dateNow < this.dateRangeStartTo && dateNow < this.dateRangeEndTo && this.dateRangeStartTo < this.dateRangeEndTo) {
+    if (
+      dateNow < this.dateRangeStartTo &&
+      dateNow < this.dateRangeEndTo &&
+      this.dateRangeStartTo < this.dateRangeEndTo
+    ) {
       this.subscribeFlightsTo();
     }
-    if (this.isRoundTrip && this.dateRangeEndTo < this.dateRangeStartFrom && this.dateRangeEndTo < this.dateRangeEndFrom && this.dateRangeStartFrom < this.dateRangeEndFrom) {
+    if (
+      this.isRoundTrip &&
+      this.dateRangeEndTo < this.dateRangeStartFrom &&
+      this.dateRangeEndTo < this.dateRangeEndFrom &&
+      this.dateRangeStartFrom < this.dateRangeEndFrom
+    ) {
       this.subscribeFlightsFrom();
     }
   }
@@ -102,29 +116,50 @@ export class SearchFlightsComponent {
       this.destinationAirportIataId = filteredAirports[0].iataId;
     }
     const dateNow = new Date();
-    if (dateNow < this.dateRangeStartTo && dateNow < this.dateRangeEndTo && this.dateRangeStartTo < this.dateRangeEndTo) {
+    if (
+      dateNow < this.dateRangeStartTo &&
+      dateNow < this.dateRangeEndTo &&
+      this.dateRangeStartTo < this.dateRangeEndTo
+    ) {
       this.subscribeFlightsTo();
     }
-    if (this.isRoundTrip && this.dateRangeEndTo < this.dateRangeStartFrom && this.dateRangeEndTo < this.dateRangeEndFrom && this.dateRangeStartFrom < this.dateRangeEndFrom) {
+    if (
+      this.isRoundTrip &&
+      this.dateRangeEndTo < this.dateRangeStartFrom &&
+      this.dateRangeEndTo < this.dateRangeEndFrom &&
+      this.dateRangeStartFrom < this.dateRangeEndFrom
+    ) {
       this.subscribeFlightsFrom();
     }
   }
 
   subscribeFlightsTo(): void {
     if (this.isOriginAirportValid && this.isDestinationAirportValid) {
-      this.flightService.searchFlights(
-        this.originAirportIataId, this.destinationAirportIataId,
-        this.dateRangeStartTo.getTime() / 1000, this.dateRangeEndTo.getTime() / 1000,
-        this.stopsTo).subscribe((value) => this.flightPathsTo = new Set(Array.from(value).sort()));
+      this.flightService
+        .searchFlights(
+          this.originAirportIataId,
+          this.destinationAirportIataId,
+          this.dateRangeStartTo.getTime() / 1000,
+          this.dateRangeEndTo.getTime() / 1000,
+          this.stopsTo
+        )
+        .subscribe(
+          (value) => (this.flightPathsTo = new Set(Array.from(value).sort()))
+        );
     }
   }
 
   subscribeFlightsFrom(): void {
     if (this.isOriginAirportValid && this.isDestinationAirportValid) {
-      this.flightService.searchFlights(
-        this.destinationAirportIataId, this.originAirportIataId,
-        this.dateRangeStartFrom.getTime() / 1000, this.dateRangeEndFrom.getTime() / 1000,
-        this.stopsFrom).subscribe((value) => this.flightPathsFrom = value);
+      this.flightService
+        .searchFlights(
+          this.destinationAirportIataId,
+          this.originAirportIataId,
+          this.dateRangeStartFrom.getTime() / 1000,
+          this.dateRangeEndFrom.getTime() / 1000,
+          this.stopsFrom
+        )
+        .subscribe((value) => (this.flightPathsFrom = value));
     }
   }
 
@@ -173,8 +208,8 @@ export class SearchFlightsComponent {
   }
 
   updateDepartureDateStringTo(hasStart: boolean, hasEnd: boolean): void {
-    let dateStartTo = "";
-    let dateEndTo = "";
+    let dateStartTo = '';
+    let dateEndTo = '';
     if (hasStart) {
       const month = this.dateRangeStartTo.getMonth() + 1;
       const date = this.dateRangeStartTo.getDate();
@@ -191,8 +226,8 @@ export class SearchFlightsComponent {
   }
 
   updateDepartureDateStringFrom(hasStart: boolean, hasEnd: boolean): void {
-    let dateStartFrom = "";
-    let dateEndFrom = "";
+    let dateStartFrom = '';
+    let dateEndFrom = '';
     if (hasStart) {
       const month = this.dateRangeStartFrom.getMonth() + 1;
       const date = this.dateRangeStartFrom.getDate();
@@ -229,7 +264,7 @@ export class SearchFlightsComponent {
 
   departureDateRangeStartTo(dateString: string): void {
     const thisDate = this.getZeroedTimeDate(new Date(dateString));
-    const today = this.getZeroedTimeDate((new Date()));
+    const today = this.getZeroedTimeDate(new Date());
     this.dateRangeStartTo = thisDate;
     if (today <= thisDate) {
       if (this.dateRangeEndTo >= thisDate) {
@@ -242,7 +277,7 @@ export class SearchFlightsComponent {
   }
   departureDateRangeEndTo(dateString: string): void {
     const thisDate = this.getZeroedTimeDate(new Date(dateString));
-    const today = this.getZeroedTimeDate((new Date()));
+    const today = this.getZeroedTimeDate(new Date());
     this.dateRangeEndTo = thisDate;
     if (today <= thisDate) {
       if (this.dateRangeStartTo <= thisDate) {
@@ -256,7 +291,7 @@ export class SearchFlightsComponent {
 
   departureDateRangeStartFrom(dateString: string): void {
     const thisDate = this.getZeroedTimeDate(new Date(dateString));
-    const today = this.getZeroedTimeDate((new Date()));
+    const today = this.getZeroedTimeDate(new Date());
     this.dateRangeStartFrom = thisDate;
     if (today <= thisDate) {
       if (this.dateRangeEndFrom >= thisDate) {
@@ -269,7 +304,7 @@ export class SearchFlightsComponent {
   }
   departureDateRangeEndFrom(dateString: string): void {
     const thisDate = this.getZeroedTimeDate(new Date(dateString));
-    const today = this.getZeroedTimeDate((new Date()));
+    const today = this.getZeroedTimeDate(new Date());
     this.dateRangeEndFrom = thisDate;
     if (today <= thisDate) {
       if (this.dateRangeStartFrom <= thisDate) {
@@ -291,10 +326,10 @@ export class SearchFlightsComponent {
     this.isOriginAirportValid = false;
     this.isDestinationAirportValid = false;
     this.addedToCart = false;
-    this.originAirportIataId = "";
-    this.destinationAirportIataId = "";
-    this.departureDateStringTo = "";
-    this.departureDateStringFrom = "";
+    this.originAirportIataId = '';
+    this.destinationAirportIataId = '';
+    this.departureDateStringTo = '';
+    this.departureDateStringFrom = '';
     this.dateRangeStartTo = new Date(Date.UTC(1970, 1, 1, 0, 0, 0, 0));
     this.dateRangeEndTo = new Date();
     this.dateRangeStartFrom = new Date();
@@ -322,13 +357,16 @@ export class SearchFlightsComponent {
       map((term) => {
         if (term.length < 2) {
           return [];
-        }
-        else {
+        } else {
           const airportMatches: string[] = [];
-          this.airports.filter(v =>
-            v.city.toLowerCase().indexOf(term.toLowerCase()) > -1 ||
-            v.iataId.toLowerCase().indexOf(term.toLowerCase()) > -1)
-            .slice(0, 10).forEach(airport =>
+          this.airports
+            .filter(
+              (v) =>
+                v.city.toLowerCase().indexOf(term.toLowerCase()) > -1 ||
+                v.iataId.toLowerCase().indexOf(term.toLowerCase()) > -1
+            )
+            .slice(0, 10)
+            .forEach((airport) =>
               airportMatches.push(`${airport.city}, ${airport.iataId}`)
             );
           return airportMatches;
