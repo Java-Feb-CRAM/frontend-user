@@ -45,6 +45,7 @@
         </select>
       </div>
     </div>
+    <div class="spinner-border" *ngIf="searchingTo == true"></div>
     <div *ngIf="isOriginAirportValid && isDestinationAirportValid" class="input-group mb-3">
       <div class="card mt-1" *ngIf="chosenFlightPathTo.length > 0">
         <div class="card-header">
@@ -159,6 +160,7 @@
         </select>
       </div>
     </div>
+    <div class="spinner-border" *ngIf="searchingFrom == true"></div>
     <div *ngIf="chosenFlightPathTo.length > 0 && isRoundTrip && isOriginAirportValid && isDestinationAirportValid"
       class="input-group mb-3">
       <div class="card mt-1" *ngIf="chosenFlightPathFrom.length > 0">

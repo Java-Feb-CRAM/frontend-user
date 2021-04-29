@@ -28,6 +28,8 @@ export class SearchFlightsComponent {
   public isOriginAirportValid = false;
   public isDestinationAirportValid = false;
   public addedToCart = false;
+  public searchingTo = false;
+  public searchingFrom = false;
   public originAirportIataId = "";
   public destinationAirportIataId = "";
   public departureDateStringTo = "";
@@ -112,19 +114,27 @@ export class SearchFlightsComponent {
 
   subscribeFlightsTo(): void {
     if (this.isOriginAirportValid && this.isDestinationAirportValid) {
+      this.searchingTo = true;
       this.flightService.searchFlights(
         this.originAirportIataId, this.destinationAirportIataId,
         this.dateRangeStartTo.getTime() / 1000, this.dateRangeEndTo.getTime() / 1000,
-        this.stopsTo).subscribe((value) => this.flightPathsTo = new Set(Array.from(value).sort()));
+        this.stopsTo).subscribe((value) => {
+          this.searchingTo = false;
+          this.flightPathsTo = new Set(Array.from(value).sort());
+        });
     }
   }
 
   subscribeFlightsFrom(): void {
     if (this.isOriginAirportValid && this.isDestinationAirportValid) {
+      this.searchingFrom = true;
       this.flightService.searchFlights(
         this.destinationAirportIataId, this.originAirportIataId,
         this.dateRangeStartFrom.getTime() / 1000, this.dateRangeEndFrom.getTime() / 1000,
-        this.stopsFrom).subscribe((value) => this.flightPathsFrom = value);
+        this.stopsFrom).subscribe((value) => {
+          this.searchingFrom = false;
+          this.flightPathsFrom = new Set(Array.from(value).sort())
+        });
     }
   }
 
