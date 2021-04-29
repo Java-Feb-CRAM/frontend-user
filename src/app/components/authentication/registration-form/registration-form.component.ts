@@ -209,7 +209,8 @@ export class RegistrationFormComponent {
           this.userService.postRegister();
         },
         error: (err) => {
-          this.errorMessage = err.error.message;
+          this.errorMessage =
+            err.error.message || 'An error occurred, please try again later.';
         },
       });
   }

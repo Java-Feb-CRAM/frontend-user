@@ -119,7 +119,8 @@ export class LoginFormComponent {
         },
         error: (err) => {
           this.loadingButton.loading = false;
-          this.errorMessage = err.error.message;
+          this.errorMessage =
+            err.error.message || 'An error occurred, please try again later.';
         },
       });
   }
