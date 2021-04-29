@@ -115,6 +115,7 @@ export class SearchFlightsComponent {
   subscribeFlightsTo(): void {
     if (this.isOriginAirportValid && this.isDestinationAirportValid) {
       this.searchingTo = true;
+      this.page = 1;
       this.flightService.searchFlights(
         this.originAirportIataId, this.destinationAirportIataId,
         this.dateRangeStartTo.getTime() / 1000, this.dateRangeEndTo.getTime() / 1000,
@@ -128,6 +129,7 @@ export class SearchFlightsComponent {
   subscribeFlightsFrom(): void {
     if (this.isOriginAirportValid && this.isDestinationAirportValid) {
       this.searchingFrom = true;
+      this.returnPage = 1;
       this.flightService.searchFlights(
         this.destinationAirportIataId, this.originAirportIataId,
         this.dateRangeStartFrom.getTime() / 1000, this.dateRangeEndFrom.getTime() / 1000,
