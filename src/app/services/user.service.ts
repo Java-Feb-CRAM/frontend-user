@@ -53,30 +53,25 @@ export class UserService {
   registrationUri: string;
   currentUserUri: string;
 
-  register(userDetails: object): void {
-    this.http
-      .post<RegistrationResponse>(this.registrationUri, userDetails)
-      .subscribe({
-        next: () => {
-          this.router.navigate(['/login'], { replaceUrl: true });
-        },
-        error: (error) => {
-          console.error(error);
-        },
-      });
+  register(userDetails: object): Observable<RegistrationResponse> {
+    return this.http.post<RegistrationResponse>(
+      this.registrationUri,
+      userDetails
+    );
   }
 
-  login(credentials: object): void {
-    this.http.post<LoginResponse>(this.loginUrl, credentials).subscribe({
-      next: (response) => {
-        this.setJwt(response.authenticatedJwt);
-        this.loginLogoutChange.next(true);
-        this.router.navigate([''], { replaceUrl: true });
-      },
-      error: (error) => {
-        console.error(error);
-      },
-    });
+  postRegister(): void {
+    this.router.navigate(['/login'], { replaceUrl: true });
+  }
+
+  login(credentials: object): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(this.loginUrl, credentials);
+  }
+
+  postLogin(response: LoginResponse): void {
+    this.setJwt(response.authenticatedJwt);
+    this.loginLogoutChange.next(true);
+    this.router.navigate([''], { replaceUrl: true });
   }
 
   logout(): void {

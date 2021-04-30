@@ -18,6 +18,7 @@ import {
 } from '@stripe/stripe-js';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserInfo } from '../../../services/user.service';
+import { LoadingButtonComponent } from '../../loading-button/loading-button.component';
 
 export interface PaymentFormData {
   stripeToken: string;
@@ -30,8 +31,11 @@ export interface PaymentFormData {
   styleUrls: ['./payment-form.component.scss'],
 })
 export class PaymentFormComponent implements OnInit, OnChanges {
+  // @ts-ignore
+  @ViewChild(LoadingButtonComponent) loadingButton: LoadingButtonComponent;
   @Input() user: UserInfo | undefined;
   @Input() passengerCount = 0;
+  errorMessage: string | null = null;
   @Output() paymentFormSubmitEvent = new EventEmitter<PaymentFormData>();
 
   // @ts-ignore
@@ -104,6 +108,7 @@ export class PaymentFormComponent implements OnInit, OnChanges {
   }
 
   pay(): void {
+    this.errorMessage = null;
     const name = this.stripeTest.get('name')?.value;
     this.stripeService.createToken(this.card.element, { name }).subscribe({
       next: (result) => {
@@ -112,11 +117,20 @@ export class PaymentFormComponent implements OnInit, OnChanges {
             stripeToken: result.token.id,
             name: this.stripeTest.controls.name.value,
           });
-        } else if (result.error) {
-          console.log(result.error.message);
+        } else if (result.error?.message) {
+          this.loadingButton.loading = false;
+          this.errorMessage = result.error.message;
         }
       },
     });
+  }
+
+  stopLoading(): void {
+    this.loadingButton.loading = false;
+  }
+
+  setErrorMessage(errorMessage: string): void {
+    this.errorMessage = errorMessage;
   }
 
   validateCardNumber(event: StripeCardNumberElementChangeEvent): void {
