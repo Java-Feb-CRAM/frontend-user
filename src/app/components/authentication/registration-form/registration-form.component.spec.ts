@@ -3,12 +3,18 @@ import { RegistrationFormComponent } from './registration-form.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { UserService } from 'src/app/services/user.service';
+import {
+  RegistrationResponse,
+  UserService,
+} from 'src/app/services/user.service';
 import { PhonePipe } from '../../../pipes/phone.pipe';
 import { RouterModule } from '@angular/router';
+import { LoadingButtonComponent } from '../../loading-button/loading-button.component';
+import { Observable, of } from 'rxjs';
 
 const formBuilderGroupEmpty = new FormBuilder().group({});
-const usernameErrorText = 'Username can only have lowercase/uppercase letters, numbers and underscores with a length between 8 and 32 characters';
+const usernameErrorText =
+  'Username can only have lowercase/uppercase letters, numbers and underscores with a length between 8 and 32 characters';
 
 const validRegistrationFormData = {
   username: 'A_123456',
@@ -18,7 +24,7 @@ const validRegistrationFormData = {
   email: 'craig@ss.com',
   familyName: 'Craig',
   givenName: 'Saunders',
-}
+};
 
 const invalidRegistrationFormData = {
   username: 'A!123456',
@@ -28,12 +34,18 @@ const invalidRegistrationFormData = {
   email: 'craig',
   familyName: '',
   givenName: 'S',
-}
+};
 
 class UserServiceStub {
-  register(): void { };
-  checkRedirect(): void { };
-  isJWTSet(): boolean { return false };
+  register(userDetails: object): Observable<RegistrationResponse> {
+    return of({ accountVerificationToken: 'abc' });
+  }
+
+  postRegister(): void {}
+  checkRedirect(): void {}
+  isJWTSet(): boolean {
+    return false;
+  }
 }
 
 describe('RegistrationFormComponent', () => {
@@ -42,7 +54,11 @@ describe('RegistrationFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [RegistrationFormComponent, PhonePipe],
+      declarations: [
+        RegistrationFormComponent,
+        PhonePipe,
+        LoadingButtonComponent,
+      ],
       providers: [
         {
           provide: UserService,
@@ -69,19 +85,25 @@ describe('RegistrationFormComponent', () => {
 
   it('should display username errors only on any error', async () => {
     fixture.whenStable().then(() => {
-      let usernameElement = fixture.debugElement.query(By.css('#username')).nativeElement;
+      let usernameElement = fixture.debugElement.query(By.css('#username'))
+        .nativeElement;
       let errorElement = fixture.debugElement.query(By.css('#usernameErrors'));
       expect(usernameElement).toBeTruthy();
       expect(errorElement).toBeTruthy(); // zero length
-      usernameElement = fixture.debugElement.query(By.css('#username')).nativeElement;
+      usernameElement = fixture.debugElement.query(By.css('#username'))
+        .nativeElement;
       usernameElement.value = invalidRegistrationFormData.username;
       usernameElement.dispatchEvent(new Event('input'));
       errorElement = fixture.debugElement.query(By.css('#usernameErrors'));
       expect(errorElement).toBeTruthy();
-      const displayedErrorElement = fixture.debugElement.query(By.css('#usernameErrors div')).nativeElement;
-      expect((displayedErrorElement as HTMLDivElement).innerText)
-        .toBe(usernameErrorText);
-      usernameElement = fixture.debugElement.query(By.css('#username')).nativeElement;
+      const displayedErrorElement = fixture.debugElement.query(
+        By.css('#usernameErrors div')
+      ).nativeElement;
+      expect((displayedErrorElement as HTMLDivElement).innerText).toBe(
+        usernameErrorText
+      );
+      usernameElement = fixture.debugElement.query(By.css('#username'))
+        .nativeElement;
       usernameElement.value = validRegistrationFormData.username;
       usernameElement.dispatchEvent(new Event('input'));
       errorElement = fixture.debugElement.query(By.css('#usernameErrors'));
@@ -92,7 +114,8 @@ describe('RegistrationFormComponent', () => {
   it('should return with empty list of username errors if no error for controlname', async () => {
     fixture.whenStable().then(() => {
       expect(component.allErrors('username')).toEqual(['required']);
-      const usernameElement = fixture.debugElement.query(By.css('#username')).nativeElement;
+      const usernameElement = fixture.debugElement.query(By.css('#username'))
+        .nativeElement;
       usernameElement.value = validRegistrationFormData.username;
       usernameElement.dispatchEvent(new Event('input'));
       expect(component.allErrors('username')).toEqual([]);
@@ -101,32 +124,45 @@ describe('RegistrationFormComponent', () => {
 
   it('should submit and run login method onSubmit()', async () => {
     fixture.whenStable().then(() => {
-      let submitButtonElement = fixture.debugElement.query(By.css('#submitButton')).nativeElement;
+      let submitButtonElement = fixture.debugElement.query(
+        By.css('#submitButton')
+      ).nativeElement;
       expect((submitButtonElement as HTMLButtonElement).disabled).toBeTrue();
 
-      const usernameElement = fixture.debugElement.query(By.css('#username')).nativeElement;
+      const usernameElement = fixture.debugElement.query(By.css('#username'))
+        .nativeElement;
       usernameElement.value = validRegistrationFormData.username;
       usernameElement.dispatchEvent(new Event('input'));
-      const passwordElement = fixture.debugElement.query(By.css('#password')).nativeElement;
+      const passwordElement = fixture.debugElement.query(By.css('#password'))
+        .nativeElement;
       passwordElement.value = validRegistrationFormData.password;
       passwordElement.dispatchEvent(new Event('input'));
-      const matchingPasswordElement = fixture.debugElement.query(By.css('#matchingPassword')).nativeElement;
-      matchingPasswordElement.value = validRegistrationFormData.matchingPassword;
+      const matchingPasswordElement = fixture.debugElement.query(
+        By.css('#matchingPassword')
+      ).nativeElement;
+      matchingPasswordElement.value =
+        validRegistrationFormData.matchingPassword;
       matchingPasswordElement.dispatchEvent(new Event('input'));
-      const phoneNumberElement = fixture.debugElement.query(By.css('#phone')).nativeElement;
+      const phoneNumberElement = fixture.debugElement.query(By.css('#phone'))
+        .nativeElement;
       phoneNumberElement.value = validRegistrationFormData.phone;
       phoneNumberElement.dispatchEvent(new Event('input'));
-      const emailElement = fixture.debugElement.query(By.css('#email')).nativeElement;
+      const emailElement = fixture.debugElement.query(By.css('#email'))
+        .nativeElement;
       emailElement.value = validRegistrationFormData.email;
       emailElement.dispatchEvent(new Event('input'));
-      const familyNameElement = fixture.debugElement.query(By.css('#familyName')).nativeElement;
+      const familyNameElement = fixture.debugElement.query(
+        By.css('#familyName')
+      ).nativeElement;
       familyNameElement.value = validRegistrationFormData.familyName;
       familyNameElement.dispatchEvent(new Event('input'));
-      const givenNameElement = fixture.debugElement.query(By.css('#givenName')).nativeElement;
+      const givenNameElement = fixture.debugElement.query(By.css('#givenName'))
+        .nativeElement;
       givenNameElement.value = validRegistrationFormData.givenName;
       givenNameElement.dispatchEvent(new Event('input'));
 
-      submitButtonElement = fixture.debugElement.query(By.css('#submitButton')).nativeElement;
+      submitButtonElement = fixture.debugElement.query(By.css('#submitButton'))
+        .nativeElement;
       expect((submitButtonElement as HTMLButtonElement).disabled).toBeFalse();
       (submitButtonElement as HTMLButtonElement).click();
       expect((submitButtonElement as HTMLButtonElement).disabled).toBeFalse();

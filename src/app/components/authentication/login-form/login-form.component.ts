@@ -1,7 +1,8 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from 'src/app/services/user.service';
 import { CredentialsDto } from 'src/app/models/CredentialsDto';
+import { LoadingButtonComponent } from '../../loading-button/loading-button.component';
 
 export interface LoginFormData {
   username?: string;
@@ -14,6 +15,8 @@ export interface LoginFormData {
   styleUrls: ['./login-form.component.scss'],
 })
 export class LoginFormComponent {
+  // @ts-ignore
+  @ViewChild(LoadingButtonComponent) loadingButton: LoadingButtonComponent;
   @Output()
   loginFormSubmitEvent = new EventEmitter<LoginFormData>();
   loginForm: FormGroup;
@@ -34,6 +37,7 @@ export class LoginFormComponent {
         '1 lowercase letter\n 1 number\n 1 of these symbols: @!#$%^&*_+=~',
     },
   };
+  errorMessage: string | null = null;
 
   constructor(
     private readonly userService: UserService,
@@ -65,8 +69,8 @@ export class LoginFormComponent {
   isFieldInvalid(controlName: string): boolean {
     return Boolean(
       this.loginForm.get(controlName)?.invalid &&
-      (this.loginForm.get(controlName)?.dirty ||
-        this.loginForm.get(controlName)?.touched)
+        (this.loginForm.get(controlName)?.dirty ||
+          this.loginForm.get(controlName)?.touched)
     );
   }
 
@@ -101,11 +105,23 @@ export class LoginFormComponent {
   }
 
   onSubmit(): void {
-    this.userService.login(
-      new CredentialsDto(
-        this.loginForm.controls.username.value,
-        this.loginForm.controls.password.value
+    this.errorMessage = null;
+    this.userService
+      .login(
+        new CredentialsDto(
+          this.loginForm.controls.username.value,
+          this.loginForm.controls.password.value
+        )
       )
-    );
+      .subscribe({
+        next: (response) => {
+          this.userService.postLogin(response);
+        },
+        error: (err) => {
+          this.loadingButton.loading = false;
+          this.errorMessage =
+            err.error.message || 'An error occurred, please try again later.';
+        },
+      });
   }
 }

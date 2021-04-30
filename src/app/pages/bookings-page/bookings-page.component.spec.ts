@@ -23,6 +23,7 @@ import { Airport } from '../../models/Airport';
 import { Airplane } from '../../models/Airplane';
 import { AirplaneType } from '../../models/AirplaneType';
 import { DatePipe } from '@angular/common';
+import { LoadingButtonComponent } from '../../components/loading-button/loading-button.component';
 
 const flight = new Flight(
   1,
@@ -120,6 +121,7 @@ describe('BookingsPageComponent', () => {
         NgbAccordion,
         NgbPanel,
         NgbPanelContent,
+        LoadingButtonComponent,
       ],
       providers: [
         {

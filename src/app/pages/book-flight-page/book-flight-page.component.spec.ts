@@ -259,6 +259,7 @@ describe('BookFlightPageComponent', () => {
         confirmationCode: booking.confirmationCode,
         checkedOut: true,
       },
+      fragment: 'CheckoutComplete',
     });
   });
 

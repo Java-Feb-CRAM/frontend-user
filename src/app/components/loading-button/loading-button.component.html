@@ -1,0 +1,35 @@
+<button
+  *ngIf="loading"
+  class="btn"
+  [type]="type"
+  disabled
+  [ngClass]="{
+    'btn-primary': style === 'primary',
+    'btn-success': style === 'success',
+    'btn-warning': style === 'warning',
+    'btn-danger': style === 'danger'
+  }"
+>
+  <span
+    class="spinner-border spinner-border-sm"
+    role="status"
+    aria-hidden="true"
+  ></span>
+  Loading...
+</button>
+<button
+  id="submitButton"
+  *ngIf="!loading"
+  class="btn"
+  [type]="type"
+  [disabled]="disabled"
+  (click)="clicked()"
+  [ngClass]="{
+    'btn-primary': style === 'primary',
+    'btn-success': style === 'success',
+    'btn-warning': style === 'warning',
+    'btn-danger': style === 'danger'
+  }"
+>
+  {{ text }}
+</button>
