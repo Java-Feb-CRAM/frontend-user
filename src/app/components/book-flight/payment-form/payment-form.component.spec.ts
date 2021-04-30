@@ -23,6 +23,7 @@ import {
 import { EMPTY, Observable, of } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
+import { LoadingButtonComponent } from '../../loading-button/loading-button.component';
 
 class StripeServiceStub {
   createToken(
@@ -65,6 +66,7 @@ describe('PaymentFormComponent', () => {
         StripeCardGroupDirective,
         StripeCardExpiryComponent,
         StripeCardCvcComponent,
+        LoadingButtonComponent,
       ],
       providers: [
         {
