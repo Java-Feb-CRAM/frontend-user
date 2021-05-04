@@ -7,7 +7,6 @@ import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { By } from '@angular/platform-browser';
 import { PhonePipe } from '../../pipes/phone.pipe';
-import { LoadingButtonComponent } from '../../components/loading-button/loading-button.component';
 
 describe('RegistrationPageComponent', () => {
   let component: RegistrationPageComponent;
@@ -19,7 +18,6 @@ describe('RegistrationPageComponent', () => {
         RegistrationPageComponent,
         RegistrationFormComponent,
         PhonePipe,
-        LoadingButtonComponent,
       ],
       providers: [FormBuilder],
       imports: [

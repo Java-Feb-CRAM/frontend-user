@@ -16,28 +16,43 @@ export interface UserInfo {
   familyName?: string;
   phoneNumber?: string;
 }
+
+export interface ValidationMessage {
+  message?: string;
+}
 export interface LoginResponse {
   authenticatedJwt: string;
 }
 export interface RegistrationResponse {
   accountVerificationToken: string;
 }
+export interface ValidationResponse {
+  emailValidationToken: string;
+}
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
+  validationMessage?= "";
   isLoggedIn = false;
   loginLogoutChange: Subject<boolean> = new Subject<boolean>();
   user: UserInfo = {};
+  loginUrl: string;
+  registrationUri: string;
+  currentUserUri: string;
+  validationUri: string;
+  generateTokenUri: string;
 
   constructor(
     private readonly router: Router,
     private readonly http: HttpClient
   ) {
+    this.validationUri = `${environment.apiBase}/users/usernames/tokens/activate`;
     this.loginUrl = `${environment.apiBase}/users/credentials/authenticate`;
     this.registrationUri = `${environment.apiBase}/users/new`;
     this.currentUserUri = `${environment.apiBase}/users/current`;
+    this.generateTokenUri = `${environment.apiBase}/users/usernames/tokens/generate`;
     this.loginLogoutChange.subscribe({
       next: (value) => {
         this.isLoggedIn = value;
@@ -49,29 +64,57 @@ export class UserService {
     this.loginLogoutChange.next(this.isJWTSet());
   }
 
-  loginUrl: string;
-  registrationUri: string;
-  currentUserUri: string;
-
-  register(userDetails: object): Observable<RegistrationResponse> {
-    return this.http.post<RegistrationResponse>(
-      this.registrationUri,
-      userDetails
-    );
+  generateToken(username: object): void {
+    this.http
+      .post<ValidationMessage>(this.generateTokenUri, username)
+      .subscribe({
+        next: (data) => {
+          this.validationMessage = data.message;
+        },
+        error: (error) => {
+          console.error(error);
+        },
+      });
   }
 
-  postRegister(): void {
-    this.router.navigate(['/login'], { replaceUrl: true });
+  validate(token: object): void {
+    this.http
+      .post<ValidationMessage>(this.validationUri, token)
+      .subscribe({
+        next: (data) => {
+          console.log(data.message);
+          this.validationMessage = data.message;
+        },
+        error: (error) => {
+          console.error(error);
+        },
+      });
   }
 
-  login(credentials: object): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(this.loginUrl, credentials);
+  register(userDetails: object): void {
+    this.http
+      .post<RegistrationResponse>(this.registrationUri, userDetails)
+      .subscribe({
+        next: () => {
+          this.router.navigate(['/login'], { replaceUrl: true });
+        },
+        error: (error) => {
+          console.error(error);
+        },
+      });
   }
 
-  postLogin(response: LoginResponse): void {
-    this.setJwt(response.authenticatedJwt);
-    this.loginLogoutChange.next(true);
-    this.router.navigate([''], { replaceUrl: true });
+  login(credentials: object): void {
+    this.http.post<LoginResponse>(this.loginUrl, credentials).subscribe({
+      next: (response) => {
+        this.setJwt(response.authenticatedJwt);
+        this.loginLogoutChange.next(true);
+        this.router.navigate([''], { replaceUrl: true });
+      },
+      error: (error) => {
+        console.error(error);
+      },
+    });
   }
 
   logout(): void {

@@ -15,6 +15,10 @@ const routes: Routes = [
     component: IndexPageComponent,
   },
   {
+    path: 'validation',
+    component: EmailValidationPageComponent,
+  },
+  {
     path: 'cart',
     component: CartPageComponent,
   },
@@ -48,4 +52,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

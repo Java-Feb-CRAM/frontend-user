@@ -20,33 +20,25 @@ export class FlightService {
     destinationIataId: string,
     dateRangeStart: number,
     dateRangeEnd: number,
-    stops: number
-  ): Observable<Set<Flight[]>> {
-    return this.http
-      .get<Set<Flight[]>>(
-        `${this.flightsUrl}/origin/${originIataId}/destination/${destinationIataId}/from/${dateRangeStart}/to/${dateRangeEnd}/search/${stops}`
-      )
+    stops: number): Observable<Set<Flight[]>> {
+    return this.http.get<Set<Flight[]>>(`${this.flightsUrl}/origin/${originIataId}/destination/${destinationIataId}/from/${dateRangeStart}/to/${dateRangeEnd}/search/${stops}`)
       .pipe(
-        map(
-          (flightPaths: Set<Flight[]>) =>
-            new Set(
-              Array.from(flightPaths).map((flights: Flight[]) =>
-                flights.map(
-                  (flight) =>
-                    new Flight(
-                      flight.id,
-                      flight.route,
-                      flight.airplane,
-                      flight.departureTime,
-                      flight.reservedSeats,
-                      flight.seatPrice,
-                      [],
-                      flight.airplane.airplaneType.maxCapacity -
-                        flight.reservedSeats
-                    )
-                )
+        map((flightPaths: Set<Flight[]>) =>
+          new Set(Array.from(flightPaths).map((flights: Flight[]) =>
+            flights.map((flight) =>
+              new Flight(
+                flight.id,
+                flight.route,
+                flight.airplane,
+                flight.departureTime,
+                flight.reservedSeats,
+                flight.seatPrice,
+                [],
+                flight.airplane.airplaneType.maxCapacity - flight.reservedSeats
               )
             )
+          )
+          )
         )
       );
   }

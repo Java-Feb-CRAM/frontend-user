@@ -6,7 +6,6 @@ import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
-import { LoadingButtonComponent } from '../../components/loading-button/loading-button.component';
 
 describe('LoginPageComponent', () => {
   let component: LoginPageComponent;
@@ -14,11 +13,7 @@ describe('LoginPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [
-        LoginPageComponent,
-        LoginFormComponent,
-        LoadingButtonComponent,
-      ],
+      declarations: [LoginPageComponent, LoginFormComponent],
       providers: [FormBuilder],
       imports: [
         RouterModule.forRoot([]),

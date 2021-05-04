@@ -7,23 +7,12 @@
           <label for="username">Username*</label>
           <div class="input-group">
             <div class="input-group-prepend">
-              <span class="input-group-text"
-                ><i class="bi-person-circle" aria-hidden="true"></i>
+              <span class="input-group-text"><i class="bi-person-circle" aria-hidden="true"></i>
               </span>
             </div>
-            <input
-              type="text"
-              class="form-control"
-              id="username"
-              placeholder="ilove_utopia21"
-              formControlName="username"
-              [ngClass]="validationClass('username')"
-            />
-            <div
-              id="usernameErrors"
-              class="invalid-feedback"
-              *ngIf="hasErrors('username')"
-            >
+            <input type="text" class="form-control" id="username" placeholder="Username_Example"
+              formControlName="username" [ngClass]="validationClass('username')" />
+            <div id="usernameErrors" class="invalid-feedback" *ngIf="hasErrors('username')">
               <div *ngFor="let error of allErrors('username')">
                 {{ getError("username", error) }}
               </div>
@@ -38,14 +27,8 @@
                 <i class="bi-card-text" aria-hidden="true"></i>
               </span>
             </div>
-            <input
-              type="password"
-              class="form-control"
-              id="password"
-              placeholder="************"
-              formControlName="password"
-              [ngClass]="validationClass('password')"
-            />
+            <input type="password" class="form-control" id="password" placeholder="password" formControlName="password"
+              [ngClass]="validationClass('password')" />
             <div class="invalid-feedback" *ngIf="hasErrors('password')">
               <div *ngFor="let error of allErrors('password')">
                 {{ getError("password", error) }}
@@ -55,18 +38,12 @@
         </div>
       </div>
       <div>
-        <app-loading-button
-          [type]="'submit'"
-          [disabled]="!loginForm.valid"
-          [text]="'Login'"
-          (onClick)="onSubmit()"
-        ></app-loading-button>
-      </div>
-      <div *ngIf="errorMessage" class="alert alert-danger mt-3" role="alert">
-        {{ errorMessage }}
+        <button id="submitButton" type="submit" class="btn btn-primary" [disabled]="!loginForm.valid">
+          Login
+        </button>
       </div>
     </form>
-    <div class="mt-2">
+    <div>
       Not registered?
       <a routerLinkActive="active" routerLink="/register">Register Here</a>
     </div>

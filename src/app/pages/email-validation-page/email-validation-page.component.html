@@ -1,0 +1,11 @@
+<p *ngIf="userService.validationMessage == 'user-activated'">
+  Account activated! Please log in here:<br />
+  <app-login-form></app-login-form>
+</p>
+<p *ngIf="userService.validationMessage == 'user-already-activated'">
+  Account already activated! <a routerLinkActive="active" routerLink="/login">Login Here</a>
+</p>
+<p *ngIf="userService.validationMessage == ''">
+  Check your email to activate your account. <a [routerLink]="" (click)="generateNewToken()">Resend confirmation
+    email</a>
+</p>

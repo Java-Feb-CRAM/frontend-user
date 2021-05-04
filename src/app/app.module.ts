@@ -32,8 +32,9 @@ import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { SearchFlightsComponent } from './components/book-flight/search-flights/search-flights.component';
 import { PhonePipe } from './pipes/phone.pipe';
+import { TimepickerModule } from 'ngx-bootstrap/timepicker';
+import { PopoverModule } from 'ngx-bootstrap/popover';
 import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.component';
-import { LoadingButtonComponent } from './components/loading-button/loading-button.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,6 @@ import { LoadingButtonComponent } from './components/loading-button/loading-butt
     SearchFlightsComponent,
     PhonePipe,
     ConfirmModalComponent,
-    LoadingButtonComponent,
   ],
   imports: [
     BrowserModule,

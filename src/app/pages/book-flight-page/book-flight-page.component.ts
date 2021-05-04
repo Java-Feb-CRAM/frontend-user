@@ -1,10 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CartService } from '../../services/cart.service';
 import { PassengersFormData } from '../../components/book-flight/passengers-form/passengers-form.component';
-import {
-  PaymentFormComponent,
-  PaymentFormData,
-} from '../../components/book-flight/payment-form/payment-form.component';
+import { PaymentFormData } from '../../components/book-flight/payment-form/payment-form.component';
 import { GuestBookingFormData } from '../../components/book-flight/guest-booking-form/guest-booking-form.component';
 import { BookingService } from '../../services/booking.service';
 import { CreateGuestBookingDto } from '../../dto/CreateGuestBookingDto';
@@ -20,8 +17,6 @@ import { CreateAgentBookingDto } from '../../dto/CreateAgentBookingDto';
   styleUrls: ['./book-flight-page.component.scss'],
 })
 export class BookFlightPageComponent implements OnInit {
-  // @ts-ignore
-  @ViewChild(PaymentFormComponent) paymentComp: PaymentFormComponent;
   activePage = 1;
   stepOneCompleted = false;
   stepTwoCompleted = false;
@@ -102,17 +97,11 @@ export class BookFlightPageComponent implements OnInit {
         flightIds,
         passengers: this.passengersData.passengers,
       };
-      this.bookingService.createGuestBooking(createGuestBookingDto).subscribe(
-        (booking) => {
+      this.bookingService
+        .createGuestBooking(createGuestBookingDto)
+        .subscribe((booking) => {
           this.finishBooking(booking);
-        },
-        (err) => {
-          this.paymentComp.stopLoading();
-          this.paymentComp.setErrorMessage(
-            err.error.message || 'An error occurred, please try again later.'
-          );
-        }
-      );
+        });
     }
   }
 
@@ -124,17 +113,11 @@ export class BookFlightPageComponent implements OnInit {
         flightIds,
         passengers: this.passengersData.passengers,
       };
-      this.bookingService.createUserBooking(createUserBookingDto).subscribe(
-        (booking) => {
+      this.bookingService
+        .createUserBooking(createUserBookingDto)
+        .subscribe((booking) => {
           this.finishBooking(booking);
-        },
-        (err) => {
-          this.paymentComp.stopLoading();
-          this.paymentComp.setErrorMessage(
-            err.error.message || 'An error occurred, please try again later.'
-          );
-        }
-      );
+        });
     }
   }
 
@@ -146,17 +129,11 @@ export class BookFlightPageComponent implements OnInit {
         flightIds,
         passengers: this.passengersData.passengers,
       };
-      this.bookingService.createAgentBooking(createAgentBookingDto).subscribe(
-        (booking) => {
+      this.bookingService
+        .createAgentBooking(createAgentBookingDto)
+        .subscribe((booking) => {
           this.finishBooking(booking);
-        },
-        (err) => {
-          this.paymentComp.stopLoading();
-          this.paymentComp.setErrorMessage(
-            err.error.message || 'An error occurred, please try again later.'
-          );
-        }
-      );
+        });
     }
   }
 
@@ -167,7 +144,6 @@ export class BookFlightPageComponent implements OnInit {
         confirmationCode: booking.confirmationCode,
         checkedOut: true,
       },
-      fragment: 'CheckoutComplete',
     });
   }
 
