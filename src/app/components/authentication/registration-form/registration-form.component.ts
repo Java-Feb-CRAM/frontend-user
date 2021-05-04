@@ -157,8 +157,8 @@ export class RegistrationFormComponent {
   isFieldInvalid(controlName: string): boolean {
     return Boolean(
       this.registrationForm.get(controlName)?.invalid &&
-        (this.registrationForm.get(controlName)?.dirty ||
-          this.registrationForm.get(controlName)?.touched)
+      (this.registrationForm.get(controlName)?.dirty ||
+        this.registrationForm.get(controlName)?.touched)
     );
   }
 
@@ -193,6 +193,7 @@ export class RegistrationFormComponent {
   }
 
   onSubmit(): void {
+    localStorage.setItem("username", this.registrationForm.controls.username.value);
     this.loadingButton.loading = false;
     this.userService
       .register({
@@ -206,7 +207,7 @@ export class RegistrationFormComponent {
       })
       .subscribe({
         next: (response) => {
-          this.userService.postRegister();
+          this.userService.postRegister(response);
         },
         error: (err) => {
           this.errorMessage =
