@@ -34,6 +34,7 @@ import { SearchFlightsComponent } from './components/book-flight/search-flights/
 import { PhonePipe } from './pipes/phone.pipe';
 import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.component';
 import { LoadingButtonComponent } from './components/loading-button/loading-button.component';
+import { EmailValidationPageComponent } from './pages/email-validation-page/email-validation-page.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { LoadingButtonComponent } from './components/loading-button/loading-butt
     PhonePipe,
     ConfirmModalComponent,
     LoadingButtonComponent,
+    EmailValidationPageComponent,
   ],
   imports: [
     BrowserModule,
@@ -85,4 +87,4 @@ import { LoadingButtonComponent } from './components/loading-button/loading-butt
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }
