@@ -187,6 +187,7 @@ export class RegistrationFormComponent {
   }
 
   onSubmit(): void {
+    localStorage.setItem("username", this.registrationForm.controls.username.value);
     this.userService.register({
       username: this.registrationForm.controls.username.value,
       password: this.registrationForm.controls.password.value,

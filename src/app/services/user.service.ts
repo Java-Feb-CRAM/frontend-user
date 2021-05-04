@@ -17,9 +17,6 @@ export interface UserInfo {
   phoneNumber?: string;
 }
 
-export interface ValidationMessage {
-  message?: string;
-}
 export interface LoginResponse {
   authenticatedJwt: string;
 }
@@ -28,6 +25,9 @@ export interface RegistrationResponse {
 }
 export interface ValidationResponse {
   emailValidationToken: string;
+}
+export interface ValidationMessage {
+  message?: string;
 }
 
 @Injectable({
@@ -48,10 +48,10 @@ export class UserService {
     private readonly router: Router,
     private readonly http: HttpClient
   ) {
-    this.validationUri = `${environment.apiBase}/users/usernames/tokens/activate`;
     this.loginUrl = `${environment.apiBase}/users/credentials/authenticate`;
     this.registrationUri = `${environment.apiBase}/users/new`;
     this.currentUserUri = `${environment.apiBase}/users/current`;
+    this.validationUri = `${environment.apiBase}/users/usernames/tokens/activate`;
     this.generateTokenUri = `${environment.apiBase}/users/usernames/tokens/generate`;
     this.loginLogoutChange.subscribe({
       next: (value) => {
@@ -62,6 +62,19 @@ export class UserService {
       },
     });
     this.loginLogoutChange.next(this.isJWTSet());
+  }
+
+  register(userDetails: object): void {
+    this.http
+      .post<RegistrationResponse>(this.registrationUri, userDetails)
+      .subscribe({
+        next: () => {
+          this.router.navigate(['/login'], { replaceUrl: true });
+        },
+        error: (error) => {
+          console.error(error);
+        },
+      });
   }
 
   generateToken(username: object): void {
@@ -84,19 +97,6 @@ export class UserService {
         next: (data) => {
           console.log(data.message);
           this.validationMessage = data.message;
-        },
-        error: (error) => {
-          console.error(error);
-        },
-      });
-  }
-
-  register(userDetails: object): void {
-    this.http
-      .post<RegistrationResponse>(this.registrationUri, userDetails)
-      .subscribe({
-        next: () => {
-          this.router.navigate(['/login'], { replaceUrl: true });
         },
         error: (error) => {
           console.error(error);

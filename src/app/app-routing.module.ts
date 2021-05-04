@@ -8,6 +8,7 @@ import { BookFlightPageComponent } from './pages/book-flight-page/book-flight-pa
 import { CartPageComponent } from './pages/cart-page/cart-page.component';
 import { RegistrationPageComponent } from './pages/registration-page/registration-page.component';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
+import { EmailValidationPageComponent } from './pages/email-validation-page/email-validation-page.component';
 
 const routes: Routes = [
   {
