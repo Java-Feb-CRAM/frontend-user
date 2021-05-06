@@ -4,16 +4,23 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { CredentialsDto } from 'src/app/models/CredentialsDto';
-import { UserService } from 'src/app/services/user.service';
+import { LoginResponse, UserService } from 'src/app/services/user.service';
 import { RouterModule } from '@angular/router';
 import { HeaderComponent } from '../../layout/header/header.component';
+import { LoadingButtonComponent } from '../../loading-button/loading-button.component';
+import { Observable, of } from 'rxjs';
 
 const validCredentials = new CredentialsDto('A1234567', 'Testing123!');
 
 const formBuilderGroupEmpty = new FormBuilder().group({});
 
 class UserServiceStub {
-  login(): void {}
+  login(credentials: object): Observable<LoginResponse> {
+    return of({
+      authenticatedJwt: 'abc',
+    });
+  }
+  postLogin(response: LoginResponse): void {}
   checkRedirect(): void {}
   isJWTSet(): boolean {
     return false;
@@ -26,7 +33,7 @@ describe('LoginFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [LoginFormComponent],
+      declarations: [LoginFormComponent, LoadingButtonComponent],
       providers: [
         HeaderComponent,
         {

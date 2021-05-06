@@ -74,14 +74,16 @@
         </div>
       </div>
 
-      <button
-        type="submit"
-        class="btn btn-success"
-        (click)="pay()"
+      <app-loading-button
         [disabled]="!isFormValid()"
-      >
-        Pay & Book
-      </button>
+        [text]="'Pay & Book'"
+        [type]="'submit'"
+        [style]="'success'"
+        (onClick)="pay()"
+      ></app-loading-button>
+      <div class="alert alert-danger mt-3" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
     </div>
   </div>
 </div>

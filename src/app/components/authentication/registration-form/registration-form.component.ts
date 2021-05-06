@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from 'src/app/services/user.service';
+import { LoadingButtonComponent } from '../../loading-button/loading-button.component';
 
 export interface RegistrationFormData {
   username?: string;
@@ -18,6 +19,8 @@ export interface RegistrationFormData {
   styleUrls: ['./registration-form.component.scss'],
 })
 export class RegistrationFormComponent {
+  // @ts-ignore
+  @ViewChild(LoadingButtonComponent) loadingButton: LoadingButtonComponent;
   @Output()
   registrationFormSubmitEvent = new EventEmitter<RegistrationFormData>();
   registrationForm: FormGroup;
@@ -68,6 +71,7 @@ export class RegistrationFormComponent {
       pattern: 'Last name must have a length of 2 to 32',
     },
   };
+  errorMessage: string | null = null;
 
   constructor(
     private readonly userService: UserService,
@@ -189,14 +193,26 @@ export class RegistrationFormComponent {
   }
 
   onSubmit(): void {
-    this.userService.register({
-      username: this.registrationForm.controls.username.value,
-      password: this.registrationForm.controls.password.value,
-      matchingPassword: this.registrationForm.controls.matchingPassword.value,
-      phone: this.registrationForm.controls.phone.value,
-      email: this.registrationForm.controls.email.value,
-      familyName: this.registrationForm.controls.familyName.value,
-      givenName: this.registrationForm.controls.givenName.value,
-    });
+    localStorage.setItem("username", this.registrationForm.controls.username.value);
+    this.loadingButton.loading = false;
+    this.userService
+      .register({
+        username: this.registrationForm.controls.username.value,
+        password: this.registrationForm.controls.password.value,
+        matchingPassword: this.registrationForm.controls.matchingPassword.value,
+        phone: this.registrationForm.controls.phone.value,
+        email: this.registrationForm.controls.email.value,
+        familyName: this.registrationForm.controls.familyName.value,
+        givenName: this.registrationForm.controls.givenName.value,
+      })
+      .subscribe({
+        next: (response) => {
+          this.userService.postRegister(response);
+        },
+        error: (err) => {
+          this.errorMessage =
+            err.error.message || 'An error occurred, please try again later.';
+        },
+      });
   }
 }

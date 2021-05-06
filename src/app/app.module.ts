@@ -32,10 +32,10 @@ import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { SearchFlightsComponent } from './components/book-flight/search-flights/search-flights.component';
 import { PhonePipe } from './pipes/phone.pipe';
-import { TimepickerModule } from 'ngx-bootstrap/timepicker';
-import { PopoverModule } from 'ngx-bootstrap/popover';
 import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.component';
 import { EditBookingFormComponent } from './components/edit-booking-form/edit-booking-form.component';
+import { LoadingButtonComponent } from './components/loading-button/loading-button.component';
+import { EmailValidationPageComponent } from './pages/email-validation-page/email-validation-page.component';
 
 @NgModule({
   declarations: [
@@ -62,6 +62,8 @@ import { EditBookingFormComponent } from './components/edit-booking-form/edit-bo
     PhonePipe,
     ConfirmModalComponent,
     EditBookingFormComponent,
+    LoadingButtonComponent,
+    EmailValidationPageComponent,
   ],
   imports: [
     BrowserModule,
@@ -87,4 +89,4 @@ import { EditBookingFormComponent } from './components/edit-booking-form/edit-bo
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

@@ -72,9 +72,6 @@ export class BookingService {
             data.bookingAgent,
             data.bookingUser
           );
-        }),
-        catchError((error) => {
-          return throwError('Something went wrong!');
         })
       );
   }

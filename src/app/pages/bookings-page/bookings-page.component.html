@@ -38,20 +38,24 @@
           </div>
         </div>
       </div>
-      <button
-        type="submit"
-        class="btn btn-primary"
+
+      <app-loading-button
+        [style]="'primary'"
+        [type]="'submit'"
         [disabled]="!bookingSearchForm.valid"
-      >
-        Lookup
-      </button>
+        [text]="'Lookup'"
+        (onClick)="onSubmit()"
+      ></app-loading-button>
     </form>
+    <div class="alert alert-danger mt-3" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </div>
   </div>
 </div>
 <div class="card mb-3" *ngIf="user">
   <div class="card-header">My Bookings</div>
   <div class="card-body">
-    <ul class="list-group">
+    <ul class="list-group" *ngIf="bookings">
       <li *ngFor="let userBooking of bookings" class="list-group-item">
         Booking <code>{{ userBooking.confirmationCode }}</code>
         <button
@@ -67,9 +71,14 @@
         </button>
       </li>
     </ul>
+    <p *ngIf="!bookings">You don't have any bookings yet.</p>
   </div>
 </div>
-<div class="jumbotron jumbotron-fluid mb-0" *ngIf="checkedOut">
+<div
+  class="jumbotron jumbotron-fluid mb-0"
+  *ngIf="checkedOut"
+  id="CheckoutComplete"
+>
   <div class="container">
     <h1 class="display-4">Booking completed</h1>
     <p class="lead">Thank you for booking with Utopia!</p>
@@ -111,6 +120,10 @@
     </div>
   </div>
   <div class="card-body">
+    <div class="alert alert-success" *ngIf="canceled > 0">
+      This booking has been canceled and refunded.
+    </div>
+    <div class="alert alert-danger" *ngIf="cancelError">{{ cancelError }}</div>
     <ngb-accordion #acc="ngbAccordion" activeIds="1">
       <ngb-panel title="Info" [id]="'details'">
         <ng-template ngbPanelContent>

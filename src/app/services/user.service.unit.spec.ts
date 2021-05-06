@@ -52,13 +52,13 @@ describe('UserService', () => {
   });
 
   it('should register valid accounts', () => {
-    userService.register(validRegistrationFormData);
+    userService.register(validRegistrationFormData).subscribe();
     const currentUserRequest = httpTestingController.expectOne(registrationUri);
     expect(currentUserRequest.request.method).toEqual('POST');
   });
 
   it('should login valid credentials', () => {
-    userService.login(validCredentials);
+    userService.login(validCredentials).subscribe();
     const currentUserRequest = httpTestingController.expectOne(loginUri);
     expect(currentUserRequest.request.method).toEqual('POST');
   });

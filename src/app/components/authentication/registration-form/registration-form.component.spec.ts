@@ -3,9 +3,14 @@ import { RegistrationFormComponent } from './registration-form.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { UserService } from 'src/app/services/user.service';
+import {
+  RegistrationResponse,
+  UserService,
+} from 'src/app/services/user.service';
 import { PhonePipe } from '../../../pipes/phone.pipe';
 import { RouterModule } from '@angular/router';
+import { LoadingButtonComponent } from '../../loading-button/loading-button.component';
+import { Observable, of } from 'rxjs';
 
 const formBuilderGroupEmpty = new FormBuilder().group({});
 const usernameErrorText =
@@ -32,7 +37,11 @@ const invalidRegistrationFormData = {
 };
 
 class UserServiceStub {
-  register(): void {}
+  register(userDetails: object): Observable<RegistrationResponse> {
+    return of({ accountVerificationToken: 'abc' });
+  }
+
+  postRegister(): void {}
   checkRedirect(): void {}
   isJWTSet(): boolean {
     return false;
@@ -45,7 +54,11 @@ describe('RegistrationFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [RegistrationFormComponent, PhonePipe],
+      declarations: [
+        RegistrationFormComponent,
+        PhonePipe,
+        LoadingButtonComponent,
+      ],
       providers: [
         {
           provide: UserService,

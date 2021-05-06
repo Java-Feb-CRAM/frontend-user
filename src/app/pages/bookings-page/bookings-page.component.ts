@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { BookingService } from '../../services/booking.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Booking } from '../../models/Booking';
@@ -10,6 +10,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmModalComponent } from '../../components/confirm-modal/confirm-modal.component';
 import { UpdateBookingDto } from '../../dto/UpdateBookingDto';
 import { EditBookingFormComponent } from '../../components/edit-booking-form/edit-booking-form.component';
+import { LoadingButtonComponent } from '../../components/loading-button/loading-button.component';
 
 @Component({
   selector: 'app-bookings-page',
@@ -17,6 +18,8 @@ import { EditBookingFormComponent } from '../../components/edit-booking-form/edi
   styleUrls: ['./bookings-page.component.scss'],
 })
 export class BookingsPageComponent implements OnInit {
+  // @ts-ignore
+  @ViewChild(LoadingButtonComponent) loadingButton: LoadingButtonComponent;
   booking: Booking | null = null;
   bookingPayment: PaymentInfo | null = null;
   bookingPaymentDate = new Date();
@@ -24,6 +27,9 @@ export class BookingsPageComponent implements OnInit {
   checkedOut = false;
   user: UserInfo | undefined;
   bookings: Booking[] = [];
+  errorMessage: string | null = null;
+  cancelError: string | null = null;
+  canceled = 0;
   constructor(
     private readonly bookingService: BookingService,
     private readonly fb: FormBuilder,
@@ -46,6 +52,7 @@ export class BookingsPageComponent implements OnInit {
   }
 
   lookupBooking(code: string): void {
+    this.loadingButton.loading = true;
     this.bookingSearchForm.setValue({
       confirmationCode: code,
     });
@@ -57,11 +64,20 @@ export class BookingsPageComponent implements OnInit {
     modalRef.componentInstance.message = `Are you sure you want to cancel this booking?
       This action cannot be undone.
       If you do wish to cancel this booking you will recieve a full refund.`;
+    this.canceled = 0;
+    this.cancelError = null;
     modalRef.closed.subscribe((reason) => {
       if (reason === 'delete') {
-        this.bookingService.cancelBooking(bookingId).subscribe(() => {
-          this.ngOnInit();
-        });
+        this.bookingService.cancelBooking(bookingId).subscribe(
+          () => {
+            this.canceled = 2;
+            this.onSubmit();
+          },
+          (err) => {
+            this.cancelError =
+              err.error.message || 'An error occurred, please try again later.';
+          }
+        );
       }
     });
   }
@@ -105,10 +121,15 @@ export class BookingsPageComponent implements OnInit {
   onSubmit(): void {
     const confirmationCode = this.bookingSearchForm.controls.confirmationCode
       .value;
+    this.errorMessage = null;
+    if (this.canceled > 0) {
+      this.canceled = this.canceled - 1;
+    }
     this.bookingService
       .getBookingByConfirmationCode(confirmationCode)
       .subscribe({
         next: (booking) => {
+          this.loadingButton.loading = false;
           this.booking = booking;
           this.paymentService
             .getPayment(this.booking.bookingPayment.stripeId)
@@ -116,8 +137,19 @@ export class BookingsPageComponent implements OnInit {
               next: (paymentInfo) => {
                 this.bookingPayment = paymentInfo;
                 this.bookingPaymentDate = new Date(paymentInfo.created * 1000);
+                if (this.checkedOut) {
+                  const element = document.querySelector('#CheckoutComplete');
+                  if (element) {
+                    element.scrollIntoView(true);
+                  }
+                }
               },
             });
+        },
+        error: (err) => {
+          this.loadingButton.loading = false;
+          this.errorMessage =
+            err.error.message || 'An error occurred, please try again later.';
         },
       });
   }
