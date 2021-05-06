@@ -67,18 +67,13 @@ export class BookingsPageComponent implements OnInit {
   }
 
   editBooking(bookingId: number): void {
-    console.log(this.booking?.passengers);
     const modalRef = this.modalService.open(EditBookingFormComponent);
     modalRef.componentInstance.originalPassengers = this.booking?.passengers;
-    modalRef.componentInstance.update();
     modalRef.closed.subscribe((reason) => {
       if (reason as UpdateBookingDto) {
-        console.log('yep');
         this.bookingService.updateBooking(bookingId, reason).subscribe(() => {
           this.ngOnInit();
         });
-      } else {
-        console.log('nope');
       }
     });
   }

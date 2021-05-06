@@ -47,8 +47,6 @@ export class EditBookingFormComponent implements OnInit {
     });
   }
 
-  update(): void {}
-
   get passengers(): FormArray {
     return this.passengersForm.get('passengers') as FormArray;
   }
@@ -65,7 +63,10 @@ export class EditBookingFormComponent implements OnInit {
       dob: [dob, [Validators.required]],
       givenName: [givenName, [Validators.required]],
       familyName: [familyName, [Validators.required]],
-      gender: [gender, [Validators.required]],
+      gender: [
+        gender,
+        [Validators.required, Validators.pattern(/Male|Female|Other/)],
+      ],
       address: [address, [Validators.required]],
       id: [id, [Validators.required]],
     });
@@ -87,9 +88,9 @@ export class EditBookingFormComponent implements OnInit {
 
   onSubmit(): void {
     const passengers = this.passengersForm.controls.passengers.value;
-    let dto = { passengers: {} };
+    const dto = { passengers: {} };
     passengers.forEach((passenger: any) => {
-      let newDob: Date = passenger.dob;
+      const newDob: Date = passenger.dob;
       newDob.setDate(newDob.getDate() - 1);
       // @ts-ignore
       dto.passengers[passenger.id.toString()] = {

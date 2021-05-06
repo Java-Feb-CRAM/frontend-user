@@ -301,6 +301,15 @@ describe('BookingsPageComponent', () => {
     expect(spy).toHaveBeenCalledWith(1);
   });
 
+  it('should open the update modal when clicking on the edit button', () => {
+    component.booking = booking;
+    fixture.detectChanges();
+    const spy = spyOn(component, 'editBooking');
+    const de = fixture.debugElement.query(By.css('#edit'));
+    de.triggerEventHandler('click', null);
+    expect(spy).toHaveBeenCalledWith(1);
+  });
+
   it('should display if the booking was booked by a user', () => {
     booking.bookingUser = {};
     booking.bookingGuest = null;
