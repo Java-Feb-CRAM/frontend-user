@@ -30,10 +30,10 @@ export class SearchFlightsComponent {
   public addedToCart = false;
   public searchingTo = false;
   public searchingFrom = false;
-  public originAirportIataId = "";
-  public destinationAirportIataId = "";
-  public departureDateStringTo = "";
-  public departureDateStringFrom = "";
+  public originAirportIataId = '';
+  public destinationAirportIataId = '';
+  public departureDateStringTo = '';
+  public departureDateStringFrom = '';
   public dateRangeStartTo: Date = new Date(Date.UTC(1970, 1, 1, 0, 0, 0, 0));
   public dateRangeEndTo: Date = new Date();
   public dateRangeStartFrom: Date = new Date();
@@ -139,10 +139,15 @@ export class SearchFlightsComponent {
     if (this.isOriginAirportValid && this.isDestinationAirportValid) {
       this.searchingTo = true;
       this.page = 1;
-      this.flightService.searchFlights(
-        this.originAirportIataId, this.destinationAirportIataId,
-        this.dateRangeStartTo.getTime() / 1000, this.dateRangeEndTo.getTime() / 1000,
-        this.stopsTo).subscribe((value) => {
+      this.flightService
+        .searchFlights(
+          this.originAirportIataId,
+          this.destinationAirportIataId,
+          this.dateRangeStartTo.getTime() / 1000,
+          this.dateRangeEndTo.getTime() / 1000,
+          this.stopsTo
+        )
+        .subscribe((value) => {
           this.searchingTo = false;
           this.flightPathsTo = new Set(Array.from(value).sort());
         });
@@ -153,12 +158,17 @@ export class SearchFlightsComponent {
     if (this.isOriginAirportValid && this.isDestinationAirportValid) {
       this.searchingFrom = true;
       this.returnPage = 1;
-      this.flightService.searchFlights(
-        this.destinationAirportIataId, this.originAirportIataId,
-        this.dateRangeStartFrom.getTime() / 1000, this.dateRangeEndFrom.getTime() / 1000,
-        this.stopsFrom).subscribe((value) => {
+      this.flightService
+        .searchFlights(
+          this.destinationAirportIataId,
+          this.originAirportIataId,
+          this.dateRangeStartFrom.getTime() / 1000,
+          this.dateRangeEndFrom.getTime() / 1000,
+          this.stopsFrom
+        )
+        .subscribe((value) => {
           this.searchingFrom = false;
-          this.flightPathsFrom = new Set(Array.from(value).sort())
+          this.flightPathsFrom = new Set(Array.from(value).sort());
         });
     }
   }

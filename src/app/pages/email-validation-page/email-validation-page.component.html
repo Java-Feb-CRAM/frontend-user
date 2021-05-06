@@ -3,10 +3,17 @@
   <app-login-form></app-login-form>
 </p>
 <p *ngIf="userService.validationMessage == 'user-already-activated'">
-  Account already activated! <a routerLinkActive="active" routerLink="/login">Login Here</a>
+  Account already activated!
+  <a routerLinkActive="active" routerLink="/login">Login Here</a>
 </p>
-<p *ngIf="userService.validationMessage == '' || userService.validationMessage == 'email-sent'">
-  Check your email to activate your account. <a routerLink="/validation" (click)="
-    generateNewToken()">Resend confirmation
-    email</a>
+<p
+  *ngIf="
+    userService.validationMessage == '' ||
+    userService.validationMessage == 'email-sent'
+  "
+>
+  Check your email to activate your account.
+  <a routerLink="/validation" (click)="generateNewToken()"
+    >Resend confirmation email</a
+  >
 </p>

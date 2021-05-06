@@ -33,7 +33,7 @@ export interface ValidationMessage {
   providedIn: 'root',
 })
 export class UserService {
-  validationMessage?= "";
+  validationMessage? = '';
   isLoggedIn = false;
   loginLogoutChange: Subject<boolean> = new Subject<boolean>();
   user: UserInfo = {};
@@ -104,16 +104,14 @@ export class UserService {
   }
 
   validate(token: object): void {
-    this.http
-      .post<ValidationMessage>(this.validationUri, token)
-      .subscribe({
-        next: (data) => {
-          this.validationMessage = data.message;
-        },
-        error: (error) => {
-          console.error(error);
-        },
-      });
+    this.http.post<ValidationMessage>(this.validationUri, token).subscribe({
+      next: (data) => {
+        this.validationMessage = data.message;
+      },
+      error: (error) => {
+        console.error(error);
+      },
+    });
   }
 
   checkRedirect(): void {

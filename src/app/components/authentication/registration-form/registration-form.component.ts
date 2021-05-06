@@ -193,7 +193,10 @@ export class RegistrationFormComponent {
   }
 
   onSubmit(): void {
-    localStorage.setItem("username", this.registrationForm.controls.username.value);
+    localStorage.setItem(
+      'username',
+      this.registrationForm.controls.username.value
+    );
     this.loadingButton.loading = false;
     this.userService
       .register({

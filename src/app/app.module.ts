@@ -89,4 +89,4 @@ import { EmailValidationPageComponent } from './pages/email-validation-page/emai
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
