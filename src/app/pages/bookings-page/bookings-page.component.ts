@@ -8,6 +8,8 @@ import { ActivatedRoute } from '@angular/router';
 import { UserInfo, UserService } from '../../services/user.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmModalComponent } from '../../components/confirm-modal/confirm-modal.component';
+import { UpdateBookingDto } from '../../dto/UpdateBookingDto';
+import { EditBookingFormComponent } from '../../components/edit-booking-form/edit-booking-form.component';
 import { LoadingButtonComponent } from '../../components/loading-button/loading-button.component';
 
 @Component({
@@ -76,6 +78,18 @@ export class BookingsPageComponent implements OnInit {
               err.error.message || 'An error occurred, please try again later.';
           }
         );
+      }
+    });
+  }
+
+  editBooking(bookingId: number): void {
+    const modalRef = this.modalService.open(EditBookingFormComponent);
+    modalRef.componentInstance.originalPassengers = this.booking?.passengers;
+    modalRef.closed.subscribe((reason) => {
+      if (reason as UpdateBookingDto) {
+        this.bookingService.updateBooking(bookingId, reason).subscribe(() => {
+          this.ngOnInit();
+        });
       }
     });
   }

@@ -33,6 +33,7 @@ import { AuthInterceptor } from './auth/auth.interceptor';
 import { SearchFlightsComponent } from './components/book-flight/search-flights/search-flights.component';
 import { PhonePipe } from './pipes/phone.pipe';
 import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.component';
+import { EditBookingFormComponent } from './components/edit-booking-form/edit-booking-form.component';
 import { LoadingButtonComponent } from './components/loading-button/loading-button.component';
 import { EmailValidationPageComponent } from './pages/email-validation-page/email-validation-page.component';
 
@@ -60,6 +61,7 @@ import { EmailValidationPageComponent } from './pages/email-validation-page/emai
     SearchFlightsComponent,
     PhonePipe,
     ConfirmModalComponent,
+    EditBookingFormComponent,
     LoadingButtonComponent,
     EmailValidationPageComponent,
   ],

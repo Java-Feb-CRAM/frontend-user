@@ -157,8 +157,8 @@ export class RegistrationFormComponent {
   isFieldInvalid(controlName: string): boolean {
     return Boolean(
       this.registrationForm.get(controlName)?.invalid &&
-      (this.registrationForm.get(controlName)?.dirty ||
-        this.registrationForm.get(controlName)?.touched)
+        (this.registrationForm.get(controlName)?.dirty ||
+          this.registrationForm.get(controlName)?.touched)
     );
   }
 
