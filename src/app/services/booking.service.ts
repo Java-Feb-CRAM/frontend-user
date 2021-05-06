@@ -7,6 +7,7 @@ import { catchError, map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { CreateUserBookingDto } from '../dto/CreateUserBookingDto';
 import { CreateAgentBookingDto } from '../dto/CreateAgentBookingDto';
+import { UpdateBookingDto } from '../dto/UpdateBookingDto';
 
 @Injectable({
   providedIn: 'root',
@@ -42,6 +43,16 @@ export class BookingService {
     return this.http.post<Booking>(
       `${this.bookingsUrl}/agent`,
       createAgentBoookingDto
+    );
+  }
+
+  updateBooking(
+    bookingId: number,
+    updateBookingDto: UpdateBookingDto
+  ): Observable<{}> {
+    return this.http.put<UpdateBookingDto>(
+      `${this.bookingsUrl}/${bookingId}`,
+      updateBookingDto
     );
   }
 
