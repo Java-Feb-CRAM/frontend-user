@@ -1,0 +1,23 @@
+.seat {
+  border: 1px solid black;
+  text-align: center;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.openSeat {
+  background-color: white !important;
+}
+
+.occupiedSeat {
+  background-color: blue;
+  color: white;
+}
+
+.openSeat:hover {
+  background-color: green !important;
+  color: white;
+  cursor: pointer;
+}

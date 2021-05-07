@@ -37,6 +37,10 @@ import { EditBookingFormComponent } from './components/edit-booking-form/edit-bo
 import { LoadingButtonComponent } from './components/loading-button/loading-button.component';
 import { EmailValidationPageComponent } from './pages/email-validation-page/email-validation-page.component';
 
+import { SeatComponent } from './components/seating/seat/seat.component';
+import { ClassSeatsComponent } from './components/seating/class-seats/class-seats.component';
+import { FlightSeatsComponent } from './components/seating/flight-seats/flight-seats.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -64,6 +68,10 @@ import { EmailValidationPageComponent } from './pages/email-validation-page/emai
     EditBookingFormComponent,
     LoadingButtonComponent,
     EmailValidationPageComponent,
+
+    SeatComponent,
+    ClassSeatsComponent,
+    FlightSeatsComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,7 @@
+<div
+  class="seat"
+  [ngClass]="{ openSeat: !occupied, occupiedSeat: occupied }"
+  [ngStyle]="{ width: this.width * 30 + 'px', height: this.height * 30 + 'px' }"
+>
+  {{ column }}
+</div>

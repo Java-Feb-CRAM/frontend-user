@@ -1,0 +1,24 @@
+<div class="seatingClassTitle">{{ seatingClass }}</div>
+<br />
+<table>
+  <ng-container *ngFor="let row of this.rows">
+    <tr *ngIf="rowHasSeats(row)">
+      <td class="row-marker">{{ row }}</td>
+      <td *ngFor="let col of this.cols">
+        <ng-container *ngIf="this.getSeat(row, col) as seat; else emptySpace">
+          <app-seat
+            [column]="seat.column"
+            [row]="seat.row"
+            [occupied]="seat.occupied"
+            [width]="seat.width"
+            [height]="seat.height"
+          ></app-seat>
+        </ng-container>
+        <ng-template #emptySpace>
+          <div class="emptySpace"></div>
+        </ng-template>
+      </td>
+    </tr>
+  </ng-container>
+</table>
+<br />
