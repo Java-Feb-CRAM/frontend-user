@@ -5,4 +5,8 @@
 </p>
 <p>What are you waiting for? <a routerLink="/flights">Book now</a></p>
 
-<app-flight-seats [seats]="seats"></app-flight-seats>
+<app-seat-picker
+  [seats]="seats"
+  [seatsToPick]="3"
+  (seatSelectionEvent)="test($event)"
+></app-seat-picker>

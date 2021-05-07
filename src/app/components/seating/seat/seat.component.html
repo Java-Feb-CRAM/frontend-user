@@ -1,7 +1,12 @@
 <div
   class="seat"
-  [ngClass]="{ openSeat: !occupied, occupiedSeat: occupied }"
+  [ngClass]="{
+    openSeat: !occupied,
+    occupiedSeat: occupied,
+    selected: selected
+  }"
   [ngStyle]="{ width: this.width * 30 + 'px', height: this.height * 30 + 'px' }"
+  (click)="select()"
 >
   {{ column }}
 </div>

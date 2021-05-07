@@ -870,4 +870,7 @@ export class IndexPageComponent {
       ],
     },
   ];
+  test(x: any): void {
+    alert(JSON.stringify(x));
+  }
 }

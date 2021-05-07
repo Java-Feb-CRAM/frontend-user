@@ -40,6 +40,7 @@ import { EmailValidationPageComponent } from './pages/email-validation-page/emai
 import { SeatComponent } from './components/seating/seat/seat.component';
 import { ClassSeatsComponent } from './components/seating/class-seats/class-seats.component';
 import { FlightSeatsComponent } from './components/seating/flight-seats/flight-seats.component';
+import { SeatPickerComponent } from './components/seating/seat-picker/seat-picker.component';
 
 @NgModule({
   declarations: [
@@ -72,6 +73,7 @@ import { FlightSeatsComponent } from './components/seating/flight-seats/flight-s
     SeatComponent,
     ClassSeatsComponent,
     FlightSeatsComponent,
+    SeatPickerComponent,
   ],
   imports: [
     BrowserModule,

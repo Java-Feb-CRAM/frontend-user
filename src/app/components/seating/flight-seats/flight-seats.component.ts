@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-flight-seats',
@@ -7,6 +7,8 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class FlightSeatsComponent implements OnInit {
   @Input() seats: any[] = [];
+  @Input() selectedSeats: any[] = [];
+  @Output() seatSelectEvent = new EventEmitter();
 
   constructor() {}
 
