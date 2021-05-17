@@ -42,6 +42,7 @@ import { ClassSeatsComponent } from './components/seating/class-seats/class-seat
 import { FlightSeatsComponent } from './components/seating/flight-seats/flight-seats.component';
 import { SeatPickerComponent } from './components/seating/seat-picker/seat-picker.component';
 import { AllFlightsComponent } from './pages/all-flights/all-flights.component';
+import { SeatsFormComponent } from './components/book-flight/seats-form/seats-form.component';
 
 @NgModule({
   declarations: [
@@ -76,6 +77,7 @@ import { AllFlightsComponent } from './pages/all-flights/all-flights.component';
     FlightSeatsComponent,
     SeatPickerComponent,
     AllFlightsComponent,
+    SeatsFormComponent,
   ],
   imports: [
     BrowserModule,

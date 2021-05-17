@@ -1,0 +1,12 @@
+<div class="card mt-3">
+  <div class="card-header">Choose Seats</div>
+  <div class="card-body">
+    <div *ngFor="let flight of flights">
+      <app-seat-picker
+        [seatLayout]="flight.airplane.airplaneType.seatLayout"
+        [seats]="flight.seats"
+        [seatsToPick]="numPassengers"
+      ></app-seat-picker>
+    </div>
+  </div>
+</div>

@@ -43,6 +43,16 @@
     </ng-template>
   </li>
   <li [ngbNavItem]="3" [disabled]="!stepTwoCompleted">
+    <a ngbNavLink>Choose Seats</a>
+    <ng-template ngbNavContent>
+      <app-seats-form
+        *ngIf="stepTwoCompleted && passengersData"
+        [flightIds]="flightIds"
+        [numPassengers]="passengersData.passengers.length"
+      ></app-seats-form>
+    </ng-template>
+  </li>
+  <li [ngbNavItem]="4" [disabled]="!stepThreeCompleted">
     <a ngbNavLink>Payment</a>
     <ng-template ngbNavContent>
       <app-payment-form

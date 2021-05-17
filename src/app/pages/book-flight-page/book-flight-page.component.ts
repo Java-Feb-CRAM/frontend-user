@@ -31,6 +31,7 @@ export class BookFlightPageComponent implements OnInit {
   guestBookingData: GuestBookingFormData | null = null;
   passengersData: PassengersFormData | null = null;
   paymentData: PaymentFormData | null = null;
+  flightIds: number[] = [];
 
   constructor(
     private readonly cartService: CartService,
@@ -45,6 +46,9 @@ export class BookFlightPageComponent implements OnInit {
         this.user = user;
       }
     });
+    this.flightIds = this.cartService.cartItems.map((cartItem) => {
+      return cartItem.id;
+    });
   }
 
   pageChanged(id: number): void {
@@ -55,6 +59,9 @@ export class BookFlightPageComponent implements OnInit {
     }
     if (id === 2) {
       this.stepTwoCompleted = false;
+      this.stepThreeCompleted = false;
+    }
+    if (id === 3) {
       this.stepThreeCompleted = false;
     }
   }
@@ -76,6 +83,11 @@ export class BookFlightPageComponent implements OnInit {
     this.passengersData = data;
     this.stepTwoCompleted = true;
     this.activePage = 3;
+  }
+
+  handleChooseSeatsForm(data: any): void {
+    this.stepThreeCompleted = true;
+    this.activePage = 4;
   }
 
   handlePaymentForm(data: PaymentFormData): void {
