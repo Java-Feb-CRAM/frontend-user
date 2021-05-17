@@ -4,6 +4,11 @@ import { Observable, throwError } from 'rxjs';
 import { Flight } from '../models/Flight';
 import { catchError, map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
+import { Airplane } from '../models/Airplane';
+import { AirplaneType } from '../models/AirplaneType';
+import { SeatLayout } from '../models/SeatLayout';
+import { SeatGroup } from '../models/SeatGroup';
+import { SeatLocation } from '../models/SeatLocation';
 
 @Injectable({
   providedIn: 'root',
@@ -41,8 +46,9 @@ export class FlightService {
                       flight.reservedSeats,
                       flight.seatPrice,
                       [],
-                      flight.airplane.airplaneType.maxCapacity -
-                        flight.reservedSeats
+                      [],
+                      flight.availableSeats,
+                      flight.totalSeats
                     )
                 )
               )
@@ -63,8 +69,10 @@ export class FlightService {
               flight.departureTime,
               flight.reservedSeats,
               flight.seatPrice,
-              [],
-              flight.availableSeats
+              flight.bookings,
+              flight.seats,
+              flight.availableSeats,
+              flight.totalSeats
             );
           }),
         catchError((error) => {
@@ -80,12 +88,47 @@ export class FlightService {
         return new Flight(
           data.id,
           data.route,
-          data.airplane,
+          new Airplane(
+            data.airplane.id,
+            new AirplaneType(
+              data.airplane.airplaneType.id,
+              data.airplane.airplaneType.maxCapacity,
+              data.airplane.airplaneType.airplanes,
+              new SeatLayout(
+                data.airplane.airplaneType.seatLayout.id,
+                data.airplane.airplaneType.seatLayout.airplaneTypes,
+                data.airplane.airplaneType.seatLayout.seatGroups.map(
+                  (g) =>
+                    new SeatGroup(
+                      g.id,
+                      g.seatLayout,
+                      g.name,
+                      // @ts-ignore
+                      g.columns,
+                      g.seatLocations.map(
+                        (l) =>
+                          new SeatLocation(
+                            l.id,
+                            l.seatGroup,
+                            l.width,
+                            l.height,
+                            l.col,
+                            l.row
+                          )
+                      )
+                    )
+                )
+              )
+            ),
+            data.airplane.flights
+          ),
           data.departureTime,
           data.reservedSeats,
           data.seatPrice,
-          [],
-          data.availableSeats
+          data.bookings,
+          data.seats,
+          data.availableSeats,
+          data.totalSeats
         );
       }),
       catchError((error) => {

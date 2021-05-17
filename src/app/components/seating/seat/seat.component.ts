@@ -15,7 +15,7 @@ import { SeatColumn } from '../../../interfaces/SeatColumn';
   styleUrls: ['./seat.component.scss'],
 })
 export class SeatComponent implements OnInit {
-  @Input() column: SeatColumn = 'A';
+  @Input() column: SeatColumn | ' ' = 'A';
   @Input() row = 1;
   @Input() occupied = false;
   @Input() width = 1;
@@ -27,6 +27,8 @@ export class SeatComponent implements OnInit {
   ngOnInit(): void {}
 
   select(): void {
-    this.seatSelectEvent.emit({ row: this.row, col: this.column });
+    if (!this.occupied) {
+      this.seatSelectEvent.emit({ row: this.row, col: this.column });
+    }
   }
 }

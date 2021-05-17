@@ -8,6 +8,8 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { SeatColumn } from '../../../interfaces/SeatColumn';
+import { SeatLocation } from '../../../models/SeatLocation';
+import { Seat } from '../../../models/Seat';
 
 @Component({
   selector: 'app-class-seats',
@@ -16,7 +18,8 @@ import { SeatColumn } from '../../../interfaces/SeatColumn';
 })
 export class ClassSeatsComponent implements OnInit {
   @Input() seatingClass = '';
-  @Input() seats: any[] = [];
+  @Input() seats: Seat[] = [];
+  @Input() seatLocations: SeatLocation[] = [];
   @Input() minRow = 1;
   @Input() maxRow = 1;
   @Input() cols: (SeatColumn | ' ')[] = [];
@@ -34,17 +37,24 @@ export class ClassSeatsComponent implements OnInit {
     );
   }
 
-  getSeat(row: number, col: any): any {
-    return this.seats.find((seat) => seat.row === row && seat.column === col);
+  getSeat(row: number, col: any): Seat | undefined {
+    return this.seats.find((seat) => seat.row === row && seat.col === col);
+  }
+
+  getSeatLocation(row: number, col: any): SeatLocation | undefined {
+    return this.seatLocations.find(
+      (seat) => seat.row === row && seat.col === col
+    );
   }
 
   rowHasSeats(row: number): boolean {
-    return this.seats.filter((seat) => seat.row === row).length > 0;
+    return this.seatLocations.filter((seat) => seat.row === row).length > 0;
   }
 
   ngOnInit(): void {
     for (let i = this.minRow; i <= this.maxRow; i++) {
       this.rows.push(i);
+      console.log(this.rows);
     }
   }
 }

@@ -1,5 +1,7 @@
 import { Airplane } from './Airplane';
 import { Route } from './Route';
+import { Booking } from './Booking';
+import { Seat } from './Seat';
 
 export class Flight {
   public id: number;
@@ -8,8 +10,10 @@ export class Flight {
   public departureTime: Date;
   public reservedSeats: number;
   public seatPrice: number;
-  public bookings: any[];
+  public bookings: Booking[];
+  public seats: Seat[];
   public availableSeats: number;
+  public totalSeats: number;
 
   constructor(
     id: number,
@@ -18,8 +22,10 @@ export class Flight {
     departureTime: Date,
     reservedSeats: number,
     seatPrice: number,
-    bookings: any[],
-    availableSeats: number
+    bookings: Booking[],
+    seats: Seat[],
+    availableSeats: number,
+    totalSeats: number
   ) {
     this.id = id;
     this.route = route;
@@ -28,7 +34,9 @@ export class Flight {
     this.reservedSeats = reservedSeats;
     this.seatPrice = seatPrice;
     this.bookings = bookings;
+    this.seats = seats;
     this.availableSeats = availableSeats;
+    this.totalSeats = totalSeats;
   }
 
   get noDelete(): boolean {

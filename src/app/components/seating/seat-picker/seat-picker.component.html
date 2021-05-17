@@ -5,7 +5,10 @@
   <button class="btn btn-primary" (click)="submit()">Complete</button>
 </div>
 <app-flight-seats
+  *ngIf="seatLayout"
   [selectedSeats]="selectedSeats"
   [seats]="seats"
+  [seatLayout]="seatLayout"
   (seatSelectEvent)="seatSelect($event)"
 ></app-flight-seats>
+<pre>{{ seatLayout | json }}</pre>

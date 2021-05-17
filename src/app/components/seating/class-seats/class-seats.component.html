@@ -6,15 +6,22 @@
       <td class="row-marker">{{ row }}</td>
       <td *ngFor="let col of this.cols">
         <ng-container *ngIf="this.getSeat(row, col) as seat; else emptySpace">
-          <app-seat
-            [column]="seat.column"
-            [row]="seat.row"
-            [occupied]="seat.occupied"
-            [width]="seat.width"
-            [height]="seat.height"
-            [selected]="isSelected(seat.row, seat.column)"
-            (seatSelectEvent)="seatSelectEvent.emit($event)"
-          ></app-seat>
+          <ng-container
+            *ngIf="
+              this.getSeatLocation(row, col) as seatLocation;
+              else emptySpace
+            "
+          >
+            <app-seat
+              [column]="seatLocation.col"
+              [row]="seatLocation.row"
+              [occupied]="!!seat.passenger"
+              [width]="seatLocation.width"
+              [height]="seatLocation.height"
+              [selected]="isSelected(seatLocation.row, seatLocation.col)"
+              (seatSelectEvent)="seatSelectEvent.emit($event)"
+            ></app-seat>
+          </ng-container>
         </ng-container>
         <ng-template #emptySpace>
           <div class="emptySpace"></div>

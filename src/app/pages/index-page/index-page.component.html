@@ -6,7 +6,9 @@
 <p>What are you waiting for? <a routerLink="/flights">Book now</a></p>
 
 <app-seat-picker
-  [seats]="seats"
+  *ngIf="flight"
+  [seatLayout]="flight.airplane.airplaneType.seatLayout"
+  [seats]="flight.seats"
   [seatsToPick]="3"
-  (seatSelectionEvent)="test($event)"
 ></app-seat-picker>
+<!--(seatSelectionEvent)=""-->

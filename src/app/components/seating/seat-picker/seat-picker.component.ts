@@ -8,6 +8,8 @@ import {
   EventEmitter,
 } from '@angular/core';
 import { SeatComponent } from '../seat/seat.component';
+import { Seat } from '../../../models/Seat';
+import { SeatLayout } from '../../../models/SeatLayout';
 
 @Component({
   selector: 'app-seat-picker',
@@ -15,7 +17,8 @@ import { SeatComponent } from '../seat/seat.component';
   styleUrls: ['./seat-picker.component.scss'],
 })
 export class SeatPickerComponent implements OnInit {
-  @Input() seats: any[] = [];
+  @Input() seats: Seat[] = [];
+  @Input() seatLayout: SeatLayout | undefined;
   @Input() seatsToPick = 1;
   selectedSeats: any[] = [];
   @Output() seatSelectionEvent = new EventEmitter();

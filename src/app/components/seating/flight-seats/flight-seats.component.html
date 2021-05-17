@@ -1,14 +1,17 @@
 <div class="airplaneParent">
   <div class="airplane">
-    <app-class-seats
-      *ngFor="let seatGroup of seats"
-      [seatingClass]="seatGroup.seatClass"
-      [seats]="seatGroup.seats"
-      [minRow]="seatGroup.minRow"
-      [maxRow]="seatGroup.maxRow"
-      [cols]="seatGroup.cols"
-      [selectedSeats]="selectedSeats"
-      (seatSelectEvent)="seatSelectEvent.emit($event)"
-    ></app-class-seats>
+    <ng-container *ngIf="seatLayout && seatLayout.seatGroups">
+      <app-class-seats
+        *ngFor="let seatGroup of seatLayout.seatGroups"
+        [seatingClass]="seatGroup.name"
+        [seats]="seats"
+        [seatLocations]="seatGroup.seatLocations"
+        [minRow]="seatGroup.minRow"
+        [maxRow]="seatGroup.maxRow"
+        [cols]="seatGroup.columns"
+        [selectedSeats]="selectedSeats"
+        (seatSelectEvent)="seatSelectEvent.emit($event)"
+      ></app-class-seats>
+    </ng-container>
   </div>
 </div>
