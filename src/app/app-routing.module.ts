@@ -9,6 +9,7 @@ import { CartPageComponent } from './pages/cart-page/cart-page.component';
 import { RegistrationPageComponent } from './pages/registration-page/registration-page.component';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { EmailValidationPageComponent } from './pages/email-validation-page/email-validation-page.component';
+import { AllFlightsComponent } from './pages/all-flights/all-flights.component';
 
 const routes: Routes = [
   {
@@ -30,6 +31,10 @@ const routes: Routes = [
   {
     path: 'flights',
     component: FlightsPageComponent,
+  },
+  {
+    path: 'all-flights',
+    component: AllFlightsComponent,
   },
   {
     path: 'bookings',
