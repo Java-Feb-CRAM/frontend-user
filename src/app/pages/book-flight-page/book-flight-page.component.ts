@@ -178,4 +178,12 @@ export class BookFlightPageComponent implements OnInit {
       return 0;
     }
   }
+
+  get passengerBirthdays(): Date[] {
+    if (this.passengersData) {
+      return this.passengersData.passengers.map((p) => new Date(p.dob));
+    } else {
+      return [];
+    }
+  }
 }

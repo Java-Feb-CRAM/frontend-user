@@ -35,6 +35,7 @@ export class PaymentFormComponent implements OnInit, OnChanges {
   @ViewChild(LoadingButtonComponent) loadingButton: LoadingButtonComponent;
   @Input() user: UserInfo | undefined;
   @Input() passengerCount = 0;
+  @Input() passengers: Date[] = [];
   errorMessage: string | null = null;
   @Output() paymentFormSubmitEvent = new EventEmitter<PaymentFormData>();
 

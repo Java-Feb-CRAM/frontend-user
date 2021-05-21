@@ -135,6 +135,7 @@ export class PassengersFormComponent implements OnChanges {
   onSubmit(): void {
     const passengers = this.passengersForm.controls.passengers.value;
     passengers.forEach((passenger: any) => {
+      console.log(passenger.dob);
       passenger.dob = passenger.dob.toISOString().split('T')[0];
     });
     this.passengersFormSubmitEvent.emit({

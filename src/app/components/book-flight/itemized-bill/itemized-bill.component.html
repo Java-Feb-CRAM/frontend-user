@@ -8,13 +8,38 @@
         {{ flight.route.originAirport.iataId }} &rarr;
         {{ flight.route.destinationAirport.iataId }}
       </p>
-      <small class="text-muted"
+      <small
+        class="text-muted"
+        style="display: block"
+        *ngIf="regularPassengers.length > 0"
         >{{ flight.seatPrice | currency: "USD" }} / seat &times;
-        {{ passengers }} passengers</small
+        {{ regularPassengers.length }} passengers</small
+      >
+      <small
+        class="text-muted"
+        style="display: block"
+        *ngIf="elderlyPassengers.length > 0"
+        >{{ flight.seatPrice - flight.seatPrice * 0.2 | currency: "USD" }} /
+        seat &times; {{ elderlyPassengers.length }} senior passengers</small
+      >
+      <small
+        class="text-muted"
+        style="display: block"
+        *ngIf="childPassengers.length > 0"
+        >{{ flight.seatPrice - flight.seatPrice * 0.2 | currency: "USD" }} /
+        seat &times; {{ childPassengers.length }} child passengers</small
       >
     </div>
 
-    <h6>{{ flight.seatPrice * passengers | currency: "USD" }}</h6>
+    <h6>
+      {{
+        flight.seatPrice * regularPassengers.length +
+          (flight.seatPrice - flight.seatPrice * 0.2) *
+            elderlyPassengers.length +
+          (flight.seatPrice - flight.seatPrice * 0.2) * childPassengers.length
+          | currency: "USD"
+      }}
+    </h6>
   </div>
   <div class="list-group-item d-flex w-100 justify-content-between">
     <div>
@@ -38,3 +63,6 @@
     <h5>{{ grandTotal | currency: "USD" }}</h5>
   </div>
 </div>
+<pre>{{ regularPassengers | json }}</pre>
+<pre>{{ elderlyPassengers | json }}</pre>
+<pre>{{ childPassengers | json }}</pre>

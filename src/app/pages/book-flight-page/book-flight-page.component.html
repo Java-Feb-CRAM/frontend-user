@@ -47,6 +47,7 @@
     <ng-template ngbNavContent>
       <app-payment-form
         [user]="user"
+        [passengers]="passengerBirthdays"
         (paymentFormSubmitEvent)="handlePaymentForm($event)"
         [passengerCount]="passengerCount"
       ></app-payment-form>
