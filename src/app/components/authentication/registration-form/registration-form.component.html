@@ -1,23 +1,29 @@
-<div class="card mt-3 mb-5">
+<div class="card mt-3">
   <div class="card-header">Register New User</div>
   <div class="card-body">
-    <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">      
+    <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
       <div class="form-row">
         <div class="form-group col-md-12">
           <label for="username">Username*</label>
           <div class="input-group">
             <div class="input-group-prepend">
-              <span class="input-group-text"><i class="bi-person-circle"></i> </span>
+              <span class="input-group-text"
+                ><i class="bi-person-circle" aria-hidden="true"></i>
+              </span>
             </div>
             <input
               type="text"
               class="form-control"
               id="username"
-              placeholder="jane_doe123"
+              placeholder="ilove_utopia21"
               formControlName="username"
               [ngClass]="validationClass('username')"
             />
-            <div class="invalid-feedback" *ngIf="hasErrors('username')">
+            <div
+              id="usernameErrors"
+              class="invalid-feedback"
+              *ngIf="hasErrors('username')"
+            >
               <div *ngFor="let error of allErrors('username')">
                 {{ getError("username", error) }}
               </div>
@@ -31,14 +37,14 @@
           <div class="input-group">
             <div class="input-group-prepend">
               <span class="input-group-text">
-                <i class="bi-card-text"></i> 
+                <i class="bi-card-text" aria-hidden="true"></i>
               </span>
             </div>
             <input
               type="password"
               class="form-control"
               id="password"
-              placeholder="password"
+              placeholder="************"
               formControlName="password"
               [ngClass]="validationClass('password')"
             />
@@ -49,19 +55,19 @@
             </div>
           </div>
         </div>
-        <div class="form-group col-md-12">          
-          <label for="matchingPassword">Confirm Password*</label>          
+        <div class="form-group col-md-12">
+          <label for="matchingPassword">Confirm Password*</label>
           <div class="input-group">
             <div class="input-group-prepend">
               <span class="input-group-text">
-                <i class="bi-card-text"></i>
+                <i class="bi-card-text" aria-hidden="true"></i>
               </span>
             </div>
             <input
               type="password"
               class="form-control"
               id="matchingPassword"
-              placeholder="password"
+              placeholder="************"
               formControlName="matchingPassword"
               [ngClass]="validationClass('matchingPassword')"
             />
@@ -78,7 +84,9 @@
           <label for="email">Email*</label>
           <div class="input-group">
             <div class="input-group-prepend">
-              <span class="input-group-text"><i class="bi-envelope"></i> </span>
+              <span class="input-group-text"
+                ><i class="bi-envelope" aria-hidden="true"></i>
+              </span>
             </div>
             <input
               type="email"
@@ -95,20 +103,21 @@
             </div>
           </div>
         </div>
-        <div class="form-group col-md-12">          
-          <label for="phone">Phone*</label>          
+        <div class="form-group col-md-12">
+          <label for="phone">Phone*</label>
           <div class="input-group">
             <div class="input-group-prepend">
               <span class="input-group-text">
-                <i class="bi-telephone"></i>
+                <i class="bi-telephone" aria-hidden="true"></i>
               </span>
             </div>
             <input
               type="tel"
               class="form-control"
               id="phone"
-              placeholder="123-456-7890"
+              placeholder="000-000-0000"
               formControlName="phone"
+              [value]="registrationForm.get('phone')?.value || '' | phone"
               [ngClass]="validationClass('phone')"
             />
             <div class="invalid-feedback" *ngIf="hasErrors('phone')">
@@ -125,14 +134,14 @@
           <div class="input-group">
             <div class="input-group-prepend">
               <span class="input-group-text">
-                <i class="bi-card-text"></i> 
+                <i class="bi-card-text" aria-hidden="true"></i>
               </span>
             </div>
             <input
               type="text"
               class="form-control"
               id="givenName"
-              placeholder="Jane"
+              placeholder="John"
               formControlName="givenName"
               [ngClass]="validationClass('givenName')"
             />
@@ -143,19 +152,19 @@
             </div>
           </div>
         </div>
-        <div class="form-group col-md-12">          
-          <label for="familyName">Last Name*</label>          
+        <div class="form-group col-md-12">
+          <label for="familyName">Last Name*</label>
           <div class="input-group">
             <div class="input-group-prepend">
               <span class="input-group-text">
-                <i class="bi-card-text"></i>
+                <i class="bi-card-text" aria-hidden="true"></i>
               </span>
             </div>
             <input
               type="text"
               class="form-control"
               id="familyName"
-              placeholder="Doe"
+              placeholder="Smith"
               formControlName="familyName"
               [ngClass]="validationClass('familyName')"
             />
@@ -168,17 +177,20 @@
         </div>
       </div>
       <div>
-        <button
-          type="submit"
-          class="btn btn-primary"
+        <app-loading-button
           [disabled]="!registrationForm.valid"
+          [text]="'Register'"
+          (onClick)="onSubmit()"
         >
-          Register
-        </button>
-      </div>
-      <div>
-        Already registered? <a routerLinkActive="active" routerLink="/login">Login Here</a>
+        </app-loading-button>
+        <div *ngIf="errorMessage" class="alert alert-danger mt-3" role="alert">
+          {{ errorMessage }}
+        </div>
       </div>
     </form>
+    <div class="mt-2">
+      Already registered?
+      <a routerLinkActive="active" routerLink="/login">Login Here</a>
+    </div>
   </div>
 </div>

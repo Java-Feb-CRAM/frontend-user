@@ -1,19 +1,20 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable, of, Subject } from 'rxjs';
-import { Router, ActivatedRoute, UrlTree } from '@angular/router';
+import { Router, UrlTree } from '@angular/router';
 import { catchError, map, timeout } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 
 export const JWT_KEY = 'JWT';
 
 export interface UserInfo {
-  id?: number
-  role?: string
-  email?: string
-  username?: string
-  givenName?: string
-  familyName?: string
-  phoneNumber?: string
+  id?: number;
+  role?: string;
+  email?: string;
+  username?: string;
+  givenName?: string;
+  familyName?: string;
+  phoneNumber?: string;
 }
 export interface LoginResponse {
   authenticatedJwt: string;
@@ -21,52 +22,66 @@ export interface LoginResponse {
 export interface RegistrationResponse {
   accountVerificationToken: string;
 }
+export interface ValidationResponse {
+  emailValidationToken: string;
+}
+export interface ValidationMessage {
+  message?: string;
+}
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
+  validationMessage? = '';
   isLoggedIn = false;
   loginLogoutChange: Subject<boolean> = new Subject<boolean>();
   user: UserInfo = {};
+  loginUrl: string;
+  registrationUri: string;
+  currentUserUri: string;
+  validationUri: string;
+  generateTokenUri: string;
 
   constructor(
-    private router: Router, 
-    private http: HttpClient) {
-    this.loginLogoutChange.subscribe((value) => {
-      this.isLoggedIn = value;
-      if (this.isLoggedIn) {
-        this.fetchUserDetails();
-      }
+    private readonly router: Router,
+    private readonly http: HttpClient
+  ) {
+    this.loginUrl = `${environment.apiBase}/users/credentials/authenticate`;
+    this.registrationUri = `${environment.apiBase}/users/new`;
+    this.currentUserUri = `${environment.apiBase}/users/current`;
+    this.validationUri = `${environment.apiBase}/users/usernames/tokens/activate`;
+    this.generateTokenUri = `${environment.apiBase}/users/usernames/tokens/generate`;
+    this.loginLogoutChange.subscribe({
+      next: (value) => {
+        this.isLoggedIn = value;
+        if (this.isLoggedIn) {
+          this.fetchUserDetails();
+        }
+      },
     });
     this.loginLogoutChange.next(this.isJWTSet());
   }
 
-  loginUrl = 'http://localhost:8080/users/credentials/authenticate';
-  registrationUri = 'http://localhost:8080/users/new';
-
-  register(userDetails: Object): void {
-    this.http.post<RegistrationResponse>(this.registrationUri, userDetails).subscribe({
-      next: () => {
-        this.router.navigate(['/login'], { replaceUrl: true });
-      },
-      error: (error) => {
-        console.error(error);
-      }
-    })
+  register(userDetails: object): Observable<RegistrationResponse> {
+    return this.http.post<RegistrationResponse>(
+      this.registrationUri,
+      userDetails
+    );
   }
 
-  login(credentials: Object): void {
-    this.http.post<LoginResponse>(this.loginUrl, credentials).subscribe({
-      next: (response) => {
-        this.setJwt(response.authenticatedJwt);
-        this.loginLogoutChange.next(true);
-        this.router.navigate([''], { replaceUrl: true });
-      },
-      error: (error) => {
-        console.error(error);
-      },
-    });
+  postRegister(response: RegistrationResponse): void {
+    this.router.navigate(['/validation'], { replaceUrl: true });
+  }
+
+  login(credentials: object): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(this.loginUrl, credentials);
+  }
+
+  postLogin(response: LoginResponse): void {
+    this.setJwt(response.authenticatedJwt);
+    this.loginLogoutChange.next(true);
+    this.router.navigate([''], { replaceUrl: true });
   }
 
   logout(): void {
@@ -75,37 +90,64 @@ export class UserService {
     this.router.navigate(['/login'], { replaceUrl: true });
   }
 
+  generateToken(username: object): void {
+    this.http
+      .post<ValidationMessage>(this.generateTokenUri, username)
+      .subscribe({
+        next: (data) => {
+          this.validationMessage = data.message;
+        },
+        error: (error) => {
+          console.error(error);
+        },
+      });
+  }
+
+  validate(token: object): void {
+    this.http.post<ValidationMessage>(this.validationUri, token).subscribe({
+      next: (data) => {
+        this.validationMessage = data.message;
+      },
+      error: (error) => {
+        console.error(error);
+      },
+    });
+  }
+
   checkRedirect(): void {
-    if(this.isJWTSet())
-    {
+    if (this.isJWTSet()) {
       this.router.navigate([''], { replaceUrl: true });
     }
   }
 
   public isUserFetchSuccess(role: string): Observable<boolean | UrlTree> {
-    return this.http.get('http://localhost:8080/users/current')
-    .pipe( 
-        timeout(10000),
-        map(response => {
-          if ((response as UserInfo).role === role) {
-            this.user = response as UserInfo
-            return true
-          } else {
-            this.logout()        
-            return this.router.parseUrl('/login')
-          }
-        }),
-        catchError(() => {
-          return of(false);
-        }) 
-      ) 
+    return this.http.get(this.currentUserUri).pipe(
+      timeout(10000),
+      map((response) => {
+        if ((response as UserInfo).role === role) {
+          this.user = response as UserInfo;
+          return true;
+        } else {
+          this.logout();
+          return this.router.parseUrl('/login');
+        }
+      }),
+      catchError(() => {
+        return of(false);
+      })
+    );
+  }
+
+  public fetchUser(): Observable<UserInfo> {
+    return this.http.get<UserInfo>(this.currentUserUri);
   }
 
   private fetchUserDetails(): void {
-    if (this.isJWTSet())
-    {
-      this.http.get('http://localhost:8080/users/current').subscribe((user) => {
-        this.user = user as UserInfo;
+    if (this.isJWTSet()) {
+      this.http.get(this.currentUserUri).subscribe({
+        next: (user) => {
+          this.user = user as UserInfo;
+        },
       });
     }
   }

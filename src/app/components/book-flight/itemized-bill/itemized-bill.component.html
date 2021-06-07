@@ -1,4 +1,4 @@
-<ul class="list-group list-group-flush">
+<div class="list-group list-group-flush">
   <div
     *ngFor="let flight of flights"
     class="list-group-item d-flex w-100 justify-content-between"
@@ -20,7 +20,7 @@
     <div>
       <p class="mb-1">Subtotal</p>
     </div>
-    <h6>{{ subTotal | currency: "USD" }}</h6>
+    <h6 class="subtotal">{{ subTotal | currency: "USD" }}</h6>
   </div>
   <div class="list-group-item d-flex w-100 justify-content-between">
     <div>
@@ -29,7 +29,7 @@
         {{ taxRate | percent: "1.2-2" }}
       </small>
     </div>
-    <h6>{{ tax | currency: "USD" }}</h6>
+    <h6 class="tax">{{ tax | currency: "USD" }}</h6>
   </div>
   <div class="list-group-item d-flex w-100 justify-content-between">
     <div>
@@ -37,4 +37,4 @@
     </div>
     <h5>{{ grandTotal | currency: "USD" }}</h5>
   </div>
-</ul>
+</div>

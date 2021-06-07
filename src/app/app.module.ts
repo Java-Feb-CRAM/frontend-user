@@ -18,7 +18,6 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BookFlightPageComponent } from './pages/book-flight-page/book-flight-page.component';
 import { CartPageComponent } from './pages/cart-page/cart-page.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { StripePaymentComponent } from './components/stripe-payment/stripe-payment.component';
 import { NgxStripeModule } from 'ngx-stripe';
 import { GuestBookingFormComponent } from './components/book-flight/guest-booking-form/guest-booking-form.component';
 import { AgentBookingFormComponent } from './components/book-flight/agent-booking-form/agent-booking-form.component';
@@ -32,8 +31,11 @@ import { LoginFormComponent } from './components/authentication/login-form/login
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { SearchFlightsComponent } from './components/book-flight/search-flights/search-flights.component';
-import { TimepickerModule } from 'ngx-bootstrap/timepicker';
-import { PopoverModule } from 'ngx-bootstrap/popover';
+import { PhonePipe } from './pipes/phone.pipe';
+import { ConfirmModalComponent } from './components/confirm-modal/confirm-modal.component';
+import { EditBookingFormComponent } from './components/edit-booking-form/edit-booking-form.component';
+import { LoadingButtonComponent } from './components/loading-button/loading-button.component';
+import { EmailValidationPageComponent } from './pages/email-validation-page/email-validation-page.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +48,6 @@ import { PopoverModule } from 'ngx-bootstrap/popover';
     BookingsPageComponent,
     BookFlightPageComponent,
     CartPageComponent,
-    StripePaymentComponent,
     GuestBookingFormComponent,
     AgentBookingFormComponent,
     UserBookingFormComponent,
@@ -58,6 +59,11 @@ import { PopoverModule } from 'ngx-bootstrap/popover';
     LoginFormComponent,
     LoginPageComponent,
     SearchFlightsComponent,
+    PhonePipe,
+    ConfirmModalComponent,
+    EditBookingFormComponent,
+    LoadingButtonComponent,
+    EmailValidationPageComponent,
   ],
   imports: [
     BrowserModule,
@@ -69,8 +75,6 @@ import { PopoverModule } from 'ngx-bootstrap/popover';
     NgxStripeModule.forRoot(
       'pk_test_51IbSmqKMAXXjSzaxL3WIYu5kSzambFamCzc2LhMp5AtyOOhwjoh5PJKq2He2N566ECIPpvHYZU7yq5PAt9sMJG4H00MTCuphgp'
     ),
-    TimepickerModule.forRoot(),
-    PopoverModule.forRoot(),
   ],
   providers: [
     {
@@ -78,7 +82,7 @@ import { PopoverModule } from 'ngx-bootstrap/popover';
       useClass: AuthInterceptor,
       multi: true,
     },
-    {      
+    {
       provide: NgbDateAdapter,
       useClass: NgbDateNativeAdapter,
     },

@@ -7,7 +7,16 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+}
+
+app-root {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
 }
 
 body > app-root > .container {
@@ -24,4 +33,4 @@ code {
 }
 
 /* Importing Bootstrap SCSS file. */
-@import '~bootstrap/scss/bootstrap';
+@import "~bootstrap/scss/bootstrap";

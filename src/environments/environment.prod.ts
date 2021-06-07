@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  apiBase: 'http://54.243.106.97',
 };

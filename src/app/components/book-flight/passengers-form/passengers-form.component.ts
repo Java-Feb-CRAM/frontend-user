@@ -1,4 +1,11 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import {
   AbstractControl,
   FormArray,
@@ -6,8 +13,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { PaymentFormData } from '../payment-form/payment-form.component';
-import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
+import { UserInfo } from '../../../services/user.service';
 
 export interface PassengerData {
   givenName: string;
@@ -26,8 +32,9 @@ export interface PassengersFormData {
   templateUrl: './passengers-form.component.html',
   styleUrls: ['./passengers-form.component.scss'],
 })
-export class PassengersFormComponent {
+export class PassengersFormComponent implements OnChanges {
   @Output() passengersFormSubmitEvent = new EventEmitter<PassengersFormData>();
+  @Input() user: UserInfo | undefined;
   passengersForm: FormGroup;
   validationErrors = {
     givenName: { required: 'First name is required' },
@@ -38,7 +45,7 @@ export class PassengersFormComponent {
   };
   today: any;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private readonly fb: FormBuilder) {
     this.passengersForm = this.fb.group({
       passengers: this.fb.array([]),
     });
@@ -49,6 +56,18 @@ export class PassengersFormComponent {
       month: date.getMonth() + 1,
       day: date.getDate(),
     };
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.user && this.user.role === 'ROLE_USER') {
+      this.passengers.controls[0].setValue({
+        givenName: this.user.givenName,
+        familyName: this.user.familyName,
+        dob: '',
+        gender: '---Select Gender---',
+        address: '',
+      });
+    }
   }
 
   get passengers(): FormArray {
@@ -99,8 +118,13 @@ export class PassengersFormComponent {
   }
 
   allErrors(control: AbstractControl, controlName: string): string[] {
-    // tslint:disable-next-line:no-non-null-assertion
-    return Object.keys(control.get(controlName)!.errors!);
+    if (control.get(controlName)) {
+      const ctrl = control.get(controlName);
+      if (ctrl?.errors) {
+        return Object.keys(ctrl.errors);
+      }
+    }
+    return [];
   }
 
   getError(controlName: string, error: string): string {

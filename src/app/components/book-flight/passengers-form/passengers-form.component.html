@@ -3,11 +3,13 @@
     <div class="d-flex justify-content-between">
       <div class="align-self-center d-flex">
         <div class="align-self-center mr-2">Passengers</div>
-        <span class="align-self-center badge badge-secondary">1</span>
+        <span class="align-self-center badge badge-secondary">{{
+          passengers.length
+        }}</span>
       </div>
       <div>
         <button type="button" class="btn btn-primary" (click)="addPassenger()">
-          <i class="bi-plus"></i>
+          <i class="bi-plus" aria-hidden="true"></i>
           Add Passenger
         </button>
       </div>
@@ -32,7 +34,7 @@
                   *ngIf="i !== 0"
                   (click)="removePassenger(i)"
                 >
-                  <i class="bi-dash"></i>
+                  <i class="bi-dash" aria-hidden="true"></i>
                   Remove
                 </button>
               </div>
@@ -98,7 +100,7 @@
                       class="btn btn-outline-secondary"
                       (click)="d.toggle()"
                     >
-                      <i class="bi-calendar3"></i>
+                      <i class="bi-calendar3" aria-hidden="true"></i>
                     </button>
                   </div>
                   <div
@@ -138,7 +140,7 @@
                 <div class="input-group">
                   <div class="input-group-prepend">
                     <span class="input-group-text">
-                      <i class="bi-geo-alt"></i>
+                      <i class="bi-geo-alt" aria-hidden="true"></i>
                     </span>
                   </div>
                   <input
@@ -174,6 +176,3 @@
     </form>
   </div>
 </div>
-<pre>
-  {{ passengersForm.value | json }}
-</pre>

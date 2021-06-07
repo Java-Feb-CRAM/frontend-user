@@ -20,9 +20,7 @@ export class Route {
   }
 
   get prettyRoute(): string {
-    return (
-      this.originAirport.iataId + ' &rarr; ' + this.destinationAirport.iataId
-    );
+    return `${this.originAirport.iataId} &rarr; ${this.destinationAirport.iataId}`;
   }
 
   get noDelete(): boolean {

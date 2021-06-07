@@ -11,7 +11,7 @@ import { CartService } from '../../services/cart.service';
 export class FlightsPageComponent implements OnInit {
   flights: Flight[] = [];
   constructor(
-    private flightService: FlightService,
+    private readonly flightService: FlightService,
     public cartService: CartService
   ) {}
 

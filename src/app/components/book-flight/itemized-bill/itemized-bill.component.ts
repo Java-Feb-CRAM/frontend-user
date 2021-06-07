@@ -16,15 +16,17 @@ export class ItemizedBillComponent implements OnInit {
   taxRate = TAX_RATE;
 
   constructor(
-    private cartService: CartService,
-    private flightService: FlightService
+    private readonly cartService: CartService,
+    private readonly flightService: FlightService
   ) {}
 
   ngOnInit(): void {
     this.cartService.cartItems.forEach((cartItem) => {
       const flightId = cartItem.id;
-      this.flightService.getFlight(flightId).subscribe((flight) => {
-        this.flights.push(flight);
+      this.flightService.getFlight(flightId).subscribe({
+        next: (flight) => {
+          this.flights.push(flight);
+        },
       });
     });
   }

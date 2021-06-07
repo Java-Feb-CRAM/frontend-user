@@ -1,6 +1,5 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { PassengersFormData } from '../passengers-form/passengers-form.component';
 
 export interface GuestBookingFormData {
   guestEmail: string;
@@ -23,16 +22,16 @@ export class GuestBookingFormComponent {
     },
     guestPhone: {
       required: 'Phone number is required',
-      pattern: 'Phone number must follow this pattern: 000-111-2222',
+      pattern: 'Phone number must follow pattern 000-111-2222',
     },
   };
 
-  constructor(private fb: FormBuilder) {
+  constructor(private readonly fb: FormBuilder) {
     this.guestBookingForm = this.fb.group({
       guestEmail: ['', [Validators.required, Validators.email]],
       guestPhone: [
         '',
-        [Validators.required, Validators.pattern("^\\d{3}-\\d{3}-\\d{4}$")],
+        [Validators.required, Validators.pattern(/^[2-9]\d{2}-\d{3}-\d{4}$/)],
       ],
     });
   }
@@ -62,7 +61,13 @@ export class GuestBookingFormComponent {
 
   allErrors(controlName: string): string[] {
     // tslint:disable-next-line:no-non-null-assertion
-    return Object.keys(this.guestBookingForm.get(controlName)!.errors!);
+    if (this.guestBookingForm.get(controlName)) {
+      const control = this.guestBookingForm.get(controlName);
+      if (control?.errors) {
+        return Object.keys(control.errors);
+      }
+    }
+    return [];
   }
 
   getError(controlName: string, error: string): string {

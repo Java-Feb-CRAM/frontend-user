@@ -2,15 +2,18 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 import { Route } from '../models/Route';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class RouteService {
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {
+    this.routesUrl = `${environment.apiBase}/airports`;
+  }
 
-  routesUrl = 'http://localhost:8081/airports';
+  routesUrl: string;
 
   getAllRoutes(): Observable<Route[]> {
     return this.http.get<Route[]>(this.routesUrl).pipe(
